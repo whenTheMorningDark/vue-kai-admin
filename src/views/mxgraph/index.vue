@@ -2,27 +2,21 @@
 
   <div class="mxgraph_container">
     <el-button @click="getData">在控制台看获取的json数据</el-button>
-    <el-scrollbar
-      wrap-class="scrollbar-wrapper"
-      style="height:100%"
-    >
+    <el-scrollbar wrap-class="scrollbar-wrapper"
+                  style="height:100%">
       <el-row>
         <el-col :span="20">
-          <mxGraphComponent
-            v-if="graphData.length > 0"
-            ref="mxGraph"
-            :tool-bar-icon="toolBarIcon"
-            :graph-data="graphData"
-            :rules="rules"
-            @clickToolBar="clickToolBar"
-            @click="clickGraphFun"
-          />
+          <mxGraphComponent v-if="graphData.length > 0"
+                            ref="mxGraph"
+                            :tool-bar-icon="toolBarIcon"
+                            :graph-data="graphData"
+                            :rules="rules"
+                            @clickToolBar="clickToolBar"
+                            @click="clickGraphFun" />
         </el-col>
         <el-col :span="4">
-          <rightSetting
-            :key="currentCell.id"
-            @styleChange="styleChange"
-          />
+          <rightSetting :key="currentCell.id"
+                        @styleChange="styleChange" />
         </el-col>
       </el-row>
 
@@ -62,9 +56,9 @@ export default {
         { iconSrc: del, type: 'click' }
       ],
       graphData: [
-        { id: '5', value: '开始', styleOptions: { shape: 'rhombus', strokeColor: '#662B2B', dashed: '0' }, x: 100, y: 100, width: 100, height: 100, to: [{ id: '7', style: { strokeColor: 'red', edgeStyle: 'orthogonalEdgeStyle', rounded: 0, orthogonalLoop: 1 } }, { id: '9' }], options: { name: 'add', type: 'start' } },
-        { id: '7', value: '结束1', styleOptions: { shape: 'rounded', strokeColor: '#740F9F', dashed: '0' }, x: 500, y: 400, width: 100, height: 100, to: [], options: { name: 'add', type: 'rounded' } },
-        { id: '9', value: '结束2', styleOptions: { shape: 'ellipse', strokeColor: '#3C00FF', fillColor: '#1EFF00', dashed: '1' }, x: 600, y: 500, width: 100, height: 100, to: [], options: { name: 'add', type: 'ellipse' } }
+        { id: '5', value: '开始', styleOptions: { shape: 'rhombus', strokeColor: '#662B2B', dashed: '0', strokeWidth: 1 }, x: 100, y: 100, width: 100, height: 100, to: [{ id: '7', style: { strokeColor: 'red', edgeStyle: 'orthogonalEdgeStyle', rounded: 0, orthogonalLoop: 1 } }, { id: '9' }], options: { name: 'add', type: 'start' } },
+        { id: '7', value: '结束1', styleOptions: { shape: 'rounded', strokeColor: '#740F9F', dashed: '0', strokeWidth: 2 }, x: 500, y: 400, width: 100, height: 100, to: [], options: { name: 'add', type: 'rounded' } },
+        { id: '9', value: '结束2', styleOptions: { shape: 'ellipse', strokeColor: '#3C00FF', fillColor: '#1EFF00', dashed: '1', strokeWidth: 3 }, x: 600, y: 500, width: 100, height: 100, to: [], options: { name: 'add', type: 'ellipse' } }
       ],
       styleOptions: {},
       mathKey: 2,
