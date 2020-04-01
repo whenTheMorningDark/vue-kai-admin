@@ -1,28 +1,24 @@
 <template>
-
   <div class="mxgraph_container">
     <el-button @click="getData">在控制台看获取的json数据</el-button>
-    <el-scrollbar wrap-class="scrollbar-wrapper"
-                  style="height:100%">
+    <el-scrollbar wrap-class="scrollbar-wrapper" style="height:100%">
       <el-row>
         <el-col :span="20">
-          <mxGraphComponent v-if="graphData.length > 0"
-                            ref="mxGraph"
-                            :tool-bar-icon="toolBarIcon"
-                            :graph-data="graphData"
-                            :rules="rules"
-                            @clickToolBar="clickToolBar"
-                            @click="clickGraphFun" />
+          <mxGraphComponent
+            v-if="graphData.length > 0"
+            ref="mxGraph"
+            :tool-bar-icon="toolBarIcon"
+            :graph-data="graphData"
+            :rules="rules"
+            @clickToolBar="clickToolBar"
+            @click="clickGraphFun"
+          />
         </el-col>
         <el-col :span="4">
-          <rightSetting :key="currentCell.id"
-                        @styleChange="styleChange" />
+          <rightSetting :key="currentCell.id" @styleChange="styleChange" />
         </el-col>
       </el-row>
-
     </el-scrollbar>
-
-    </el-button>
   </div>
 </template>
 
@@ -73,6 +69,7 @@ export default {
     },
     clickGraphFun (cell) {
       this.currentCell = cell
+      console.log(cell)
       this.styleOptions = {}
       // const currentGraphData = this.graphData.find(v => v.id === this.currentCell.id)
       if (Object.keys(cell).length === 0) {
