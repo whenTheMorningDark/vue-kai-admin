@@ -1,26 +1,24 @@
 <template>
   <div class="cellStyle">
-    <div class="item">
-      <div class="item-label">图形背景颜色</div>
-      <div class="item-con">
+    <Item label="图形背景颜色">
+      <template slot="right">
         <el-color-picker
           v-model="styleOptions.fillColor"
           @change="changeOptions('fillColor',styleOptions.fillColor)"
         />
-      </div>
-    </div>
-    <div class="item">
-      <div class="item-label">边框颜色</div>
-      <div class="item-con">
+      </template>
+    </Item>
+    <Item label="边框颜色">
+      <template slot="right">
         <el-color-picker
           v-model="styleOptions.strokeColor"
           @change="changeOptions('strokeColor',styleOptions.strokeColor)"
         />
-      </div>
-    </div>
-    <div class="item">
-      <div class="item-label">边框样式</div>
-      <div class="item-con">
+      </template>
+    </Item>
+
+    <Item label="边框样式">
+      <template slot="right">
         <el-select
           v-model="value"
           placeholder="请选择"
@@ -34,22 +32,22 @@
             :value="item.value"
           />
         </el-select>
-      </div>
-    </div>
-    <div class="item">
-      <div class="item-label">边框粗细</div>
-      <div class="item-con">
+      </template>
+    </Item>
+
+    <Item label="边框粗细">
+      <template slot="right">
         <el-input-number
           v-model="num"
           size="mini"
           :min="1"
           @change="changeOptions('strokeWidth',num)"
         />
-      </div>
-    </div>
-    <div class="item">
-      <div class="item-label">透明度</div>
-      <div class="item-con">
+      </template>
+    </Item>
+
+    <Item label="透明度">
+      <template slot="right">
         <el-input-number
           v-model="opacity"
           size="mini"
@@ -58,14 +56,18 @@
           :step="10"
           @change="changeOptions('opacity',opacity)"
         />
-      </div>
-    </div>
+      </template>
+    </Item>
   </div>
 </template>
 <script>
+import Item from './Item'
 export default {
   name: 'CellStyle',
   inject: ['root'],
+  components: {
+    Item
+  },
   data () {
     return {
       styleOptions: {},
@@ -98,27 +100,4 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.item {
-  display: flex;
-  padding: 25px 5px;
-  height: 28px;
-  align-items: center;
-  .item-label {
-    flex: 1;
-    font-size: 14px;
-  }
-  .item-con {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /deep/ .el-color-picker {
-      height: 28px;
-      .el-color-picker__trigger {
-        height: 100%;
-      }
-    }
-  }
-}
-</style>
+
