@@ -1,16 +1,8 @@
 <template>
   <div class="rightSetting">
-    <Tabs
-      :tabs-data="tabsData"
-      :default-value="defaultValue"
-      @tab-click="itemClick"
-    />
+    <Tabs :tabs-data="tabsData" :default-value="defaultValue" @tab-click="itemClick" />
     <div class="tabCon">
-      <component
-        :is="componentName"
-        :style-options="styleOptions"
-        @styleChange="styleChange"
-      />
+      <component :is="componentName" :style-options="styleOptions" @styleChange="styleChange" />
     </div>
   </div>
 </template>
@@ -36,12 +28,12 @@ export default {
     return {
       activeName: 'first',
       tabsData: [
-        { text: 'Style' },
-        { text: 'TextStyle' },
-        { text: 'Arrange' }
+        { text: '图形样式', label: 'Style' },
+        { text: '字体样式', label: 'TextStyle' },
+        { text: '额外属性', label: 'Arrange' }
       ],
       IscomponentName: 'Style',
-      defaultValue: 'Style'
+      defaultValue: '图形样式'
     }
   },
   computed: {
@@ -57,7 +49,7 @@ export default {
   methods: {
     itemClick (item) {
       console.log(item)
-      this.IscomponentName = item.text
+      this.IscomponentName = item.label
     },
     styleChange ({ key, value }) {
       this.$emit('styleChange', { key, value })

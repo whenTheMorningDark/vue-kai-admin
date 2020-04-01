@@ -1,9 +1,5 @@
 <template>
-
-  <div
-    ref="container"
-    class="graphContainer"
-  />
+  <div ref="container" class="graphContainer" />
 </template>
 
 <script>
@@ -11,7 +7,7 @@
 
 import {
   mxToolbar as MxToolbar,
-  mxGraphModel as MxGraphModel,
+  // mxGraphModel as MxGraphModel,
   mxGraph as MxGraph,
   mxCell as MxCell,
   mxGeometry as MxGeometry,

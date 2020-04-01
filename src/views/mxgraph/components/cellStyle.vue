@@ -1,5 +1,25 @@
 <template>
   <div class="cellStyle">
+    <Item label="图形宽度">
+      <template slot="right">
+        <el-input-number
+          v-model="width"
+          size="mini"
+          :min="1"
+          @change="changeOptions('width',width)"
+        />
+      </template>
+    </Item>
+    <Item label="图形高度">
+      <template slot="right">
+        <el-input-number
+          v-model="height"
+          size="mini"
+          :min="1"
+          @change="changeOptions('height',height)"
+        />
+      </template>
+    </Item>
     <Item label="图形背景颜色">
       <template slot="right">
         <el-color-picker
@@ -80,17 +100,22 @@ export default {
       }],
       value: '0',
       num: 1,
-      opacity: 0
+      opacity: 0,
+      width: 1,
+      height: 1
     }
   },
   created () {
     if (Object.keys(this.root.styleOptions).length === 0) {
       this.styleOptions = {}
     } else {
+      const { width, height } = this.root.currentCell.geometry
       this.styleOptions = Object.assign(this.styleOptions, this.root.styleOptions)
       this.value = this.styleOptions.dashed || '0'
       this.num = this.styleOptions.strokeWidth || 1
       this.opacity = this.styleOptions.opacity || 100
+      this.width = width || 0
+      this.height = height || 0
     }
   },
   methods: {

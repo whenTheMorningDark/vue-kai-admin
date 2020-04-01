@@ -63,8 +63,14 @@ export default {
   },
   methods: {
     styleChange ({ key, value }) {
-      this.currentCell.styleOptions[key] = value
-      this.currentCell.style = this.$refs.mxGraph.convertStyleToString(this.currentCell.styleOptions)
+      const notStyleOptions = ['width', 'height']
+      if (notStyleOptions.includes(key)) {
+        this.currentCell.geometry[key] = value
+        // this.currentCell[key] = value
+      } else {
+        this.currentCell.styleOptions[key] = value
+        this.currentCell.style = this.$refs.mxGraph.convertStyleToString(this.currentCell.styleOptions)
+      }
       this.$refs.mxGraph.refreshCell(this.currentCell)
     },
     clickGraphFun (cell) {
