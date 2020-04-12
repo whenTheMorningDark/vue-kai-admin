@@ -1,3 +1,4 @@
+/* eslint-disable eol-last */
 /* eslint-disable semi */
 /* eslint-disable indent */
 /* eslint-disable new-cap */
@@ -95,6 +96,22 @@ export default {
         }
       }
     },
+    // 处理undoRedo
+    handleUndoRedo(event) {
+      console.log(this.history)
+      const historyData = this.history[event]()
+      console.log(historyData)
+      if (!historyData || !(historyData instanceof Array)) {
+        this.$message({
+          message: '暂无数据'
+        })
+      } else {
+        this.graph.removeCells(this.graph.getChildVertices(this.graph.getDefaultParent()))
+        console.log(this.history)
+        console.log(historyData)
+        this.initGraphdata(historyData)
+      }
+    },
     // 处理连线向to数据添加数据
     handleConnect(edge, source, target) {
       const tId = target.id;
@@ -107,6 +124,10 @@ export default {
         style: edge.style
       })
     },
+    // 处理undo的json数组
+    // handleUnDo(){
+    //   const allCell = this.getAllCell();
+    // },
     getAddObj(vertex) {
       const {
         id,

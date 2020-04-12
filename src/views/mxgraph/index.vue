@@ -15,7 +15,7 @@
           />
         </el-col>
         <el-col :span="4">
-          <rightSetting :key="currentCell.id" @styleChange="styleChange" />
+          <rightSetting :key="currentCell.uuid" @styleChange="styleChange" />
         </el-col>
       </el-row>
     </el-scrollbar>
@@ -46,13 +46,13 @@ export default {
   data () {
     return {
       toolBarIcon: [
-        { styleOptions: { shape: 'rhombus' }, width: 100, height: 40, value: '菱形', iconSrc: rhombus, options: { name: 'kafei', type: 'rhombus' }, type: 'draggble' },
+        { styleOptions: { shape: 'swimlane' }, width: 100, height: 40, value: '菱形', iconSrc: rhombus, options: { name: 'kafei', type: 'rhombus' }, type: 'draggble' },
         { styleOptions: { shape: 'rounded' }, width: 100, height: 40, value: '矩形', iconSrc: rounded, type: 'draggble', options: { name: 'kafei', type: 'rounded' } },
         { styleOptions: { shape: 'ellipse' }, width: 40, height: 40, value: '圆形', iconSrc: ellipse, type: 'draggble', options: { name: 'kafei', type: 'ellipse' } },
         { iconSrc: del, type: 'click' }
       ],
       graphData: [
-        { id: '5', value: '开始', styleOptions: { shape: 'rhombus', strokeColor: '#662B2B', dashed: '0', strokeWidth: 1 }, x: 100, y: 100, width: 100, height: 100, to: [{ id: '7', style: { strokeColor: 'red', edgeStyle: 'orthogonalEdgeStyle', rounded: 0, orthogonalLoop: 1 } }, { id: '9' }], options: { name: 'add', type: 'start' } },
+        { id: '5', value: '开始', styleOptions: { shape: '', strokeColor: '#662B2B', dashed: '0', strokeWidth: 1 }, x: 100, y: 100, width: 100, height: 100, to: [{ id: '7', style: { strokeColor: 'red', edgeStyle: 'orthogonalEdgeStyle', rounded: 0, orthogonalLoop: 1 } }, { id: '9' }], options: { name: 'add', type: 'start' } },
         { id: '7', value: '结束1', styleOptions: { shape: 'rounded', strokeColor: '#740F9F', dashed: '0', strokeWidth: 2 }, x: 500, y: 400, width: 100, height: 100, to: [], options: { name: 'add', type: 'rounded' } },
         { id: '9', value: '结束2', styleOptions: { shape: 'ellipse', strokeColor: '#3C00FF', fillColor: '#1EFF00', dashed: '1', strokeWidth: 3 }, x: 600, y: 500, width: 100, height: 100, to: [], options: { name: 'add', type: 'ellipse' } }
       ],
@@ -104,6 +104,7 @@ export default {
         })
       })
     },
+    // 自定义是否连线规则
     rules (source, target) {
       if (!source.options || !target.options) {
         return false

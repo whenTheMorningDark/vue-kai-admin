@@ -1,5 +1,5 @@
 <template>
-  <div ref="container" class="graphContainer" />
+  <div v-if="graphData && graphData.length>0" ref="container" class="graphContainer" />
 </template>
 
 <script>
@@ -16,13 +16,15 @@ import {
 } from 'mxgraph/javascript/mxClient'
 import methods from './methods'
 import utils from './utils'
+import mxEvent from './mxEvent'
+import HistoryStack from './history.js'
 // const rhombus = require('./images/rhombus.gif')
 // const ellipse = require('./images/ellipse.gif')
 // const rounded = require('./images/rounded.gif')
 
 export default {
   name: 'HelloWorld',
-  mixins: [methods, utils],
+  mixins: [methods, utils, mxEvent],
   props: {
     toolBarIcon: {
       type: Array,
@@ -41,27 +43,37 @@ export default {
     return {
       model: null,
       graph: null,
-      mxgraphData: []
+      mxgraphData: [],
+      history: new HistoryStack(20)
     }
   },
   mounted () {
     this.$nextTick(() => {
       this.initGraph()
       this.initToolbar()
-      this.initGraphdata()// 初始化图形
-      this.initEdgeTo()
+      this.initGraphdata(this.graphData)// 初始化图形
       this.setInitFun()
+      this.setKeyHandler()
+      this.record(this.graphData)
     })
   },
   methods: {
-    initGraphdata () {
+    record (data) {
+      this.history.record(JSON.parse(JSON.stringify(data)))
+    },
+    initGraphdata (data) {
       const parent = this.graph.getDefaultParent()
       this.graph.getModel().beginUpdate()
+      if (!data || !(data instanceof Array)) {
+        return
+      }
       try {
-        this.graphData.forEach(v => {
+        data.forEach(v => {
+          // console.log(v)
           if (!v.to) {
             v.to = []
           }
+          const fakeUUID = () => `${+new Date()}${Math.random()}`
           const value = v.value ? v.value : ''
           const x = v.x ? v.x : 100
           const y = v.y ? v.y : 100
@@ -70,13 +82,14 @@ export default {
           const style = v.height ? v.styleOptions : ''
           const id = v.id || null
           const verter = this.graph.insertVertex(parent, id, value, x, y, width, height, this.convertStyleToString(style))
+          console.log(v)
+          console.log(v.options)
           verter.options = Object.keys(v.options).length > 0 ? v.options : {}
           verter.to = v.to.length > 0 ? v.to : []
           verter.styleOptions = v.styleOptions || {}
+          verter.uuid = fakeUUID()
         })
-        // const isHaveTo = this.graphData.some(v => v.to.length > 0)
-        // const cells = this.getAllCell()// 所有的图形
-        // this.$emit('initCell', cells)
+        this.initEdgeTo()
       } finally {
         this.graph.getModel().endUpdate()
       }
@@ -110,6 +123,12 @@ export default {
         graph.addCell(vertex)
         // const obj = this.getAddObj(vertex)
         // this.mxgraphData.push(obj)
+        console.log(vertex)
+        const obj = this.getAddObj(vertex)
+        console.log(obj)
+        this.graphData.push(obj)
+        console.log(this.graphData)
+        this.record(this.graphData)
         graph.setSelectionCell(vertex)
       }
       const img = toolbar.addMode(null, image)
@@ -158,6 +177,7 @@ export default {
         vertex.to = []
         vertex.styleOptions = type.styleOptions || {}
         vertex.setVertex(true)
+
         this.addToolbarItem(this.graph, toolbar, vertex, icon, type)
       }
       this.toolBarIcon.forEach(v => {

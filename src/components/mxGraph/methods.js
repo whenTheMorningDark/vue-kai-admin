@@ -1,3 +1,4 @@
+/* eslint-disable eol-last */
 /* eslint-disable new-cap */
 import {
   mxEvent as MxEvent
@@ -13,10 +14,11 @@ export default {
   methods: {
     setInitFun() {
       // 监听cell增加事件
-      this.addFun()
+      // this.addFun()
       this.clickCellFun()
       this.connectFun() // 监听连线的回调
       this.setConnectValidation() // 检验连线规则
+      // this.cellAddFun()
     },
     addFun() {
       this.graph.addListener(MxEvent.ADD_CELLS, (sender, evt) => {
@@ -61,6 +63,7 @@ export default {
         if (!this.cell) {
           this.cell = {}
         }
+        console.log(this.cell)
         this.$emit('click', this.cell)
       })
     },
@@ -92,6 +95,20 @@ export default {
           })
         }
       )
+    },
+    cellAddFun() {
+      this.graph.addListener(MxEvent.CELLS_ADDED, (sender, evt) => {
+        const cell = evt.properties.cells[0]
+        if (cell.vertex) {
+          console.log(cell)
+          const obj = this.getAddObj(cell)
+          this.record(obj)
+          console.log(this.history.snapshots)
+          // this.$message.info('添加了一个节点');
+        } else if (cell.edge) {
+          console.log(cell.edge)
+        }
+      })
     },
     // 检验规则
     setConnectValidation() {

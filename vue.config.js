@@ -1,3 +1,4 @@
+/* eslint-disable eol-last */
 'use strict'
 const path = require('path')
 // const defaultSettings = require('./src/settings.js')
@@ -59,7 +60,7 @@ module.exports = {
         'mxObjectCodec,mxGraphModel,mxActor,mxPopupMenu,mxShape,mxEventObject,mxGraph,mxPopupMenuHandler,mxPrintPreview,' +
         'mxEventSource,mxRectangle,mxVertexHandler,mxMouseEvent,mxGraphView,mxCodecRegistry,mxImage,mxGeometry,mxCellState,' +
         'mxRubberband,mxConstraintHandler,mxKeyHandler,mxDragSource,mxGraphModel,mxEvent,mxUtils,mxEvent,mxCodec,mxCell,' +
-        'mxConstants,mxPoint,mxGraphHandler,mxCylinder,mxCellRenderer,mxEvent,mxUndoManager,mxStencilRegistry,mxStencil')
+        'mxConstants,mxPoint,mxGraphHandler,mxCylinder,mxCellRenderer,mxEvent,mxUndoManager,mxStencilRegistry,mxStencil,mxSwimlaneManager,mxStackLayout,mxLayoutManager,mxClipboard')
       .end()
     config.resolve.alias
       .set('@', resolve('src'))
