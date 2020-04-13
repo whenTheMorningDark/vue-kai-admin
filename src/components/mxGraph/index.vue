@@ -44,7 +44,8 @@ export default {
       model: null,
       graph: null,
       mxgraphData: [],
-      history: new HistoryStack(20)
+      history: new HistoryStack(20),
+      historyData: JSON.parse(JSON.stringify(this.graphData))
     }
   },
   mounted () {
@@ -54,7 +55,7 @@ export default {
       this.initGraphdata(this.graphData)// 初始化图形
       this.setInitFun()
       this.setKeyHandler()
-      this.record(this.graphData)
+      this.record(this.historyData)
     })
   },
   methods: {
@@ -82,8 +83,8 @@ export default {
           const style = v.height ? v.styleOptions : ''
           const id = v.id || null
           const verter = this.graph.insertVertex(parent, id, value, x, y, width, height, this.convertStyleToString(style))
-          console.log(v)
-          console.log(v.options)
+          // console.log(v)
+          // console.log(v.options)
           verter.options = Object.keys(v.options).length > 0 ? v.options : {}
           verter.to = v.to.length > 0 ? v.to : []
           verter.styleOptions = v.styleOptions || {}
@@ -123,12 +124,13 @@ export default {
         graph.addCell(vertex)
         // const obj = this.getAddObj(vertex)
         // this.mxgraphData.push(obj)
-        console.log(vertex)
+        // console.log(vertex)
         const obj = this.getAddObj(vertex)
         console.log(obj)
         this.graphData.push(obj)
-        console.log(this.graphData)
-        this.record(this.graphData)
+        this.historyData.push(obj)
+        console.log(this.historyData)
+        this.record(this.historyData)
         graph.setSelectionCell(vertex)
       }
       const img = toolbar.addMode(null, image)

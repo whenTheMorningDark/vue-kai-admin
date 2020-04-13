@@ -98,18 +98,21 @@ export default {
     },
     // 处理undoRedo
     handleUndoRedo(event) {
-      console.log(this.history)
-      const historyData = this.history[event]()
-      console.log(historyData)
+      console.log(this.history);
+      const historyData = this.history[event]();
+      console.log(historyData);
       if (!historyData || !(historyData instanceof Array)) {
         this.$message({
           message: '暂无数据'
-        })
+        });
       } else {
-        this.graph.removeCells(this.graph.getChildVertices(this.graph.getDefaultParent()))
-        console.log(this.history)
-        console.log(historyData)
-        this.initGraphdata(historyData)
+        this.graph.removeCells(
+          this.graph.getChildVertices(this.graph.getDefaultParent())
+        );
+        console.log(this.history);
+        console.log(historyData);
+        this.historyData = JSON.parse(JSON.stringify(historyData))
+        this.initGraphdata(historyData);
       }
     },
     // 处理连线向to数据添加数据
@@ -117,12 +120,12 @@ export default {
       const tId = target.id;
       const sourceTo = source.to;
       if (sourceTo.includes(tId)) {
-        return
+        return;
       }
       sourceTo.push({
         id: tId,
         style: edge.style
-      })
+      });
     },
     // 处理undo的json数组
     // handleUnDo(){
@@ -156,7 +159,6 @@ export default {
         y,
         width,
         height
-
       });
     }
   }
