@@ -1,7 +1,19 @@
 <template>
   <div class="a">
     <span>a</span>
-    <B v-bind="$props" />
+    <el-button @click="getData">获取</el-button>
+    <B ref="b" :is-check-mutile="isCheckMutile">
+      <template slot="header">
+        <el-row>
+          <el-col :span="10">
+            <el-input v-model="searchText" size="mini" />
+          </el-col>
+          <el-col :span="6">
+            <el-button type="primary" size="mini" @click="searchFun">搜索</el-button>
+          </el-col>
+        </el-row>
+      </template>
+    </B>
   </div>
 </template>
 
@@ -28,6 +40,8 @@ export default {
   },
   data () {
     return {
+      isCheckMutile: false,
+      searchText: '',
       treeData: [
         {
           id: 1, text: 'text1', children: [
@@ -64,6 +78,12 @@ export default {
     // console.log(this.getTreeData(this.treeData, 2))
   },
   methods: {
+    getData () {
+      console.log(this.$refs.b.getCheckedNodesFun())
+    },
+    searchFun () {
+      this.$refs.b.setCheckedKeysFun({ label: this.searchText })
+    },
     // 修改某个树节点的属性
     setTreeDataValue (treeData, currentNodeId, key, value) {
       const currentNode = this.getTreeData(treeData, currentNodeId)
