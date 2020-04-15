@@ -4,31 +4,31 @@
 /* eslint-disable new-cap */
 // 主要处理工具函数
 export default {
-  mounted() {
-    console.log('mixs');
+  mounted () {
+    console.log("mixs");
     // this.setKeyHandler()
   },
   methods: {
-    convertStyleToString(styleDict) {
+    convertStyleToString (styleDict) {
       // 把对象转成字符{strokeColor:color} => strokeColor=color;
       const style = Object.entries(styleDict)
         .map(([key, value]) => `${key}=${value}`)
-        .join(';');
+        .join(";");
       return `${style};`;
     },
     // 获取id为cell的元素
-    findCell(id) {
+    findCell (id) {
       const cells = this.graph.getChildVertices(this.graph.getDefaultParent());
       const cell = cells.find(v => v.id === id);
       return cell;
     },
     // 获取所有的图形
-    getAllCell() {
+    getAllCell () {
       const cells = this.graph.getChildVertices(this.graph.getDefaultParent());
       return cells;
     },
     // 获取grapthData
-    getGrapthData() {
+    getGrapthData () {
       const newGraphData = [];
       const currentCell = this.getAllCell();
       currentCell.forEach(v => {
@@ -38,7 +38,7 @@ export default {
       return newGraphData;
     },
     // 删除图形的方法
-    delAllCell(sourceCell, cell) {
+    delAllCell (sourceCell, cell) {
       sourceCell.forEach(v => {
         cell.forEach(s => {
           const index = s.to.findIndex(q => q.id === v.id);
@@ -49,7 +49,7 @@ export default {
       });
     },
     // 删除线条的方法
-    delAllEdge(cell) {
+    delAllEdge (cell) {
       cell.forEach(v => {
         if (v.edge) {
           const targetId = v.target.id;
@@ -62,7 +62,7 @@ export default {
       });
     },
     // 删除后处理图形的to数组
-    removeChange(cell) {
+    removeChange (cell) {
       const sourceCell = this.getAllCell();
       const isAllCell = cell.every(v => v.vertex);
       const isAllEdge = cell.every(v => v.edge);
@@ -97,13 +97,13 @@ export default {
       }
     },
     // 处理undoRedo
-    handleUndoRedo(event) {
+    handleUndoRedo (event) {
       console.log(this.history);
       const historyData = this.history[event]();
       console.log(historyData);
       if (!historyData || !(historyData instanceof Array)) {
         this.$message({
-          message: '暂无数据'
+          message: "暂无数据"
         });
       } else {
         this.graph.removeCells(
@@ -116,7 +116,7 @@ export default {
       }
     },
     // 处理连线向to数据添加数据
-    handleConnect(edge, source, target) {
+    handleConnect (edge, source, target) {
       const tId = target.id;
       const sourceTo = source.to;
       if (sourceTo.includes(tId)) {
@@ -126,12 +126,15 @@ export default {
         id: tId,
         style: edge.style
       });
+      console.log(this.graphData)
+      this.record(JSON.parse(JSON.stringify(this.graphData)));
+      console.log(this.history)
     },
     // 处理undo的json数组
     // handleUnDo(){
     //   const allCell = this.getAllCell();
     // },
-    getAddObj(vertex) {
+    getAddObj (vertex) {
       const {
         id,
         options,

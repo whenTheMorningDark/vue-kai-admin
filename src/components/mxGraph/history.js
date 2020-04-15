@@ -37,7 +37,9 @@ class History {
     // 这样生成的动画更好的表现新旧历史记录的替换
     // snapshot.uuid = fakeUUID()
     this.cursor++;
+    console.log(this.cursor);
     this.snapshots[this.cursor] = snapshot;
+    console.log(this);
     // 确保历史记录条数限制
     // if (snapshotKey.length > this.maxSnapshots) {
     //   const keys = this.snapshotKey.shift()
