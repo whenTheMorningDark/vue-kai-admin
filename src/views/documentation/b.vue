@@ -33,45 +33,45 @@ export default {
     return {
       data: [{
         id: 1,
-        label: '广州1',
+        label: "广州1",
         children: [{
           id: 4,
-          label: '广州12',
+          label: "广州12",
           children: [{
             id: 9,
-            label: '广州123'
+            label: "广州123"
           }, {
             id: 10,
-            label: '广州124'
+            label: "广州124"
           }]
         }]
       }, {
         id: 2,
-        label: '湖南',
+        label: "湖南",
         children: [{
           id: 5,
-          label: '湖南1'
+          label: "湖南1"
         }, {
           id: 6,
-          label: '湖南2'
+          label: "湖南2"
         }]
       }, {
         id: 3,
-        label: '湖南2',
+        label: "湖南2",
         children: [{
           id: 7,
-          label: '广州12344'
+          label: "广州12344"
         }, {
           id: 8,
-          label: '广州12344'
+          label: "广州12344"
         }]
       }],
       defaultProps: {
-        children: 'children',
-        label: 'label'
+        children: "children",
+        label: "label"
       },
       defaultCheck: []
-    }
+    };
   },
   mounted () {
     // console.log(union(this.sourceArr, this.targetArr))
@@ -88,24 +88,24 @@ export default {
   },
   methods: {
     filterNode (value, data) {
-      if (!value) return true
-      return data.label.indexOf(value) !== -1
+      if (!value) {return true;}
+      return data.label.indexOf(value) !== -1;
     },
     checkChangeFun (data, checked, indeterminate) {
       if (checked && !this.isCheckMutile) {
-        const arr = [data.id]
-        this.$refs.tree.setCheckedKeys(arr)
+        const arr = [data.id];
+        this.$refs.tree.setCheckedKeys(arr);
       }
     },
     getCheckedNodesFun () {
-      return this.$refs.tree.getCheckedNodes()
+      return this.$refs.tree.getCheckedNodes();
     },
     setCheckedKeysFun ({ label }) {
-      this.defaultCheck = []
-      this.$refs.tree.filter(label)
+      this.defaultCheck = [];
+      this.$refs.tree.filter(label);
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

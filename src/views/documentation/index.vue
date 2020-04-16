@@ -5,8 +5,8 @@
   </div>
 </template>
 <script>
-import A from './a'
-import { getIntersection } from '@/utils/index'
+import A from "./a";
+import { getIntersection } from "@/utils/index";
 export default {
   components: {
     A
@@ -24,10 +24,10 @@ export default {
         { id: 4, text: 4 },
         { id: 2, text2: 2 }
       ]
-    }
+    };
   },
   mounted () {
-    console.log(getIntersection(this.arr1, this.arr2))
+    console.log(getIntersection(this.arr1, this.arr2));
   }
-}
+};
 </script>

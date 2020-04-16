@@ -1,12 +1,6 @@
 <template>
-  <el-card
-    class="box-card"
-    :body-style="{height:'400px'}"
-  >
-    <div
-      slot="header"
-      class="clearfix"
-    >
+  <el-card class="box-card" :body-style="{height:'400px'}">
+    <div slot="header" class="clearfix">
       <span>双击单元格编辑</span>
     </div>
     <div>
@@ -39,17 +33,16 @@
       </div>
     </div>
   </el-card>
-
 </template>
 <script>
 /* eslint-disable space-before-function-paren */
 export default {
-  name: 'StandardLevel',
+  name: "StandardLevel",
   directives: {
     focus: {
       // 指令的定义
       inserted: function (el) {
-        el.getElementsByTagName('input')[0].focus()
+        el.getElementsByTagName("input")[0].focus();
       }
     }
   },
@@ -59,96 +52,94 @@ export default {
       // 显示编辑框
       showEdit: [],
       colData: [
-        { props: 'date', label: '日期' },
-        { props: 'name', label: '姓名' },
-        { props: 'color', label: '颜色' }
+        { props: "date", label: "日期" },
+        { props: "name", label: "姓名" },
+        { props: "color", label: "颜色" }
       ],
       // 表格数据
       tableData: [
         {
           id: 1,
-          date: '2016-05-02',
-          name: '上海市普陀区金沙江路 1518 弄',
-          color: '#ff4500'
+          date: "2016-05-02",
+          name: "上海市普陀区金沙江路 1518 弄",
+          color: "#ff4500"
         }, {
           id: 2,
-          date: '2016-05-04',
-          name: '上海市普陀区金沙江路 1518 弄',
-          color: '#ff8c00'
+          date: "2016-05-04",
+          name: "上海市普陀区金沙江路 1518 弄",
+          color: "#ff8c00"
         },
         {
           id: 3,
-          date: '2016-05-04',
-          name: '上海市普陀区金沙江路 1518 弄',
-          color: '#ff8c00'
+          date: "2016-05-04",
+          name: "上海市普陀区金沙江路 1518 弄",
+          color: "#ff8c00"
         }
       ]
-    }
+    };
   },
   watch: {
     // 监控tableData数据，发生改变的时候跟新单元格显示状态
     tableData: function () {
-      this.setShowEdit()
+      this.setShowEdit();
     }
   },
   mounted () {
-    this.setShowEdit()
+    this.setShowEdit();
   },
   methods: {
     // 初始化单元格显示状态
     setShowEditInit () {
       for (const item of this.showEdit) {
         for (const innerItem in item) {
-          item[innerItem] = false
+          item[innerItem] = false;
         }
       }
     },
     // 设置单元显示转态数据
     setShowEdit () {
-      const tempShowEdit = []
+      const tempShowEdit = [];
       for (const item of this.tableData) {
-        const tempShow = {}
+        const tempShow = {};
         for (const innerItem in item) {
           if (item[innerItem].length === 0) {
-            tempShow[innerItem] = true
+            tempShow[innerItem] = true;
           } else {
-            tempShow[innerItem] = false
+            tempShow[innerItem] = false;
           }
         }
-        tempShowEdit.push(tempShow)
+        tempShowEdit.push(tempShow);
       }
-      this.showEdit = tempShowEdit
+      this.showEdit = tempShowEdit;
     },
     // 切换单元格为编辑
     changeInput (row, column, cell, event) {
-      this.isAdd = false
-      const nowObj = column.property
-      const index = this.tableData.findIndex((item) => {
-        return item.id === row.id
-      })
-      this.showEdit[index][nowObj] = !this.showEdit[index][nowObj]
+      this.isAdd = false;
+      const nowObj = column.property;
+      const index = this.tableData.findIndex((item) => item.id === row.id);
+      this.showEdit[index][nowObj] = !this.showEdit[index][nowObj];
     },
     handleEdit (row, index) {
-      this.tableData[index] = row
+      this.tableData[index] = row;
     },
     // 失焦
     inputBlur (index, props) {
-      this.setShowEditInit()
+      this.setShowEditInit();
     },
     addData () {
-      this.isAdd = true
+      this.isAdd = true;
       const json = {
         id: this.tableData.length + 1,
-        date: '',
-        name: '',
-        color: ''
-      }
+        date: "",
+        name: "",
+        color: ""
+      };
       this.tableData.push(
         json
-      )
+      );
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 </style>
