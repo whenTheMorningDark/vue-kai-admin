@@ -39,8 +39,7 @@ Vue.use(Router);
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [
-	{
+export const constantRoutes = [{
 		path: "/login",
 		component: () => import("@/views/login/index"),
 		hidden: true
@@ -49,50 +48,58 @@ export const constantRoutes = [
 		path: "/",
 		component: Layout,
 		redirect: "/dashboard",
-		children: [
-			{
-				path: "dashboard",
-				component: () => import("@/views/dashboard/index"),
-				name: "Dashboard",
-				meta: {
-					title: "dashboard",
-					icon: "dashboard",
-					affix: true
-				}
+		children: [{
+			path: "dashboard",
+			component: () => import("@/views/dashboard/index"),
+			name: "Dashboard",
+			meta: {
+				title: "dashboard",
+				icon: "dashboard",
+				affix: true
 			}
-		]
+		}]
 	},
 	{
 		path: "/documentation",
 		component: Layout,
-		children: [
-			{
-				path: "index",
-				component: () => import("@/views/documentation/index"),
-				name: "Documentation",
-				meta: {
-					title: "documentation",
-					icon: "documentation",
-					affix: true
-				}
+		children: [{
+			path: "index",
+			component: () => import("@/views/documentation/index"),
+			name: "Documentation",
+			meta: {
+				title: "documentation",
+				icon: "documentation",
+				affix: true
 			}
-		]
+		}]
 	},
 	{
-		path: "/editTable",
+		path: "/table",
 		component: Layout,
-		children: [
-			{
-				path: "index",
-				component: () => import("@/views/editTable/index"),
-				name: "editTable",
-				meta: {
-					title: "可编辑表格",
-					icon: "documentation",
-					affix: true
-				}
+		meta: {
+			title: "表格",
+			icon: "documentation",
+			affix: true
+		},
+		children: [{
+			path: "index",
+			component: () => import("@/views/editTable/index"),
+			name: "editTable",
+			meta: {
+				title: "可编辑表格",
+				icon: "documentation",
+				affix: true
 			}
-		]
+		}, {
+			path: "scrollTable",
+			component: () => import("@/views/scrollTable/index"),
+			name: "scrollTable",
+			meta: {
+				title: "滚动表格",
+				icon: "documentation",
+				affix: true
+			}
+		}]
 	},
 	{
 		path: "/dataView",
@@ -105,8 +112,7 @@ export const constantRoutes = [
 			icon: "lock",
 			roles: ["admin", "editor"] // you can set roles in root nav
 		},
-		children: [
-			{
+		children: [{
 				path: "index",
 				component: () => import("@/views/mxgraph/index"),
 				name: "mxgraph",
@@ -122,6 +128,16 @@ export const constantRoutes = [
 				name: "draggbleLayout",
 				meta: {
 					title: "拖拽布局",
+					icon: "documentation",
+					affix: true
+				}
+			},
+			{
+				path: "game",
+				component: () => import("@/views/game/index"),
+				name: "game",
+				meta: {
+					title: "圈叉小游戏",
 					icon: "documentation",
 					affix: true
 				}
@@ -145,40 +161,37 @@ export const constantRoutes = [
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRoutes = [
-	{
-		path: "/permission",
-		component: Layout,
-		redirect: "/permission/page",
-		alwaysShow: true, // will always show the root menu
-		name: "Permission",
-		meta: {
-			title: "permission",
-			icon: "lock",
-			roles: ["admin", "editor"] // you can set roles in root nav
-		},
-		children: [
-			{
-				path: "page",
-				// component: () => import('@/views/permission/page'),
-				name: "PagePermission",
-				meta: {
-					title: "pagePermission",
-					roles: ["admin"] // or you can only set roles in sub nav
-				}
-			},
-			{
-				path: "directive",
-				component: () => import("@/views/documentation/index"),
-				name: "DirectivePermission",
-				meta: {
-					title: "directivePermission"
-					// if do not set roles, means: this page does not require permission
-				}
+export const asyncRoutes = [{
+	path: "/permission",
+	component: Layout,
+	redirect: "/permission/page",
+	alwaysShow: true, // will always show the root menu
+	name: "Permission",
+	meta: {
+		title: "permission",
+		icon: "lock",
+		roles: ["admin", "editor"] // you can set roles in root nav
+	},
+	children: [{
+			path: "page",
+			// component: () => import('@/views/permission/page'),
+			name: "PagePermission",
+			meta: {
+				title: "pagePermission",
+				roles: ["admin"] // or you can only set roles in sub nav
 			}
-		]
-	}
-];
+		},
+		{
+			path: "directive",
+			component: () => import("@/views/documentation/index"),
+			name: "DirectivePermission",
+			meta: {
+				title: "directivePermission"
+				// if do not set roles, means: this page does not require permission
+			}
+		}
+	]
+}];
 
 const createRouter = () =>
 	new Router({
@@ -192,7 +205,7 @@ const createRouter = () =>
 const router = createRouter();
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter () {
+export function resetRouter() {
 	const newRouter = createRouter();
 	router.matcher = newRouter.matcher; // reset router
 }
