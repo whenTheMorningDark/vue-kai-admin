@@ -79,8 +79,12 @@ export const constantRoutes = [
 		]
 	},
 	{
-		path: "/editTable",
+		path: "/table",
 		component: Layout,
+		meta: {
+			title: "表格",
+			icon: "chart"
+		},
 		children: [
 			{
 				path: "index",
@@ -88,6 +92,16 @@ export const constantRoutes = [
 				name: "editTable",
 				meta: {
 					title: "可编辑表格",
+					icon: "documentation",
+					affix: true
+				}
+			},
+			{
+				path: "scrollTable",
+				component: () => import("@/views/scrollTable/index"),
+				name: "scrollTable",
+				meta: {
+					title: "虚拟表格",
 					icon: "documentation",
 					affix: true
 				}
