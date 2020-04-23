@@ -1,6 +1,19 @@
 <template>
-  <div>dashboardasdasdadsa</div>
+  <div>
+    <p>编写一个函数来查找字符串数组中的最长公共前缀。</p>
+    <p>如果不存在公共前缀，返回空字符串 ""。</p>
+    <p>https://leetcode-cn.com/problems/longest-common-prefix/</p>
+    <p>输入: ["flower","flow","flight"]</p>
+    <p>输出: "fl"</p>
+    <p>输入: ["dog","racecar","car"]</p>
+    <p>输出: ""</p>
+    <p>解释: 输入不存在公共前缀。</p>
+    <strong>思路:</strong>
+    <p>数组里面两两分别匹配，找出最大子字符串(deep函数)</p>
+    <p>找到两两匹配的最大字符串后,利用splice塞进原有的数组里面，判断此时arr的长度是否大于等于,如果是则继续递归，如果不是则返回该字符串</p>
+  </div>
 </template>
+
 <script>
 /* eslint-disable require-jsdoc */
 
@@ -9,7 +22,7 @@ export default {
     return {
       str1: "flow",
       str2: "flower",
-      arr: ["abcd", "abc", "ab"]
+      arr: ["flower", "flow", "flight"]
     };
   },
   methods: {
@@ -60,3 +73,6 @@ export default {
   }
 };
 </script>
+
+<style>
+</style>
