@@ -46,9 +46,22 @@ const leetCodeRouter = {
     }, {
         path: "String",
         component: () =>
-            import("@/views/leetCode/String/String1"),
+            import("@/views/leetCode/index"),
         name: "String",
-        meta: { title: "字符串", noCache: true }
+        meta: { title: "字符串", noCache: true },
+        children: [{
+            path: "string1",
+            component: () =>
+                import("@/views/leetCode/String/String1"),
+            meta: { title: "字符串1", noCache: true }
+        },
+        {
+            path: "string2",
+            component: () =>
+                import("@/views/leetCode/String/String2"),
+            meta: { title: "字符串2", noCache: true }
+        }
+        ]
     }]
 };
 // eslint-disable-next-line eol-last

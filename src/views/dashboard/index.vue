@@ -1,62 +1,55 @@
 <template>
-  <div>dashboardasdasdadsa</div>
+  <div>
+    <render title="asdasda" v-on="$listeners"></render>
+  </div>
 </template>
 <script>
 /* eslint-disable require-jsdoc */
-
+import render from "./render";
 export default {
+  name: "dash",
+  components: {
+    render
+  },
   data () {
     return {
-      str1: "flow",
-      str2: "flower",
-      arr: ["abcd", "abc", "ab"]
+      str: "hello   world"
     };
   },
   methods: {
-    // compare (arr) {
-    //   if (arr.length === 0) {
-    //     return "";
-    //   }
-    //   let preFix = arr[0];
-    //   for (let i = 1; i < arr.length; i++) {
-    //     while (arr[i].indexOf(preFix) !== 0) {
-    //       preFix = preFix.substring(0, preFix.length - 1);
-    //       if (preFix.length === 0) {
-    //         return "";
-    //       }
-    //     }
-    //   }
-    //   return preFix;
-    // }
-    deep (str1, str2) {
-      if (str1.length === 0 || str2.length === 0) {
-        return "";
-      }
-      let l = str1.length > str2.length ? str2.length : str1.length;
-      let i = 0;
-      while (i < l) {
-        if (str1[i] !== str2[i]) {
-          break;
-        }
-        i++;
-      }
-      return str1.substr(0, i);
+    aFun () {
+      console.log("a");
     },
-    compare (arr) {
-      if (arr.length <= 1) {
-        return arr[0];
+    reverserStr (s) {
+      let left = 0;
+      let right = s.length - 1;
+      let queue = [];
+      let word = "";
+      queue.unshift(word);
+      while (s.charAt(left) === " ") {
+        left++;
       }
-      let str = "";
-      str = this.deep(arr[0], arr[1]);
-      arr.splice(0, 2, str);
-      if (arr.length >= 2) {
-        return this.compare(arr);
+      while (s.charAt(right) === " ") {
+        right--;
       }
-      return str;
+      while (left <= right) {
+        let char = s.charAt(left);
+        if (char === " " && word) {
+          queue.unshift(word);
+          word = "";
+          console.log(queue);
+        } else if (char !== " ") {
+          word += char;
+        }
+        left++;
+      }
+      queue.unshift(word);
+      return queue.join(" ");
+
     }
   },
   mounted () {
-    console.log(this.compare(this.arr));
+    console.log(this.reverserStr(this.str));
   }
 };
 </script>
