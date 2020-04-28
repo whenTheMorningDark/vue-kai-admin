@@ -49,6 +49,8 @@
                 :key="element.renderKey"
                 :element="element"
                 :index="index"
+                :active-id="activeId"
+                :form-conf="formConf"
                 :drawing-list="drawingList"
                 @activeItem="activeFormItem"
               ></DraggableItem>

@@ -84,6 +84,22 @@ $lighterBlue: #409EFF;
 
       >.el-form {
         height: calc(100vh - 69px);
+
+        .drawing-item {
+          position: relative;
+          cursor: move;
+
+          &.active-from-item {
+            >.el-form-item {
+              background: #f6f7ff;
+              border-radius: 6px;
+            }
+          }
+
+          .el-form-item {
+            padding: 12px 10px;
+          }
+        }
       }
     }
   }

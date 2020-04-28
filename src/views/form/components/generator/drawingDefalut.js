@@ -6,7 +6,7 @@ export default [{
     changeTag: true,
     tag: "el-input",
     tagIcon: "input",
-    defaultValue: undefined,
+    defaultValue: "12322",
     required: true,
     layout: "colFormItem",
     span: 24,
