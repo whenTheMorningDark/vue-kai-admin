@@ -41,6 +41,18 @@ const leetCodeRouter = {
             component: () =>
                 import("@/views/leetCode/array/array4"),
             meta: { title: "数组4", noCache: true }
+        },
+        {
+            path: "array5",
+            component: () =>
+                import("@/views/leetCode/array/array5"),
+            meta: { title: "数组5", noCache: true }
+        },
+        {
+            path: "array6",
+            component: () =>
+                import("@/views/leetCode/array/array6"),
+            meta: { title: "数组6", noCache: true }
         }
         ]
     }, {
@@ -60,6 +72,12 @@ const leetCodeRouter = {
             component: () =>
                 import("@/views/leetCode/String/String2"),
             meta: { title: "字符串2", noCache: true }
+        },
+        {
+            path: "string3",
+            component: () =>
+                import("@/views/leetCode/String/String3"),
+            meta: { title: "字符串3", noCache: true }
         }
         ]
     }]
