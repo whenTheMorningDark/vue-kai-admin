@@ -34,6 +34,23 @@ function vModel(self, dataObject, defaultValue) {
     self.$emit("input", val);
   };
 }
+const componentChild = {
+  "el-input": {
+    prepend(h, conf, key) {
+      return ( <
+        template slot = "prepend" > {
+          conf.__slot__[key]
+        } <
+        /template>
+      );
+    },
+    append(h, conf, key) {
+      return <template slot = "append" > {
+        conf.__slot__[key]
+      } < /template>;
+    }
+  }
+};
 export default {
   render(h) {
     const dataObject = {
@@ -47,10 +64,18 @@ export default {
     Object.keys(confClone).forEach(key => {
       // console.log(isAttr(key));
       const val = confClone[key];
+      console.log(dataObject[key]);
       if (key === "__vModel__") {
         vModel(this, dataObject, confClone.__config__.defaultValue);
+      } else if (dataObject[key]) {
+        dataObject[key] = {
+          ...dataObject[key],
+          ...val
+        };
       } else if (isAttr(key)) {
         dataObject.attrs[key] = val;
+      } else {
+        dataObject.props[key] = val;
       }
     });
     return h(this.conf.__config__.tag, dataObject, children);
