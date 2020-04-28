@@ -53,6 +53,12 @@ const leetCodeRouter = {
             component: () =>
                 import("@/views/leetCode/array/array6"),
             meta: { title: "数组6", noCache: true }
+        },
+        {
+            path: "array7",
+            component: () =>
+                import("@/views/leetCode/array/array7"),
+            meta: { title: "数组7", noCache: true }
         }
         ]
     }, {
