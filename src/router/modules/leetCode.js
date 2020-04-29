@@ -86,7 +86,23 @@ const leetCodeRouter = {
             meta: { title: "字符串3", noCache: true }
         }
         ]
-    }]
+    },
+    {
+        path: "BinaryTree",
+        component: () =>
+            import("@/views/leetCode/index"),
+        name: "BinaryTree",
+        meta: { title: "二叉树", noCache: true },
+        children: [
+            {
+                path: "binaryTree1",
+                component: () =>
+                    import("@/views/leetCode/BinaryTree/BinaryTree1"),
+                meta: { title: "二叉树1", noCache: true }
+            }
+        ]
+    }
+    ]
 };
 // eslint-disable-next-line eol-last
 export default leetCodeRouter;
