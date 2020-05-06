@@ -94,10 +94,78 @@ $lighterBlue: #409EFF;
               background: #f6f7ff;
               border-radius: 6px;
             }
+
+            >.drawing-item-copy {
+              display: block;
+            }
+
+            >.drawing-item-delete {
+              display: block;
+            }
           }
 
           .el-form-item {
             padding: 12px 10px;
+          }
+
+          >.drawing-item-copy {
+            position: absolute;
+            top: -10px;
+            width: 22px;
+            height: 22px;
+            line-height: 22px;
+            text-align: center;
+            border-radius: 50%;
+            font-size: 12px;
+            border: 1px solid;
+            cursor: pointer;
+            z-index: 1;
+            right: 56px;
+            border-color: #409EFF;
+            color: #409EFF;
+            background: #fff;
+            display: none;
+
+            &:hover {
+              background-color: #409EFF;
+              color: #fff;
+            }
+          }
+
+          >.drawing-item-delete {
+            position: absolute;
+            top: -10px;
+            width: 22px;
+            height: 22px;
+            line-height: 22px;
+            text-align: center;
+            border-radius: 50%;
+            font-size: 12px;
+            border: 1px solid;
+            cursor: pointer;
+            z-index: 1;
+            right: 24px;
+            border-color: #F56C6C;
+            color: #F56C6C;
+            background: #fff;
+            display: none;
+
+            &:hover {
+              background-color: #F56C6C;
+              color: #fff;
+            }
+          }
+
+          &:hover {
+            >.drawing-item-copy {
+              display: block;
+            }
+          }
+
+          &:hover {
+            >.drawing-item-delete {
+              display: block;
+            }
           }
         }
       }

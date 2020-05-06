@@ -1,5 +1,6 @@
 <script>
 /* eslint-disable space-before-function-paren */
+/* eslint-disable require-jsdoc */
 
 import draggable from "vuedraggable";
 import render from "./components/generator/render";
@@ -8,15 +9,11 @@ const components = {
   itemBtns (h, element, index, parent) {
     const { copyItem, deleteItem } = this.$listeners;
     return [
-      <span class="drawing-item-copy" title="复制" onClick={event => {
-        copyItem(element, parent); event.stopPropagation();
-      }}>
+      <span class="drawing-item-copy" title="复制" >
         <i class="el-icon-copy-document" />
       </span>,
-      <span class="drawing-item-delete" title="删除" onClick={event => {
-        deleteItem(index, parent); event.stopPropagation();
-      }}>
-        <i class="el-icon-delete" />
+      <span class="drawing-item-delete">
+        <i class="el-icon-copy-document" />
       </span>
     ];
   }
@@ -46,49 +43,12 @@ const layouts = {
             this.$set(config, "defaultValue", event);
           }} />
         </el-form-item>
-
-      </el-col>
-    );
-  },
-  rowFormItem (h, element, index, parent) {
-    const { activeItem } = this.$listeners;
-    const className = this.activeId === element.__config__.formId ?
-      "drawing-row-item active-from-item" :
-      "drawing-row-item";
-    let child = renderChildren.apply(this, arguments);
-    if (element.type === "flex") {
-      child = <el-row type={element.type} justify={element.justify} align={element.align}>
-        {child}
-      </el-row>;
-    }
-    return (
-      <el-col span={element.__config__.span}>
-        <el-row gutter={element.__config__.gutter} class={className}
-          nativeOnClick={event => {
-            activeItem(element); event.stopPropagation();
-          }}>
-          <span class="component-name">{element.__config__.componentName}</span>
-          <draggable list={element.__config__.children} animation={340} group="componentsGroup" class="drag-wrapper">
-            {child}
-          </draggable>
-          {components.itemBtns.apply(this, arguments)}
-        </el-row>
+        {components.itemBtns.apply(this, arguments)}
       </el-col>
     );
   }
-};
 
-function renderChildren (h, element, index, parent) {
-  const config = element.__config__;
-  if (!Array.isArray(config.children)) {return null;}
-  return config.children.map((el, i) => {
-    const layout = layouts[el.__config__.layout];
-    if (layout) {
-      return layout.call(this, h, el, i, config.children);
-    }
-    return layoutIsNotFound.call(this);
-  });
-}
+};
 
 function layoutIsNotFound () {
   throw new Error(`没有与${this.element.__config__.layout}匹配的layout`);

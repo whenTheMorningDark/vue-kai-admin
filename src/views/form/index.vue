@@ -13,7 +13,12 @@
               :sort="false"
               :clone="cloneComponent"
             >
-              <div v-for="(element,index) in item.list" :key="index" class="components-item">
+              <div
+                v-for="(element,index) in item.list"
+                :key="index"
+                class="components-item"
+                @click="addComponent(element)"
+              >
                 <div class="components-body">{{ element.__config__.label }}</div>
               </div>
             </draggable>
@@ -59,6 +64,8 @@
                 :form-conf="formConf"
                 :drawing-list="drawingList"
                 @activeItem="activeFormItem"
+                @copyItem="drawingItemCopy"
+                @deleteItem="drawingItemDelete"
               ></DraggableItem>
             </draggable>
           </el-form>
@@ -122,13 +129,20 @@ export default {
     }
   },
   methods: {
-    changeFun (val) {
-      console.log(val);
-      this.checkList = val;
+    drawingItemCopy (item, parent) {
+      console.log(item);
+    },
+    drawingItemDelete (index, parent) {
+      console.log(index);
     },
     activeFormItem (element) {
       this.activeData = element;
       this.activeId = element.__config__.formId;
+    },
+    addComponent (item) {
+      const clone = this.cloneComponent(item);
+      this.drawingList.push(clone);
+      this.activeFormItem(clone);
     },
     cloneComponent (origin) {
       const clone = JSON.parse(JSON.stringify(origin));
