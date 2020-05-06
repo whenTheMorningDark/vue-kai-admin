@@ -39,6 +39,11 @@
             :disabled="formConf.disabled"
             :label-width="formConf.labelWidth + 'px'"
           >
+            <!-- <el-checkbox-group :value="checkList" @input="changeFun">
+              <el-checkbox :label="1">A</el-checkbox>
+              <el-checkbox :label="2">B</el-checkbox>
+              <el-checkbox :label="3">C</el-checkbox>
+            </el-checkbox-group>-->
             <draggable
               class="drawing-board"
               :list="drawingList"
@@ -70,9 +75,12 @@ import {
 import drawingDefalut from "./components/generator/drawingDefalut";
 import draggable from "vuedraggable";
 import DraggableItem from "./DraggableItem";
-import { getIdGlobal } from "./components/generator/db";
+import { getDrawingList, saveDrawingList, getIdGlobal, saveIdGlobal, getFormConf } from "./components/generator/db";
+import { debounce } from "@/utils/common";
 let tempActiveData;
 const idGlobal = getIdGlobal();
+const drawingListInDB = getDrawingList();
+const formConfInDB = getFormConf();
 export default {
   name: "formCreator",
   components: {
@@ -81,6 +89,7 @@ export default {
   },
   data () {
     return {
+      checkList: [],
       formConf,
       idGlobal,
       drawingList: drawingDefalut,
@@ -90,10 +99,33 @@ export default {
         { title: "输入型组件", list: inputComponents },
         { title: "选择型组件", list: selectComponents },
         { title: "布局型组件", list: layoutComponents }
-      ]
+      ],
+      saveDrawingListDebounce: debounce(saveDrawingList, 340),
+      saveIdGlobalDebounce: debounce(saveIdGlobal, 340)
     };
   },
+  watch: {
+    drawingList: {
+      handler (val) {
+        this.saveDrawingListDebounce(val);
+        if (val.length === 0) {
+          this.idGlobal = 100;
+        }
+      },
+      deep: true
+    },
+    idGlobal: {
+      handler (val) {
+        this.saveIdGlobalDebounce(val);
+      },
+      immediate: true
+    }
+  },
   methods: {
+    changeFun (val) {
+      console.log(val);
+      this.checkList = val;
+    },
     activeFormItem (element) {
       this.activeData = element;
       this.activeId = element.__config__.formId;
@@ -116,7 +148,15 @@ export default {
     }
   },
   mounted () {
+    if (Array.isArray(drawingListInDB) && drawingListInDB.length > 0) {
+      this.drawingList = drawingListInDB;
+    } else {
+      this.drawingList = drawingDefalut;
+    }
     this.activeFormItem(this.drawingList[0]);
+    if (formConfInDB) {
+      this.formConf = formConfInDB;
+    }
   }
 };
 </script>

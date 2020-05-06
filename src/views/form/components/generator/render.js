@@ -30,8 +30,9 @@ const isAttr = makeMap(
 
 function vModel (self, dataObject, defaultValue) {
   dataObject.props.value = defaultValue;
-
+  console.log(defaultValue);
   dataObject.on.input = val => {
+    console.log(val);
     self.$emit("input", val);
   };
 }
@@ -101,13 +102,20 @@ const componentChild = {
 
 export default {
   render (h) {
+    const confClone = JSON.parse(JSON.stringify(this.conf));
+    let self = this;
     const dataObject = {
       attrs: {},
-      props: {},
-      on: {},
+      props: {
+        value: confClone.__config__.defaultValue
+      },
+      on: {
+        input: function (event) {
+          self.$emit("input", event);
+        }
+      },
       style: {}
     };
-    const confClone = JSON.parse(JSON.stringify(this.conf));
     const children = [];
 
     const childObjs = componentChild[confClone.__config__.tag];
@@ -119,24 +127,35 @@ export default {
         }
       });
     }
-
-    Object.keys(confClone).forEach(key => {
-      const val = confClone[key];
-      if (key === "__vModel__") {
-        vModel(this, dataObject, confClone.__config__.defaultValue);
-      } else if (dataObject[key]) {
-        dataObject[key] = { ...dataObject[key], ...val };
-      } else if (!isAttr(key)) {
-        dataObject.props[key] = val;
-      } else {
-        dataObject.attrs[key] = val;
-      }
-    });
-    // delete dataObject.props.__config__;
-    // delete dataObject.props.__slot__;
-    // console.log(dataObject)
-    // console.log(children)
+    if (this.conf.__config__.tag !== "el-checkbox-group") {
+      Object.keys(confClone).forEach(key => {
+        const val = confClone[key];
+        if (key === "__vModel__") {
+          vModel(this, dataObject, confClone.__config__.defaultValue);
+        } else if (dataObject[key]) {
+          dataObject[key] = { ...dataObject[key], ...val };
+        } else if (!isAttr(key)) {
+          dataObject.props[key] = val;
+        } else {
+          dataObject.attrs[key] = val;
+        }
+      });
+    }
+    delete dataObject.props.__config__;
+    delete dataObject.props.__slot__;
+    console.log(dataObject);
+    // console.log(this.conf.__config__.tag);
     return h(this.conf.__config__.tag, dataObject, children);
   },
-  props: ["conf"]
+  props: ["conf"],
+  data () {
+    return {
+      option: [
+        { label: 1, value: 1 },
+        { label: 2, value: 2 },
+        { label: 3, value: 3 }
+      ],
+      value: []
+    };
+  }
 };
