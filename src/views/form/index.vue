@@ -11,6 +11,7 @@
               :group="{ name: 'componentsGroup', pull: 'clone', put: false }"
               draggable=".components-item"
               :sort="false"
+              :clone="cloneComponent"
             >
               <div v-for="(element,index) in item.list" :key="index" class="components-item">
                 <div class="components-body">{{ element.__config__.label }}</div>
@@ -69,6 +70,9 @@ import {
 import drawingDefalut from "./components/generator/drawingDefalut";
 import draggable from "vuedraggable";
 import DraggableItem from "./DraggableItem";
+import { getIdGlobal } from "./components/generator/db";
+let tempActiveData;
+const idGlobal = getIdGlobal();
 export default {
   name: "formCreator",
   components: {
@@ -78,6 +82,7 @@ export default {
   data () {
     return {
       formConf,
+      idGlobal,
       drawingList: drawingDefalut,
       activeData: drawingDefalut[0],
       activeId: drawingDefalut[0].formId,
@@ -92,6 +97,22 @@ export default {
     activeFormItem (element) {
       this.activeData = element;
       this.activeId = element.__config__.formId;
+    },
+    cloneComponent (origin) {
+      const clone = JSON.parse(JSON.stringify(origin));
+      const config = clone.__config__;
+      config.formId = ++this.idGlobal;
+      config.span = this.formConf.span;
+      config.renderKey = +new Date(); // 改变renderKey后可以实现强制更新组件
+      if (config.layout === "colFormItem") {
+        clone.__vModel__ = `field${this.idGlobal}`;
+        clone.placeholder !== undefined && (clone.placeholder += config.label);
+      } else if (config.layout === "rowFormItem") {
+        config.componentName = `row${this.idGlobal}`;
+        config.gutter = this.formConf.gutter;
+      }
+      tempActiveData = clone;
+      return tempActiveData;
     }
   },
   mounted () {

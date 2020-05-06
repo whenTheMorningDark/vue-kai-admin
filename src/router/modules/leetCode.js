@@ -99,6 +99,12 @@ const leetCodeRouter = {
                 component: () =>
                     import("@/views/leetCode/BinaryTree/BinaryTree1"),
                 meta: { title: "二叉树1", noCache: true }
+            },
+            {
+                path: "binaryTree2",
+                component: () =>
+                    import("@/views/leetCode/BinaryTree/BinaryTree2"),
+                meta: { title: "二叉树2", noCache: true }
             }
         ]
     }

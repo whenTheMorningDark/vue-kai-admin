@@ -42,8 +42,6 @@ export default {
     "formConf"
   ],
   render (h) {
-    console.log(this);
-    console.log(this.element);
     const layout = layouts[this.element.__config__.layout];
     if (layout) {
       return layout.call(this, h, this.element, this.index, this.drawingList);
