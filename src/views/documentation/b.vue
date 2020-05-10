@@ -1,7 +1,7 @@
 <template>
   <div class="partolTree">
     B
-    <C></C>
+    <C v-bind="$attrs"></C>
     {{$attrs.keya}}
     <!-- {{keya}}
     {{title}}

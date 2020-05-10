@@ -1,5 +1,6 @@
 <template>
   <div class="a">
+    <p>a---{{$attrs}}</p>
     <!-- <span>a</span>
     <el-button @click="getData">获取</el-button>-->
     <B v-bind="$attrs" v-on="$listeners"></B>

@@ -1,5 +1,7 @@
 <template>
-  <div>c</div>
+  <div>
+    <p>C ---{{$attrs}}</p>
+  </div>
 </template>
 
 <script>
