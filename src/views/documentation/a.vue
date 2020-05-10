@@ -1,8 +1,9 @@
 <template>
   <div class="a">
-    <span>a</span>
-    <el-button @click="getData">获取</el-button>
-    <B ref="b" :is-check-mutile="isCheckMutile">
+    <!-- <span>a</span>
+    <el-button @click="getData">获取</el-button>-->
+    <B v-bind="$attrs" v-on="$listeners"></B>
+    <!-- <B ref="b" :is-check-mutile="isCheckMutile">
       <template slot="header">
         <el-row>
           <el-col :span="10">
@@ -13,7 +14,7 @@
           </el-col>
         </el-row>
       </template>
-    </B>
+    </B>-->
   </div>
 </template>
 
@@ -21,10 +22,17 @@
 import B from "./b";
 export default {
   name: "A",
+  inheritAttrs: false,
   components: {
     B
   },
   props: {
+    // keya: {
+    //   type: [Number, String]
+    // },
+    // title: {
+    //   type: [Number, String]
+    // },
     text: {
       type: String,
       default: ""

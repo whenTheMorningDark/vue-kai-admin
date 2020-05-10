@@ -147,15 +147,5 @@ export default {
     // console.log(this.conf.__config__.tag);
     return h(this.conf.__config__.tag, dataObject, children);
   },
-  props: ["conf"],
-  data () {
-    return {
-      option: [
-        { label: 1, value: 1 },
-        { label: 2, value: 2 },
-        { label: 3, value: 3 }
-      ],
-      value: []
-    };
-  }
+  props: ["conf"]
 };

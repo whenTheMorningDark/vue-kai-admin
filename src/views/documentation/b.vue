@@ -1,24 +1,18 @@
 <template>
   <div class="partolTree">
-    <slot name="header">header</slot>
-    <el-tree
-      ref="tree"
-      :data="data"
-      show-checkbox
-      node-key="id"
-      :default-expanded-keys="defaultCheck"
-      :default-expand-all="false"
-      :props="defaultProps"
-      :class="{pdTree:isParentCheck}"
-      :check-strictly="true"
-      :filter-node-method="filterNode"
-      @check-change="checkChangeFun"
-    />
+    B
+    <C></C>
+    {{$attrs.keya}}
+    <!-- {{keya}}
+    {{title}}
+    {{test}}-->
   </div>
 </template>
 
 <script>
+import C from "./c";
 export default {
+  inheritAttrs: false,
   props: {
     isParentCheck: {
       type: Boolean,
@@ -28,6 +22,18 @@ export default {
       type: Boolean,
       default: true
     }
+    // keya: {
+    //   type: [String, Number]
+    // }
+    // title: {
+    //   type: [String]
+    // },
+    // test: {
+    //   type: [String, Number]
+    // }
+  },
+  components: {
+    C
   },
   data () {
     return {
@@ -74,6 +80,7 @@ export default {
     };
   },
   mounted () {
+    this.$emit("testFun", 123);
     // console.log(union(this.sourceArr, this.targetArr))
     // const object = {
     //   a: 1,
@@ -88,7 +95,9 @@ export default {
   },
   methods: {
     filterNode (value, data) {
-      if (!value) {return true;}
+      if (!value) {
+        return true;
+      }
       return data.label.indexOf(value) !== -1;
     },
     checkChangeFun (data, checked, indeterminate) {

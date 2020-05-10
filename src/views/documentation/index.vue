@@ -1,7 +1,7 @@
 <template>
   <div>
     document
-    <A text="44" />
+    <A text="44" :keya="key" title="asdasda" :test="test" @testFun="testFun" />
   </div>
 </template>
 <script>
@@ -14,10 +14,14 @@ export default {
   data () {
     return {
       targetArr: [5, 13, 19, 21, 37, 56, 64, 75, 80, 21, 88, 92],
-      key: 21
+      key: 21,
+      test: 77778
     };
   },
   methods: {
+    testFun () {
+      console.log("B组件的事件触发");
+    },
     // 二分法
     // 循坏
     binary_search (arr, key) {

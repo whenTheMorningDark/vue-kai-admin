@@ -30,7 +30,7 @@
     <!-- 中间区域 -->
     <div class="center-board">
       <div class="action-bar">
-        <el-button icon="el-icon-video-play" type="text">运行</el-button>
+        <el-button icon="el-icon-video-play" type="text" @click="run">运行</el-button>
         <el-button icon="el-icon-view" type="text">查看json</el-button>
         <el-button icon="el-icon-download" type="text">导出vue文件</el-button>
         <el-button class="copy-btn-main" icon="el-icon-document-copy" type="text">复制代码</el-button>
@@ -129,11 +129,39 @@ export default {
     }
   },
   methods: {
+    run () {
+      console.log("asd");
+    },
     drawingItemCopy (item, parent) {
-      console.log(item);
+      let clone = JSON.parse(JSON.stringify(item));
+      clone = this.createIdAndKey(clone);
+      parent.push(clone);
+      this.activeFormItem(clone);
+    },
+    createIdAndKey (item) {
+      const config = item.__config__;
+      config.formId = ++this.idGlobal;
+      config.renderKey = +new Date();
+      if (config.layout === "colFormItem") {
+        item.__vModel__ = `field${this.idGlobal}`;
+      } else if (config.layout === "rowFormItem") {
+        config.componentName = `row${this.idGlobal}`;
+      }
+      if (Array.isArray(config.children)) {
+        config.children = config.children.map(childItem => this.createIdAndKey(childItem));
+      }
+      return item;
     },
     drawingItemDelete (index, parent) {
-      console.log(index);
+      // console.log(index);
+      // console.log(parent);
+      parent.splice(index, 1);
+      this.$nextTick(() => {
+        const len = this.drawingList.length;
+        if (len) {
+          this.activeFormItem(this.drawingList[len - 1]);
+        }
+      });
     },
     activeFormItem (element) {
       this.activeData = element;
