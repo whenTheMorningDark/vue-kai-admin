@@ -14,14 +14,14 @@ export default {
   /* eslint-disable vue/name-property-casing */
   /* eslint-disable space-before-function-paren */
 
-  name: 'login',
+  name: "login",
   data () {
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: "admin",
+        password: "111111"
       }
-    }
+    };
   },
   methods: {
     // async handleLogin () {
@@ -30,13 +30,13 @@ export default {
     //   console.log('asddsa')
     // }
     handleLogin () {
-      this.$store.dispatch('user/login', this.loginForm)
+      this.$store.dispatch("user/login", this.loginForm)
         .then(() => {
           this.$router.push({
-            path: '/'
-          })
-        })
+            path: "/"
+          });
+        });
     }
   }
-}
+};
 </script>

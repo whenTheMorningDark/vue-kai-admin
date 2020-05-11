@@ -18,6 +18,8 @@ export default {
       this.clickCellFun();
       this.connectFun(); // 监听连线的回调
       this.setConnectValidation(); // 检验连线规则
+      this.dbClickFun();
+      this.labelChangeFun();
       // this.cellAddFun()
     },
     addFun () {
@@ -46,6 +48,13 @@ export default {
       }
       return verte;
     },
+    // labelchange
+    labelChangeFun () {
+      this.graph.addListener(MxEvent.LABEL_CHANGED, (sender, evt) => {
+        console.log("labelchange");
+        console.log(sender);
+      });
+    },
     // 生成线的方法
     createEdgeFun (source, target) {
       const parent = this.graph.getDefaultParent();
@@ -65,6 +74,14 @@ export default {
         }
         console.log(this.cell);
         this.$emit("click", this.cell);
+      });
+    },
+    // 双击图形
+    dbClickFun () {
+      this.graph.addListener(MxEvent.DOUBLE_CLICK, (sender, evt) => {
+        this.cell = evt.getProperty("cell");
+        console.log(123);
+        this.$emit("dbClick", this.cell);
       });
     },
     // 获取选中的元素

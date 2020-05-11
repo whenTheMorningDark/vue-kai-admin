@@ -12,7 +12,8 @@ import {
   mxCell as MxCell,
   mxGeometry as MxGeometry,
   mxEvent as MxEvent,
-  mxUtils as MxUtils
+  mxUtils as MxUtils,
+  mxCellEditor as MxCellEditor
 } from "mxgraph/javascript/mxClient";
 import methods from "./methods";
 import utils from "./utils";
@@ -106,10 +107,13 @@ export default {
             arrTarget.forEach(s => {
               const target = this.findCell(s.id);
               const style = s.style ? this.convertStyleToString(s.style) : "";
+              let edgeOptions = s.edgeOptions || {};
+              let id = edgeOptions.id || null;
+              let value = edgeOptions.value || "";
               if (!source || !target) {
                 return;
               }
-              this.graph.insertEdge(this.parent, null, "", source, target, style);
+              this.graph.insertEdge(this.parent, id, value, source, target, style);
             });
           }
         });
@@ -155,6 +159,8 @@ export default {
       this.graph.setAllowDanglingEdges(false);
       // this.graph.setMultigraph(false);
       this.graph.setAllowLoops(false);
+      // console.log(MxCellEditor);
+      MxCellEditor.prototype.blurEnabled = true;
     },
     initToolbar () {
       if (this.toolBarIcon.length === 0) {

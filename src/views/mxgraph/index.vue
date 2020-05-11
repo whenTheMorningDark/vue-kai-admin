@@ -52,7 +52,7 @@ export default {
         { iconSrc: del, type: "click" }
       ],
       graphData: [
-        { id: "5", value: "开始", styleOptions: { shape: "", strokeColor: "#662B2B", dashed: "0", strokeWidth: 1 }, x: 100, y: 100, width: 100, height: 100, to: [{ id: "7", style: { strokeColor: "red", edgeStyle: "orthogonalEdgeStyle", rounded: 0, orthogonalLoop: 1 } }, { id: "9" }], options: { name: "add", type: "start" } },
+        { id: "5", value: "开始", styleOptions: { shape: "", strokeColor: "#662B2B", dashed: "0", strokeWidth: 1 }, x: 100, y: 100, width: 100, height: 100, to: [{ id: "7", style: { strokeColor: "red", edgeStyle: "orthogonalEdgeStyle", rounded: 0, orthogonalLoop: 1 }, edgeOptions: { id: 25, value: "8888" } }, { id: "9", edgeOptions: { id: 35, value: "9999" } }], options: { name: "add", type: "start" } },
         { id: "7", value: "结束1", styleOptions: { shape: "rounded", strokeColor: "#740F9F", dashed: "0", strokeWidth: 2 }, x: 500, y: 400, width: 100, height: 100, to: [], options: { name: "add", type: "rounded" } },
         { id: "9", value: "结束2", styleOptions: { shape: "ellipse", strokeColor: "#3C00FF", fillColor: "#1EFF00", dashed: "1", strokeWidth: 3 }, x: 600, y: 500, width: 100, height: 100, to: [], options: { name: "add", type: "ellipse" } }
       ],

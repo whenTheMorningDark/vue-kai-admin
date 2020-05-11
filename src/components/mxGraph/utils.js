@@ -25,14 +25,27 @@ export default {
     // 获取所有的图形
     getAllCell () {
       const cells = this.graph.getChildVertices(this.graph.getDefaultParent());
+
       return cells;
+    },
+    // 获取所有的线条
+    getAllEdge () {
+      const edges = this.graph.getChildEdges(this.graph.getDefaultParent())
+      // console.log(edges)
+      return edges;
     },
     // 获取grapthData
     getGrapthData () {
       const newGraphData = [];
       const currentCell = this.getAllCell();
+      const currentEdge = this.getAllEdge();
+      console.log(currentCell);
+      console.log(currentEdge);
       currentCell.forEach(v => {
         const obj = this.getAddObj(v);
+        // currentEdge.forEach(s=>{
+
+        // })
         newGraphData.push(obj);
       });
       return newGraphData;
