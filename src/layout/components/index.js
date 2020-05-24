@@ -3,12 +3,16 @@
 export {
   default as AppMain
 }
-from './AppMain'
+from "./AppMain";
 export {
   default as Sidebar
 }
-from './Sidebar'
+from "./Sidebar";
 export {
   default as navBar
 }
-from './navBar'
+from "./navBar";
+export {
+  default as TagsView
+}
+from "./TagsView";

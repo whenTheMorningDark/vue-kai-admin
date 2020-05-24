@@ -55,7 +55,7 @@ export const constantRoutes = [{
 			meta: {
 				title: "dashboard",
 				icon: "dashboard",
-				affix: true
+				affix: false
 			}
 		}]
 	},
@@ -69,7 +69,7 @@ export const constantRoutes = [{
 			meta: {
 				title: "documentation",
 				icon: "documentation",
-				affix: true
+				affix: false
 			}
 		}]
 	},
@@ -87,7 +87,7 @@ export const constantRoutes = [{
 				meta: {
 					title: "可编辑表格",
 					icon: "documentation",
-					affix: true
+					affix: false
 				}
 			},
 			{
@@ -97,7 +97,7 @@ export const constantRoutes = [{
 				meta: {
 					title: "虚拟表格",
 					icon: "documentation",
-					affix: true
+					affix: false
 				}
 			}
 		]
@@ -111,7 +111,8 @@ export const constantRoutes = [{
 		meta: {
 			title: "数据可视化",
 			icon: "lock",
-			roles: ["admin", "editor"] // you can set roles in root nav
+			roles: ["admin", "editor"], // you can set roles in root nav
+			affix: false
 		},
 		children: [{
 				path: "index",
@@ -120,7 +121,7 @@ export const constantRoutes = [{
 				meta: {
 					title: "流程图",
 					icon: "documentation",
-					affix: true
+					affix: false
 				}
 			},
 			{
@@ -130,7 +131,7 @@ export const constantRoutes = [{
 				meta: {
 					title: "拖拽布局",
 					icon: "documentation",
-					affix: true
+					affix: false
 				}
 			},
 			{
@@ -140,7 +141,7 @@ export const constantRoutes = [{
 				meta: {
 					title: "图形可视化",
 					icon: "documentation",
-					affix: true
+					affix: false
 				}
 			},
 			{
@@ -150,7 +151,7 @@ export const constantRoutes = [{
 				meta: {
 					title: "表单可视化",
 					icon: "documentation",
-					affix: true
+					affix: false
 				}
 			}
 		]
