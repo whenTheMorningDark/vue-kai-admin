@@ -9,6 +9,7 @@
         :to="{path:tag.path,query:tag.query,fullPath:tag.fullPath}"
         tag="span"
         class="tags-view-item"
+        @contextmenu.prevent.native="openMenu(tag,$event)"
       >
         {{tag.title}}
         <span
@@ -18,6 +19,12 @@
         ></span>
       </router-link>
     </ScrollPane>
+    <ul v-show="visible" class="contextmenu" :style="{left:left+'px',top:top+'px'}">
+      <li>刷新</li>
+      <li>关闭</li>
+      <li>关闭其它</li>
+      <li>全部关闭</li>
+    </ul>
   </div>
 </template>
 
@@ -26,7 +33,6 @@ import ScrollPane from "./ScrollPane";
 export default {
   computed: {
     visitedViews () {
-      console.log(this.$store.state.tagsView.visitedViews);
       return this.$store.state.tagsView.visitedViews;
     },
     routes () {
@@ -36,18 +42,51 @@ export default {
   components: {
     ScrollPane
   },
+  data () {
+    return {
+      visible: false,
+      top: 0,
+      left: 0,
+      selectedTag: {}
+    };
+  },
   watch: {
     $route () {
       // console.log("routeChan");
       this.addTags();
+    },
+    visible (value) {
+      if (value) {
+        document.body.addEventListener("click", this.closeMenu);
+      } else {
+        document.body.removeEventListener("click", this.closeMenu);
+      }
     }
   },
   methods: {
+    closeMenu () {
+      this.visible = false;
+    },
+    // 打开菜单
+    openMenu (tag, e) {
+      const menuMinWidth = 105;
+      const offsetLeft = this.$el.getBoundingClientRect().left;
+      const offsetWidth = this.$el.offsetWidth;
+      const maxLeft = offsetWidth - menuMinWidth;
+      const left = e.clientX - offsetLeft + 15;
+      if (left > maxLeft) {
+        this.left = maxLeft;
+      } else {
+        this.left = left;
+      }
+      this.top = e.clientY;
+      this.visible = true;
+      this.selectedTag = tag;
+    },
     isActive (route) {
       return route.path === this.$route.path;
     },
     isAffix (tag) {
-      console.log(tag);
       return tag.meta && tag.meta.affix;
     },
     // 增加tag
@@ -61,10 +100,7 @@ export default {
     // 删除tag
     closeSelectedTag (view) {
       this.$store.dispatch("tagsView/delView", view).then(({ visitedViews }) => {
-        // console.log(visitedViews);
         if (this.isActive(view)) {
-          // console.log(visitedViews);
-          // console.log(view);
           this.toLastView(visitedViews, view);
         }
       });
@@ -131,6 +167,27 @@ export default {
           margin-right: 2px;
         }
       }
+    }
+  }
+}
+.contextmenu {
+  margin: 0;
+  background: #fff;
+  z-index: 3000;
+  position: absolute;
+  list-style-type: none;
+  padding: 5px 0;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #333;
+  box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.3);
+  li {
+    margin: 0;
+    padding: 7px 16px;
+    cursor: pointer;
+    &:hover {
+      background: #eee;
     }
   }
 }

@@ -49,11 +49,7 @@ const mutations = {
     );
   },
   DEL_VISITED_VIEW: (state, view) => {
-    console.log(state.visitedViews);
-    console.log(view);
     for (const [i, v] of state.visitedViews.entries()) {
-      console.log(i);
-      console.log(v);
       if (v.path === view.path) {
         state.visitedViews.splice(i, 1);
         break;
