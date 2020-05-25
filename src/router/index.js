@@ -5,6 +5,7 @@ import Router from "vue-router";
 
 /* Layout */
 import Layout from "@/layout";
+import component from "./modules/components";
 
 /* Router Modules */
 import leetCodeRouter from "./modules/leetCode";
@@ -157,7 +158,8 @@ export const constantRoutes = [{
 	}
 	]
 },
-	leetCodeRouter
+	leetCodeRouter,
+	component
 ];
 
 /**
