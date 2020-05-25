@@ -15,7 +15,7 @@
         highlight-current
         ref="tree-select"
       ></el-tree>
-      <div class="ka-select-box" slot="reference">
+      <div class="ka-select-box" slot="reference" :class="[sizeClass]">
         <div class="tag-box">
           <div v-show="selecteds.length>0">
             <template v-if="!collapseTags">
@@ -47,10 +47,8 @@
           <p class="ka-placeholder-box" v-show="selecteds.length===0">请输入内容</p>
         </div>
         <div class="icon-box">
-          <transition name="fade-rotate" mode="out-in">
-            <i class="el-icon-arrow-down" v-if="!options_show" key="top"></i>
-            <i class="el-icon-arrow-up" v-else key="btm"></i>
-          </transition>
+          <i class="el-icon-arrow-down" key="top" :class="{'down':!options_show}"></i>
+          <!-- <i class="el-icon-arrow-up" v-else key="btm"></i> -->
         </div>
       </div>
     </el-popover>
@@ -78,7 +76,7 @@ export default {
     },
     size: {
       type: String,
-      default: "medium"
+      default: "mini"
     },
     nodeKey: {
       type: String,
@@ -93,6 +91,27 @@ export default {
         disabled: data => data.disabled,
         ...this.props
       };
+    },
+    sizeClass () {
+      let sizeClass = "size-medium";
+      switch (this.size) {
+        case "medium":
+          sizeClass = "size-medium";
+          break;
+        case "small":
+          sizeClass = "size-small";
+          break;
+        case "default":
+          sizeClass = "size-default";
+          break;
+        case "mini":
+          sizeClass = "size-mini";
+          break;
+        default:
+          sizeClass = "size-medium";
+          break;
+      }
+      return sizeClass;
     }
   },
   data () {
@@ -173,6 +192,18 @@ export default {
   width: 100%;
   vertical-align: middle;
   outline: none;
+  .ka-select-box.size-small {
+    height: 32px;
+    line-height: 30px;
+  }
+  .ka-select-box.size-mini {
+    height: 28px;
+    line-height: 26px;
+  }
+  .ka-select-box.size-default {
+    height: 40px;
+    line-height: 38px;
+  }
   .ka-select-box {
     display: flex;
     border: 1px solid #dcdfe6;
@@ -201,6 +232,13 @@ export default {
       justify-content: center;
       align-items: Center;
       color: #c0c4cc;
+      // transform: rotateZ(45deg);
+      .el-icon-arrow-down {
+        transition: all 0.2s;
+      }
+      .down {
+        transform: rotateZ(180deg);
+      }
     }
     .ka-placeholder-box {
       color: #c0c4cc;
@@ -219,21 +257,21 @@ export default {
     }
   }
 }
-// 过度效果
-.fade-in-enter-active,
-.fade-in-leave-active {
-  transition: all 0.4s;
-}
-.fade-in-enter, .fade-in-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-  transform: translateY(-10px);
-}
+// // 过度效果
+// .fade-in-enter-active,
+// .fade-in-leave-active {
+//   transition: all 0.4s;
+// }
+// .fade-in-enter, .fade-in-leave-to /* .fade-leave-active below version 2.1.8 */ {
+//   opacity: 0;
+//   transform: translateY(-10px);
+// }
 
-.fade-rotate-enter-active,
-.fade-rotate-leave-active {
-  transition: all 0.2s;
-}
-.fade-rotate-enter, .fade-rotate-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  transform: rotateZ(45deg);
-}
+// .fade-rotate-enter-active,
+// .fade-rotate-leave-active {
+//   transition: all 0.2s;
+// }
+// .fade-rotate-enter, .fade-rotate-leave-to /* .fade-leave-active below version 2.1.8 */ {
+//   transform: rotateZ(45deg);
+// }
 </style>
