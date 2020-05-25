@@ -1,5 +1,5 @@
 <template>
-  <div class="ka-tree-select" style="padding:10px" :style="{width:width+'px'}">
+  <div class="ka-tree-select" :style="{width:width+'px'}">
     <el-popover
       :width="width"
       placement="bottom"
@@ -13,6 +13,10 @@
         @node-click="handleNodeClick"
         :node-key="nodeKey"
         highlight-current
+        :default-checked-keys="checked_keys"
+        :default-expanded-keys="checked_keys"
+        :show-checkbox="checkbox"
+        check-strictly
         ref="tree-select"
       ></el-tree>
       <div class="ka-select-box" slot="reference" :class="[sizeClass]">
@@ -59,6 +63,13 @@
 export default {
   name: "treeSelect",
   props: {
+    // treeData数据
+    data: {
+      type: Array,
+      default: () => []
+    },
+    // 选中数据
+    value: [String, Number, Array, Object],
     // 多选时是否将选中值按文字的形式展示
     collapseTags: {
       type: Boolean,
@@ -71,6 +82,11 @@ export default {
     },
     // 是否禁用
     disabled: {
+      type: Boolean,
+      default: false
+    },
+    // 是否只可以选择叶子节点
+    isLeaf: {
       type: Boolean,
       default: false
     },
@@ -93,71 +109,72 @@ export default {
       };
     },
     sizeClass () {
-      let sizeClass = "size-medium";
-      switch (this.size) {
-        case "medium":
-          sizeClass = "size-medium";
-          break;
-        case "small":
-          sizeClass = "size-small";
-          break;
-        case "default":
-          sizeClass = "size-default";
-          break;
-        case "mini":
-          sizeClass = "size-mini";
-          break;
-        default:
-          sizeClass = "size-medium";
-          break;
-      }
-      return sizeClass;
+      let map = {
+        medium: "size-medium",
+        small: "size-small",
+        default: "size-default",
+        mini: "size-mini"
+      };
+      return map[this.size] || "size-medium";
     }
+  },
+  created () {
+    this.isLeaf && this.changeTreeData(this.data);
+    this.handDefaultValue(this.value);
   },
   data () {
     return {
-      value: "",
-      data: [{
-        id: 1,
-        label: "一级 1",
-        children: [{
-          id: 4,
-          label: "二级 1-1",
-          children: [{
-            id: 9,
-            label: "三级 1-1-1"
-          }, {
-            id: 10,
-            label: "三级 1-1-2"
-          }]
-        }]
-      }, {
-        id: 2,
-        label: "一级 2",
-        children: [{
-          id: 5,
-          label: "二级 2-1"
-        }, {
-          id: 6,
-          label: "二级 2-2"
-        }]
-      }, {
-        id: 3,
-        label: "一级 3",
-        children: [{
-          id: 7,
-          label: "二级 3-1"
-        }, {
-          id: 8,
-          label: "二级 3-2"
-        }]
-      }],
       options_show: false,
       width: 200,
-      selecteds: []
+      selecteds: [],
+      checked_keys: []
     };
   },
   methods: {
+    changeTreeData (data) {
+      if (!data) {
+        return;
+      }
+      let stack = [];
+      data.forEach(v => {
+        stack.push(v);
+      });
+      while (stack.length) {
+        const result = stack.shift();
+        if (result.children && result.children.length > 0) {
+          result.disabled = true;
+          stack = stack.concat(result.children);
+        } else {
+          result.disabled = false;
+        }
+      }
+      return data;
+    },
+    // 处理默认选中值
+    handDefaultValue (value) {
+      // this.$refs["tree-select"].setCurrentNode(value);
+      if (!this.checkbox) { // 单选的情况
+        this.$nextTick(() => {
+          this.$refs["tree-select"].setCurrentNode({
+            id: value
+          });
+          let currentNode = this.$refs["tree-select"].getCurrentNode();
+          this.selecteds = [currentNode];
+          this.$emit("change", this.selecteds);
+        });
+      }
+
+      // this.checked_keys = value;
+      // console.log(this.checked_keys);
+      // if (!value || (Array.isArray(value) && value.length === 0)) {
+      //   this.selecteds = [];
+      //   this.$nextTick(() => {
+      //     this.$refs["tree-select"].setCheckedKeys([]);
+
+      //   });
+      // }
+    },
+    // 点击列表树
     handleNodeClick (item, node) {
       // console.log(data);
       if (this.checkbox) {

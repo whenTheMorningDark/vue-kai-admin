@@ -15,7 +15,7 @@ const componentsRouter = {
   children: [
     {
       path: "treeSelect",
-      component: () => import("@/components/treeSelect"),
+      component: () => import("@/views/treeSelect"),
       name: "treeSelect",
       meta: { title: "下拉选择树" }
     }
