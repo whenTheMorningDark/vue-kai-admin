@@ -2,10 +2,7 @@
   <div v-if="!item.hidden">
     <template v-if="hasOneShowingChild(item.children,item)">
       <!-- {{ onlyOneChild.meta }} -->
-      <app-link
-        v-if="onlyOneChild.meta"
-        :to="resolvePath(onlyOneChild.path)"
-      >
+      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item
           :index="resolvePath(onlyOneChild.path)"
           :class="{'submenu-title-noDropdown':!isNest}"
@@ -17,18 +14,9 @@
         </el-menu-item>
       </app-link>
     </template>
-    <el-submenu
-      v-else
-      ref="subMenu"
-      :index="resolvePath(item.path)"
-      popper-append-to-body
-    >
+    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
-        <item
-          v-if="item.meta"
-          :icon="item.meta && item.meta.icon"
-          :title="item.meta.title"
-        />
+        <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
       </template>
       <sidebar-item
         v-for="child in item.children"
@@ -43,13 +31,13 @@
 </template>
 <script>
 /* eslint-disable space-before-function-paren */
-import path from 'path'
-import { isExternal } from '@/utils/validate'
-import { generateTitle } from '@/utils/i18n'
-import AppLink from './Link'
-import item from './Item'
+import path from "path";
+import { isExternal } from "@/utils/validate";
+import { generateTitle } from "@/utils/i18n";
+import AppLink from "./Link";
+import item from "./Item";
 export default {
-  name: 'SidebarItem',
+  name: "SidebarItem",
   components: {
     AppLink,
     item
@@ -66,13 +54,13 @@ export default {
     },
     basePath: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   data () {
     return {
       onlyOneChild: null
-    }
+    };
   },
   // mounted () {
   //   console.log(this.item)
@@ -81,35 +69,33 @@ export default {
     hasOneShowingChild (children = [], parent) {
       const showingChildren = children.filter(item => {
         if (item.hidden) {
-          return false
+          return false;
         } else {
-          console.log(item)
-          this.onlyOneChild = item
-          return true
+          this.onlyOneChild = item;
+          return true;
         }
-      })
-      console.log(showingChildren)
+      });
       if (showingChildren.length === 1) {
-        return true
+        return true;
       }
       if (showingChildren.length === 0) {
-        this.onlyOneChild = { ...parent, path: '', noShowingChildren: true }
-        return true
+        this.onlyOneChild = { ...parent, path: "", noShowingChildren: true };
+        return true;
       }
 
-      return false
+      return false;
     },
     resolvePath (routePath) {
       if (isExternal(routePath)) {
-        return routePath
+        return routePath;
       }
       if (isExternal(this.basePath)) {
-        return this.basePath
+        return this.basePath;
       }
-      return path.resolve(this.basePath, routePath)
+      return path.resolve(this.basePath, routePath);
     },
     generateTitle
   }
 
-}
+};
 </script>

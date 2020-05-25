@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 /* eslint-disable indent */
 import Vue from "vue";
 import Router from "vue-router";
@@ -40,121 +41,122 @@ Vue.use(Router);
  * all roles can be accessed
  */
 export const constantRoutes = [{
-		path: "/login",
-		component: () => import("@/views/login/index"),
-		hidden: true
-	},
-	{
-		path: "/",
-		component: Layout,
-		redirect: "/dashboard",
-		children: [{
-			path: "dashboard",
-			component: () => import("@/views/dashboard/index"),
-			name: "Dashboard",
-			meta: {
-				title: "dashboard",
-				icon: "dashboard",
-				affix: true
-			}
-		}]
-	},
-	{
-		path: "/documentation",
-		component: Layout,
-		children: [{
-			path: "index",
-			component: () => import("@/views/documentation/index"),
-			name: "Documentation",
-			meta: {
-				title: "documentation",
-				icon: "documentation",
-				affix: true
-			}
-		}]
-	},
-	{
-		path: "/table",
-		component: Layout,
+	path: "/login",
+	component: () => import("@/views/login/index"),
+	hidden: true
+},
+{
+	path: "/",
+	component: Layout,
+	redirect: "/dashboard",
+	children: [{
+		path: "dashboard",
+		component: () => import("@/views/dashboard/index"),
+		name: "Dashboard",
 		meta: {
-			title: "表格",
-			icon: "chart"
-		},
-		children: [{
-				path: "index",
-				component: () => import("@/views/editTable/index"),
-				name: "editTable",
-				meta: {
-					title: "可编辑表格",
-					icon: "documentation",
-					affix: true
-				}
-			},
-			{
-				path: "scrollTable",
-				component: () => import("@/views/scrollTable/index"),
-				name: "scrollTable",
-				meta: {
-					title: "虚拟表格",
-					icon: "documentation",
-					affix: true
-				}
-			}
-		]
+			title: "dashboard",
+			icon: "dashboard",
+			affix: false
+		}
+	}]
+},
+{
+	path: "/documentation",
+	component: Layout,
+	children: [{
+		path: "index",
+		component: () => import("@/views/documentation/index"),
+		name: "Documentation",
+		meta: {
+			title: "documentation",
+			icon: "documentation",
+			affix: false
+		}
+	}]
+},
+{
+	path: "/table",
+	component: Layout,
+	meta: {
+		title: "表格",
+		icon: "chart"
+	},
+	children: [{
+		path: "index",
+		component: () => import("@/views/editTable/index"),
+		name: "editTable",
+		meta: {
+			title: "可编辑表格",
+			icon: "documentation",
+			affix: false
+		}
 	},
 	{
-		path: "/dataView",
-		component: Layout,
-		redirect: "/dataView/index",
-		alwaysShow: true, // will always show the root menu
-		name: "dataView",
+		path: "scrollTable",
+		component: () => import("@/views/scrollTable/index"),
+		name: "scrollTable",
 		meta: {
-			title: "数据可视化",
-			icon: "lock",
-			roles: ["admin", "editor"] // you can set roles in root nav
-		},
-		children: [{
-				path: "index",
-				component: () => import("@/views/mxgraph/index"),
-				name: "mxgraph",
-				meta: {
-					title: "流程图",
-					icon: "documentation",
-					affix: true
-				}
-			},
-			{
-				path: "draggbleLayout",
-				component: () => import("@/views/draggbleLayout/index"),
-				name: "draggbleLayout",
-				meta: {
-					title: "拖拽布局",
-					icon: "documentation",
-					affix: true
-				}
-			},
-			{
-				path: "echarts",
-				component: () => import("@/views/echarts/index"),
-				name: "echarts",
-				meta: {
-					title: "图形可视化",
-					icon: "documentation",
-					affix: true
-				}
-			},
-			{
-				path: "form",
-				component: () => import("@/views/form/index"),
-				name: "formCreator",
-				meta: {
-					title: "表单可视化",
-					icon: "documentation",
-					affix: true
-				}
-			}
-		]
+			title: "虚拟表格",
+			icon: "documentation",
+			affix: false
+		}
+	}
+	]
+},
+{
+	path: "/dataView",
+	component: Layout,
+	redirect: "/dataView/index",
+	alwaysShow: true, // will always show the root menu
+	name: "dataView",
+	meta: {
+		title: "数据可视化",
+		icon: "lock",
+		roles: ["admin", "editor"], // you can set roles in root nav
+		affix: false
 	},
+	children: [{
+		path: "index",
+		component: () => import("@/views/mxgraph/index"),
+		name: "mxgraph",
+		meta: {
+			title: "流程图",
+			icon: "documentation",
+			affix: false
+		}
+	},
+	{
+		path: "draggbleLayout",
+		component: () => import("@/views/draggbleLayout/index"),
+		name: "draggbleLayout",
+		meta: {
+			title: "拖拽布局",
+			icon: "documentation",
+			affix: false
+		}
+	},
+	{
+		path: "echarts",
+		component: () => import("@/views/echarts/index"),
+		name: "echarts",
+		meta: {
+			title: "图形可视化",
+			icon: "documentation",
+			affix: false
+		}
+	},
+	{
+		path: "form",
+		component: () => import("@/views/form/index"),
+		name: "formCreator",
+		meta: {
+			title: "表单可视化",
+			icon: "documentation",
+			affix: false
+		}
+	}
+	]
+},
 	leetCodeRouter
 ];
 
@@ -174,23 +176,23 @@ export const asyncRoutes = [{
 		roles: ["admin", "editor"] // you can set roles in root nav
 	},
 	children: [{
-			path: "page",
-			// component: () => import('@/views/permission/page'),
-			name: "PagePermission",
-			meta: {
-				title: "pagePermission",
-				roles: ["admin"] // or you can only set roles in sub nav
-			}
-		},
-		{
-			path: "directive",
-			component: () => import("@/views/documentation/index"),
-			name: "DirectivePermission",
-			meta: {
-				title: "directivePermission"
-				// if do not set roles, means: this page does not require permission
-			}
+		path: "page",
+		// component: () => import('@/views/permission/page'),
+		name: "PagePermission",
+		meta: {
+			title: "pagePermission",
+			roles: ["admin"] // or you can only set roles in sub nav
 		}
+	},
+	{
+		path: "directive",
+		component: () => import("@/views/documentation/index"),
+		name: "DirectivePermission",
+		meta: {
+			title: "directivePermission"
+			// if do not set roles, means: this page does not require permission
+		}
+	}
 	]
 }];
 
@@ -206,7 +208,7 @@ const createRouter = () =>
 const router = createRouter();
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter() {
+export function resetRouter () {
 	const newRouter = createRouter();
 	router.matcher = newRouter.matcher; // reset router
 }

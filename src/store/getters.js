@@ -7,7 +7,9 @@ const getters = {
 	device: state => state.app.device,
 	permission_routes: state => state.permission.routes,
 	token: state => state.user.token,
-	roles: state => state.user.roles
+	roles: state => state.user.roles,
+	visitedViews: state => state.tagsView.visitedViews,
+	cachedViews: state => state.tagsView.cachedViews
 };
 // eslint-disable-next-line eol-last
 export default getters

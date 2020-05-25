@@ -3,6 +3,7 @@
     <Sidebar class="sidebar-container" />
     <div class="main-container">
       <navBar />
+      <TagsView />
       <AppMain />
     </div>
   </div>
@@ -10,14 +11,15 @@
 <script>
 /* eslint-disable space-before-function-paren */
 
-import { AppMain, Sidebar, navBar } from './components/index'
-import { mapState } from 'vuex'
+import { AppMain, Sidebar, navBar, TagsView } from "./components/index";
+import { mapState } from "vuex";
 export default {
-  name: 'Layout',
+  name: "Layout",
   components: {
     AppMain,
     Sidebar,
-    navBar
+    navBar,
+    TagsView
   },
   computed: {
     ...mapState({
@@ -29,11 +31,11 @@ export default {
         hideSidebar: !this.sidebar.opened,
         openSidebar: this.sidebar.opened,
         withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === 'mobile'
-      }
+        mobile: this.device === "mobile"
+      };
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 @import "~@/styles/mixin.scss";
