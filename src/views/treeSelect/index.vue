@@ -2,7 +2,7 @@
   <div style="padding:10px">
     <el-row>
       <el-col :span="12">
-        <treeSelect :data="treeData" v-model="select" checkbox isLeaf :width="500" ref="treeSelect"></treeSelect>
+        <treeSelect :data="treeData" v-model="select" checkbox :width="500" ref="treeSelect"></treeSelect>
       </el-col>
       <el-col :span="12">
         <el-button type="primary" size="mini" @click="getCurrentData">获取当前选择的数据</el-button>

@@ -7,6 +7,7 @@
       v-model="options_show"
       :disabled="false"
     >
+      <el-input v-if="filterable" v-model="filterText" :size="size" placeholder="请输入关键词"></el-input>
       <el-scrollbar class="ka-treeselect-popover">
         <el-tree
           :data="data"
@@ -19,6 +20,7 @@
           :show-checkbox="checkbox"
           check-strictly
           ref="tree-select"
+          :filter-node-method="filterNode"
           @check="handleCheckChange"
         ></el-tree>
       </el-scrollbar>
@@ -95,6 +97,11 @@ export default {
       type: Boolean,
       default: false
     },
+    // 是否使用搜索
+    filterable: {
+      type: Boolean,
+      default: true
+    },
     size: {
       type: String,
       default: "mini"
@@ -132,7 +139,8 @@ export default {
       options_show: false,
       selecteds: [],
       checked_keys: [],
-      expandedKeys: []
+      expandedKeys: [],
+      filterText: ""
     };
   },
   methods: {
@@ -215,10 +223,29 @@ export default {
       if (this.disabled) {
         return;
       }
-      if (!this.checkbox) {
+      if (!this.checkbox) { // 单选
         this.selecteds = [];
         this.$refs["tree-select"].setCurrentKey(null);
+      } else { // 多选
+        this.$refs["tree-select"].setChecked(id, false, true);
+        this.selecteds = this.$refs["tree-select"].getCheckedNodes();
       }
+      this.$emit("change", this.selecteds);
+    },
+    // 树节点筛选
+    filterNode (value, data) {
+      if (this.filterFnc) {
+        return this.filterFnc(value, data);
+      }
+      if (!value) {
+        return true;
+      }
+      return data[this.selfProps.label].indexOf(value) !== -1;
+    }
+  },
+  watch: {
+    filterText (val) {
+      this.$refs["tree-select"].filter(val);
     }
   }
 };
