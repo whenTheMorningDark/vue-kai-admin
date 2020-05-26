@@ -7,18 +7,21 @@
       v-model="options_show"
       :disabled="false"
     >
-      <el-tree
-        :data="data"
-        :props="selfProps"
-        @node-click="handleNodeClick"
-        :node-key="nodeKey"
-        highlight-current
-        :default-checked-keys="checked_keys"
-        :default-expanded-keys="checked_keys"
-        :show-checkbox="checkbox"
-        check-strictly
-        ref="tree-select"
-      ></el-tree>
+      <el-scrollbar class="ka-treeselect-popover">
+        <el-tree
+          :data="data"
+          :props="selfProps"
+          @node-click="handleNodeClick"
+          :node-key="nodeKey"
+          highlight-current
+          :default-checked-keys="checked_keys"
+          :default-expanded-keys="expandedKeys"
+          :show-checkbox="checkbox"
+          check-strictly
+          ref="tree-select"
+          @check="handleCheckChange"
+        ></el-tree>
+      </el-scrollbar>
       <div class="ka-select-box" slot="reference" :class="[sizeClass]">
         <div class="tag-box">
           <div v-show="selecteds.length>0">
@@ -33,7 +36,7 @@
                 @close="tabClose(item[nodeKey])"
               >{{ item[selfProps.label] }}</el-tag>
             </template>
-            <!-- <template v-else>
+            <template v-else>
               <el-tag
                 closable
                 :size="size"
@@ -46,7 +49,7 @@
                 :size="size"
                 class="ka-select-tag"
               >+{{ this.selecteds.length-1}}</el-tag>
-            </template>-->
+            </template>
           </div>
           <p class="ka-placeholder-box" v-show="selecteds.length===0">请输入内容</p>
         </div>
@@ -70,6 +73,8 @@ export default {
     },
     // 选中数据
     value: [String, Number, Array, Object],
+    // 宽度
+    width: [String, Number],
     // 多选时是否将选中值按文字的形式展示
     collapseTags: {
       type: Boolean,
@@ -125,12 +130,23 @@ export default {
   data () {
     return {
       options_show: false,
-      width: 200,
       selecteds: [],
-      checked_keys: []
+      checked_keys: [],
+      expandedKeys: []
     };
   },
   methods: {
+    clear () {
+      this.selecteds = [];
+      this.$refs["tree-select"].setCheckedKeys([]);
+    },
+    // 点击checkbox变化
+    handleCheckChange (val) {
+      let nodes = this.$refs["tree-select"].getCheckedNodes(false);
+      this.selecteds = nodes;
+      this.$emit("change", this.selecteds);
+    },
+    // 转换treedata
     changeTreeData (data) {
       if (!data) {
         return;
@@ -152,31 +168,38 @@ export default {
     },
     // 处理默认选中值
     handDefaultValue (value) {
+      if (Array.isArray(value) && value.length === 0) {
+        return;
+      }
+      this.expandedKeys = [];
       // this.$refs["tree-select"].setCurrentNode(value);
       if (!this.checkbox) { // 单选的情况
         this.$nextTick(() => {
           this.$refs["tree-select"].setCurrentNode({
-            id: value
+            id: value[0]
           });
           let currentNode = this.$refs["tree-select"].getCurrentNode();
+          this.expandedKeys.push(value[0]);
           this.selecteds = [currentNode];
           this.$emit("change", this.selecteds);
         });
+      } else { // 多选的情况
+        this.$nextTick(() => {
+          this.$refs["tree-select"].setCheckedKeys(value);
+          let currentAllNode = this.$refs["tree-select"].getCheckedNodes();
+          value.forEach(v => {
+            this.expandedKeys.push(v);
+          });
+          this.selecteds = currentAllNode;
+          this.$emit("change", this.selecteds);
+        });
+
       }
 
-      // this.checked_keys = value;
-      // console.log(this.checked_keys);
-      // if (!value || (Array.isArray(value) && value.length === 0)) {
-      //   this.selecteds = [];
-      //   this.$nextTick(() => {
-      //     this.$refs["tree-select"].setCheckedKeys([]);
 
-      //   });
-      // }
     },
     // 点击列表树
     handleNodeClick (item, node) {
-      // console.log(data);
       if (this.checkbox) {
         return;
       }
@@ -184,12 +207,11 @@ export default {
       // this.options_show = false;
       this.$emit("change", this.selecteds);
     },
+    getCurrentData () {
+      return this.selecteds;
+    },
     // tag标签关闭
     tabClose (id) {
-      // if (this.disabled) {
-      //   console.log(id);
-      // }
-      console.log(id);
       if (this.disabled) {
         return;
       }
@@ -210,15 +232,15 @@ export default {
   vertical-align: middle;
   outline: none;
   .ka-select-box.size-small {
-    height: 32px;
+    min-height: 32px;
     line-height: 30px;
   }
   .ka-select-box.size-mini {
-    height: 28px;
+    min-height: 28px;
     line-height: 26px;
   }
   .ka-select-box.size-default {
-    height: 40px;
+    min-height: 40px;
     line-height: 38px;
   }
   .ka-select-box {
@@ -226,8 +248,8 @@ export default {
     border: 1px solid #dcdfe6;
     padding: 0 5px 0 8px;
     width: 100%;
-    // min-height: 36px;
-    height: 36px;
+    min-height: 36px;
+    // height: 36px;
     line-height: 34px;
     box-sizing: border-box;
     border-radius: 4px;
@@ -274,21 +296,10 @@ export default {
     }
   }
 }
-// // 过度效果
-// .fade-in-enter-active,
-// .fade-in-leave-active {
-//   transition: all 0.4s;
-// }
-// .fade-in-enter, .fade-in-leave-to /* .fade-leave-active below version 2.1.8 */ {
-//   opacity: 0;
-//   transform: translateY(-10px);
-// }
-
-// .fade-rotate-enter-active,
-// .fade-rotate-leave-active {
-//   transition: all 0.2s;
-// }
-// .fade-rotate-enter, .fade-rotate-leave-to /* .fade-leave-active below version 2.1.8 */ {
-//   transform: rotateZ(45deg);
-// }
+.ka-treeselect-popover {
+  height: 360px;
+  /deep/ .el-scrollbar__wrap {
+    overflow-x: hidden;
+  }
+}
 </style>
