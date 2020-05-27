@@ -16,6 +16,7 @@
       <p>选择的颜色是:{{colorName}}</p>
       <p>选择的套餐是:{{statusName}}</p>
       <p>选择的内存是:{{sizeName}}</p>
+      <p>总数为:{{cTotal}}件</p>
     </div>
   </div>
 </template>
@@ -30,7 +31,8 @@ export default {
         { id: "1", specs: ["紫色", "套餐一", "64G"], total: 50 },
         { id: "2", specs: ["紫色", "套餐一", "128G"], total: 60 },
         { id: "3", specs: ["紫色", "套餐二", "128G"], total: 160 },
-        { id: "4", specs: ["黑色", "套餐三", "256G"], total: 40 }
+        { id: "4", specs: ["黑色", "套餐三", "256G"], total: 40 },
+        { id: "5", specs: ["白色", "套餐三", "64G"], total: 480 }
       ],
       commoditySpecs: [ // 商品类型 ["红色", "紫色", "白色", "黑色"] ["套餐一", "套餐二", "套餐三", "套餐四"] ["64G", "128G", "256G"]
         { key: "color", title: "颜色", list: [{ id: "red", name: "红色", disable: false, active: false }, { id: "zise", name: "紫色" }, { id: "white", name: "白色" }, { id: "black", name: "黑色" }] },
@@ -43,6 +45,19 @@ export default {
       statusName: "", // 套餐名称
       sizeName: "" // 内存名称
     };
+  },
+  computed: {
+    cTotal () { // 计算总数
+      let color = this.colorName;
+      let status = this.statusName;
+      let sizeName = this.sizeName;
+      let str = color + "" + status + "" + sizeName;
+      let obj = this.data.find(v => v.specs.join("") === str);
+      if (obj) {
+        return obj.total;
+      }
+      return 0;
+    }
   },
   methods: {
     // 设置相关元素的状态
@@ -122,23 +137,13 @@ export default {
       if (item.disable) {
         return;
       }
-      console.log(this.item);
       if (!item.active) { // 没有选择的情况
-
-        // let map = {
-        //   color: "颜色",
-        //   status: "颜色",
-        //   size: "颜色"
-        // };
-        if (key === "color") {
-          this.colorName = item.name;
-        } else if (key === "status") {
-          this.statusName = item.name;
-        } else if (key === "size") {
-          this.sizeName = item.name;
-        }
-
-
+        let map = {
+          color: "colorName",
+          status: "statusName",
+          size: "sizeName"
+        };
+        this[map[key]] = item.name;
         // 当前列取消选择
         let currentData = this.commoditySpecs.filter(v => v.title === title);
         currentData.forEach(v => {
@@ -164,6 +169,12 @@ export default {
 
         this.$set(item, "active", true);
       } else { // 取消选择的情况
+        let map = {
+          color: "colorName",
+          status: "statusName",
+          size: "sizeName"
+        };
+        this[map[key]] = "";
         let restData = this.commoditySpecs.filter(v => v.title !== title);
         let choseData = this.tdfs(restData);
         if (choseData.length === 0) { // 当前没有选中的元素

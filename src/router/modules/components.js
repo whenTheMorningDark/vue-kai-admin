@@ -12,18 +12,21 @@ const componentsRouter = {
     title: "components",
     icon: "component"
   },
-  children: [
-    {
+  children: [{
       path: "treeSelect",
       component: () => import("@/views/treeSelect"),
       name: "treeSelect",
-      meta: { title: "下拉选择树" }
+      meta: {
+        title: "下拉选择树"
+      }
     },
     {
       path: "sku",
-      component: () => import("@/views/sku"),
+      component: () => import("@/views/sku/index.vue"),
       name: "sku商品列表",
-      meta: { title: "sku商品列表" }
+      meta: {
+        title: "sku商品列表"
+      }
     }
   ]
 };
