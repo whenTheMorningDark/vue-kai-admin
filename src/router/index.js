@@ -101,6 +101,16 @@ export const constantRoutes = [{
 			icon: "documentation",
 			affix: false
 		}
+	},
+	{
+		path: "adaptiveTable",
+		component: () => import("@/views/adaptiveTable/index"),
+		name: "adaptiveTable",
+		meta: {
+			title: "自适应高度table",
+			icon: "documentation",
+			affix: false
+		}
 	}
 	]
 },

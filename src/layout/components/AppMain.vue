@@ -15,18 +15,18 @@
 /* eslint-disable space-before-function-paren */
 
 export default {
-  name: 'AppMain',
+  name: "AppMain",
   computed: {
     key () {
-      return this.$route.path
+      return this.$route.path;
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .app-main {
   /* 50= navbar  50  */
-  height: calc(100vh - 50px);
+  height: calc(100vh - 50px - 34px);
   /* min-height: calc(100vh - 50px); */
   /* min-height: calc(100vh); */
   width: 100%;

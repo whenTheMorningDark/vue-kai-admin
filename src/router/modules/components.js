@@ -18,6 +18,12 @@ const componentsRouter = {
       component: () => import("@/views/treeSelect"),
       name: "treeSelect",
       meta: { title: "下拉选择树" }
+    },
+    {
+      path: "sku",
+      component: () => import("@/views/sku"),
+      name: "sku商品列表",
+      meta: { title: "sku商品列表" }
     }
   ]
 };
