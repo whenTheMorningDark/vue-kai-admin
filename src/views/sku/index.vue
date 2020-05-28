@@ -36,7 +36,7 @@ export default {
         { id: "6", specs: ["红色", "套餐一", "64G"], total: 120 }
       ],
       commoditySpecs: [ // 商品类型 ["红色", "紫色", "白色", "黑色"] ["套餐一", "套餐二", "套餐三", "套餐四"] ["64G", "128G", "256G"]
-        { key: "color", title: "颜色", list: [{ id: "red", name: "红色", disable: false, active: false }, { id: "zise", name: "紫色" }, { id: "white", name: "白色" }, { id: "black", name: "黑色" }] },
+        { key: "color", title: "颜色", list: [{ id: "red", name: "红色", disable: false, active: false }, { id: "zise", name: "紫色" }, { id: "white", name: "白色" }, { id: "black", name: "黑色" }, { id: "blue", name: "蓝色" }] },
         { key: "status", title: "套餐", list: [{ id: "one", name: "套餐一", disable: false }, { id: "two", name: "套餐二" }, { id: "three", name: "套餐三" }, { id: "four", name: "套餐四" }, { id: "five", name: "套餐五" }] },
         { key: "size", title: "内存", list: [{ id: "small", name: "64G" }, { id: "mini", name: "128G" }, { id: "big", name: "256G" }] }
       ],
@@ -110,28 +110,7 @@ export default {
       }
       return data;
     },
-    // 找出选中的元素
-    tdfs (data) {
-      if (!data || data.length === 0) {
-        return;
-      }
-      let stack = [];
-      let arr = [];
-      data.forEach(v => {
-        stack.push(v);
-      });
-      while (stack.length) {
-        const result = stack.shift();
-        if (result.active) {
-          // this.$set(result, "disable", false);
-          arr.push(result);
-        }
-        if (result.list && result.list.length > 0) {
-          stack = [...stack, ...result.list];
-        }
-      }
-      return arr;
-    },
+    // 初始化所有都是可以选择
     init () {
       this.commoditySpecs.forEach(v => {
         let list = v.list;
@@ -141,6 +120,7 @@ export default {
         });
       });
     },
+    // 初始化数据
     initData () {
       this.data.forEach(v => {
         let specs = v.specs;
@@ -166,12 +146,6 @@ export default {
         return;
       }
       if (!item.active) { // 没有选择的情况
-        // let map = {
-        //   color: "colorName",
-        //   status: "statusName",
-        //   size: "sizeName"
-        // };
-        // this[map[key]] = item.name;
         // 当前列取消选择
         let currentData = this.commoditySpecs.filter(v => v.title === title);
         currentData.forEach(v => {
@@ -182,6 +156,7 @@ export default {
         });
 
         let relation = this.getVertex(item.name);
+        console.log(relation);
         if (relation.length === 0) { // 没有库存了
           let restData = this.commoditySpecs.filter(v => v.title !== title);
           restData.forEach(v => {
@@ -197,23 +172,16 @@ export default {
 
         this.$set(item, "active", true);
       } else { // 取消选择的情况
-        // let map = {
-        //   color: "colorName",
-        //   status: "statusName",
-        //   size: "sizeName"
-        // };
-        // this[map[key]] = "";
-        let restData = this.commoditySpecs.filter(v => v.title !== title);
-        let choseData = this.tdfs(restData);
+        this.$set(item, "active", false);
+        // let restData = this.commoditySpecs.filter(v => v.title !== title);
+        let choseData = this.commoditySpecs.reduce(
+          (total, current) => total.concat(current.list.filter(v => v.active)),
+          []
+        );
+
+        // let choseData = this.tdfs(restData);
         if (choseData.length === 0) { // 当前没有选中的元素
-          let arr = [];
-          this.commoditySpecs.forEach(v => {
-            let list = v.list;
-            list.forEach(s => {
-              arr.push(s.name);
-            });
-          });
-          this.dfs(this.commoditySpecs, arr);
+          this.init();
         } else { // 当前存在选中的元素
           let choseDataName = choseData.map(v => v.name);
           let arr = [];
@@ -225,7 +193,7 @@ export default {
           this.dfs(this.commoditySpecs, arr);
         }
 
-        this.$set(item, "active", false);
+
       }
     }
   },
