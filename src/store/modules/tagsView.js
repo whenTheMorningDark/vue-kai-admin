@@ -7,8 +7,14 @@ const actions = {
   addView({
     dispatch
   }, view) {
-    console.log("asd");
+    // console.log("asd");
     dispatch("addVisitedView", view);
+    dispatch("addCachedView", view);
+  },
+  addCachedView({
+    commit
+  }, view) {
+    commit("ADD_CACHED_VIEW", view);
   },
   addVisitedView({
     commit
@@ -27,6 +33,16 @@ const actions = {
       });
     });
   },
+  // 刷新
+  delCachedView({
+    commit,
+    state
+  }, view) {
+    return new Promise(resolve => {
+      commit("DEL_CACHED_VIEW", view);
+      resolve([...state.cachedViews]);
+    });
+  },
   delVisitedView({
     commit,
     state
@@ -38,6 +54,18 @@ const actions = {
   }
 };
 const mutations = {
+  DEL_CACHED_VIEW: (state, view) => {
+    const index = state.cachedViews.indexOf(view.name);
+    index > -1 && state.cachedViews.splice(index, 1);
+  },
+  ADD_CACHED_VIEW: (state, view) => {
+    if (state.cachedViews.includes(view.name)) {
+      return;
+    }
+    if (!view.meta.noCache) {
+      state.cachedViews.push(view.name);
+    }
+  },
   ADD_VISITED_VIEW: (state, view) => {
     if (state.visitedViews.some(v => v.path === view.path)) {
       return;

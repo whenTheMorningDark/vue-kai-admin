@@ -20,7 +20,7 @@
       </router-link>
     </ScrollPane>
     <ul v-show="visible" class="contextmenu" :style="{left:left+'px',top:top+'px'}">
-      <li>刷新</li>
+      <li @click="refreshSelectedTag(selectedTag)">刷新</li>
       <li>关闭</li>
       <li>关闭其它</li>
       <li>全部关闭</li>
@@ -47,7 +47,7 @@ export default {
       visible: false,
       top: 0,
       left: 0,
-      selectedTag: {}
+      selectedTag: {} // 当前选择标签
     };
   },
   watch: {
@@ -64,6 +64,24 @@ export default {
     }
   },
   methods: {
+    // 刷新当前页面
+    refreshSelectedTag (view) {
+      console.log(view);
+      this.$store.dispatch("tagsView/delCachedView", view).then(() => {
+        // console.log(view);
+        const { fullPath } = view;
+        console.log(fullPath);
+        // this.$router.replace({
+        //   path: "/redirect" + fullPath
+        // });
+        this.$nextTick(() => {
+          console.log("asdax");
+          this.$router.replace({
+            path: "/redirect" + fullPath
+          });
+        });
+      });
+    },
     closeMenu () {
       this.visible = false;
     },
