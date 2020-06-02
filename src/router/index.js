@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 /* eslint-disable require-jsdoc */
 /* eslint-disable indent */
 import Vue from "vue";
@@ -41,66 +42,74 @@ Vue.use(Router);
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [{
+export const constantRoutes = [
+	{
 		path: "/redirect",
 		component: Layout,
 		hidden: true,
-		children: [{
-			path: "/redirect/:path*",
-			component: () => import("@/views/redirect/index")
-		}]
+		children: [
+			{
+				path: "/redirect/:path*",
+				component: () => import("@/views/redirect/index"),
+			},
+		],
 	},
 	{
 		path: "/login",
 		component: () => import("@/views/login/index"),
-		hidden: true
+		hidden: true,
 	},
 	{
 		path: "/",
 		component: Layout,
 		redirect: "/dashboard",
-		children: [{
-			path: "dashboard",
-			component: () => import("@/views/dashboard/index"),
-			name: "Dashboard",
-			meta: {
-				title: "dashboard",
-				icon: "dashboard",
-				affix: false
-			}
-		}]
+		children: [
+			{
+				path: "dashboard",
+				component: () => import("@/views/dashboard/index"),
+				name: "Dashboard",
+				meta: {
+					title: "dashboard",
+					icon: "dashboard",
+					affix: false,
+				},
+			},
+		],
 	},
 	{
 		path: "/documentation",
 		component: Layout,
 		redirect: "/documentation/index",
-		children: [{
-			path: "index",
-			component: () => import("@/views/documentation/index"),
-			name: "Documentation",
-			meta: {
-				title: "documentation",
-				icon: "documentation",
-				affix: false
-			}
-		}]
+		children: [
+			{
+				path: "index",
+				component: () => import("@/views/documentation/index"),
+				name: "Documentation",
+				meta: {
+					title: "documentation",
+					icon: "documentation",
+					affix: false,
+				},
+			},
+		],
 	},
 	{
 		path: "/table",
 		component: Layout,
 		meta: {
 			title: "表格",
-			icon: "chart"
+			icon: "chart",
 		},
-		children: [{
+		children: [
+			{
 				path: "index",
 				component: () => import("@/views/editTable/index"),
 				name: "editTable",
 				meta: {
 					title: "可编辑表格",
 					icon: "documentation",
-					affix: false
-				}
+					affix: false,
+				},
 			},
 			{
 				path: "scrollTable",
@@ -109,8 +118,8 @@ export const constantRoutes = [{
 				meta: {
 					title: "虚拟表格",
 					icon: "documentation",
-					affix: false
-				}
+					affix: false,
+				},
 			},
 			{
 				path: "adaptiveTable",
@@ -119,10 +128,10 @@ export const constantRoutes = [{
 				meta: {
 					title: "自适应高度table",
 					icon: "documentation",
-					affix: false
-				}
-			}
-		]
+					affix: false,
+				},
+			},
+		],
 	},
 	{
 		path: "/dataView",
@@ -134,17 +143,18 @@ export const constantRoutes = [{
 			title: "数据可视化",
 			icon: "lock",
 			roles: ["admin", "editor"], // you can set roles in root nav
-			affix: false
+			affix: false,
 		},
-		children: [{
+		children: [
+			{
 				path: "index",
 				component: () => import("@/views/mxgraph/index"),
 				name: "mxgraph",
 				meta: {
 					title: "流程图",
 					icon: "documentation",
-					affix: false
-				}
+					affix: false,
+				},
 			},
 			{
 				path: "draggbleLayout",
@@ -153,8 +163,8 @@ export const constantRoutes = [{
 				meta: {
 					title: "拖拽布局",
 					icon: "documentation",
-					affix: false
-				}
+					affix: false,
+				},
 			},
 			{
 				path: "echarts",
@@ -163,8 +173,8 @@ export const constantRoutes = [{
 				meta: {
 					title: "图形可视化",
 					icon: "documentation",
-					affix: false
-				}
+					affix: false,
+				},
 			},
 			{
 				path: "form",
@@ -173,58 +183,71 @@ export const constantRoutes = [{
 				meta: {
 					title: "表单可视化",
 					icon: "documentation",
-					affix: false
-				}
-			}
-		]
+					affix: false,
+				},
+			},
+			{
+				path: "gantt",
+				component: () => import("@/views/gantt/index"),
+				name: "gantt",
+				meta: {
+					title: "甘特图",
+					icon: "documentation",
+					affix: false,
+				},
+			},
+		],
 	},
 	leetCodeRouter,
-	component
+	component,
 ];
 
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRoutes = [{
-	path: "/permission",
-	component: Layout,
-	redirect: "/permission/page",
-	alwaysShow: true, // will always show the root menu
-	name: "Permission",
-	meta: {
-		title: "permission",
-		icon: "lock",
-		roles: ["admin", "editor"] // you can set roles in root nav
-	},
-	children: [{
-			path: "page",
-			// component: () => import('@/views/permission/page'),
-			name: "PagePermission",
-			meta: {
-				title: "pagePermission",
-				roles: ["admin"] // or you can only set roles in sub nav
-			}
+export const asyncRoutes = [
+	{
+		path: "/permission",
+		component: Layout,
+		redirect: "/permission/page",
+		alwaysShow: true, // will always show the root menu
+		name: "Permission",
+		meta: {
+			title: "permission",
+			icon: "lock",
+			roles: ["admin", "editor"], // you can set roles in root nav
 		},
-		{
-			path: "directive",
-			component: () => import("@/views/documentation/index"),
-			name: "DirectivePermission",
-			meta: {
-				title: "directivePermission"
-				// if do not set roles, means: this page does not require permission
-			}
-		}
-	]
-}];
+		children: [
+			{
+				path: "page",
+				// component: () => import('@/views/permission/page'),
+				name: "PagePermission",
+				meta: {
+					title: "pagePermission",
+					roles: ["admin"], // or you can only set roles in sub nav
+				},
+			},
+			{
+				path: "directive",
+				component: () => import("@/views/documentation/index"),
+				name: "DirectivePermission",
+				meta: {
+					title: "directivePermission",
+					// if do not set roles, means: this page does not require permission
+				},
+			},
+		],
+	},
+];
 
 const createRouter = () =>
 	new Router({
 		// mode: 'history', // require service support
 		scrollBehavior: () => ({
-			y: 0
+			y: 0,
 		}),
-		routes: constantRoutes
+		routes: constantRoutes,
 	});
 
 const router = createRouter();
