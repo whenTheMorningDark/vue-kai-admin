@@ -71,7 +71,7 @@ export const constantRoutes = [
 				meta: {
 					title: "dashboard",
 					icon: "dashboard",
-					affix: false,
+					affix: true,
 				},
 			},
 		],
@@ -88,7 +88,7 @@ export const constantRoutes = [
 				meta: {
 					title: "documentation",
 					icon: "documentation",
-					affix: false,
+					affix: true,
 				},
 			},
 		],
@@ -108,7 +108,6 @@ export const constantRoutes = [
 				meta: {
 					title: "可编辑表格",
 					icon: "documentation",
-					affix: false,
 				},
 			},
 			{
@@ -118,7 +117,6 @@ export const constantRoutes = [
 				meta: {
 					title: "虚拟表格",
 					icon: "documentation",
-					affix: false,
 				},
 			},
 			{
@@ -128,7 +126,6 @@ export const constantRoutes = [
 				meta: {
 					title: "自适应高度table",
 					icon: "documentation",
-					affix: false,
 				},
 			},
 		],

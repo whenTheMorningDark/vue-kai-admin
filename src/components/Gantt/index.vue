@@ -35,7 +35,7 @@ export default {
         day_short: ["日", "一", "二", "三", "四", "五", "六"]
       },
       labels: {
-        new_task: "New task",
+        new_task: "新建任务",
         icon_save: "确定",
         icon_cancel: "取消",
         icon_details: "Details",
@@ -45,16 +45,16 @@ export default {
         gantt_cancel_btn: "New Label",
         gantt_delete_btn: "New Label",
         confirm_closing: "", // Your changes will be lost, are you sure?
-        confirm_deleting: "Task will be deleted permanently, are you sure?",
-        section_description: "Description",
-        section_time: "Time period",
+        confirm_deleting: "你确定删除该任务吗?",
+        section_description: "任务名称",
+        section_time: "日期选择",
         section_type: "Type",
 
         /* grid columns */
         column_wbs: "WBS",
-        column_text: "Task name",
-        column_start_date: "Start time",
-        column_duration: "Duration",
+        column_text: "任务名称",
+        column_start_date: "开始时间",
+        column_duration: "工期",
         column_add: "",
 
         /* link confirmation */
@@ -75,8 +75,8 @@ export default {
         years: "年",
 
         /* message popup */
-        message_ok: "OK",
-        message_cancel: "Cancel",
+        message_ok: "确定",
+        message_cancel: "取消",
 
         /* constraints */
         section_constraint: "Constraint",
