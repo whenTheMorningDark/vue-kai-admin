@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 /* eslint-disable require-jsdoc */
 /* eslint-disable indent */
 import Vue from "vue";
@@ -47,13 +48,13 @@ export const constantRoutes = [{
 		hidden: true,
 		children: [{
 			path: "/redirect/:path*",
-			component: () => import("@/views/redirect/index")
+			component: () => import("@/views/redirect/index"),
 		}]
 	},
 	{
 		path: "/login",
 		component: () => import("@/views/login/index"),
-		hidden: true
+		hidden: true,
 	},
 	{
 		path: "/",
@@ -81,8 +82,8 @@ export const constantRoutes = [{
 			meta: {
 				title: "documentation",
 				icon: "documentation",
-				affix: false
-			}
+				affix: true,
+			},
 		}]
 	},
 	{
@@ -90,7 +91,7 @@ export const constantRoutes = [{
 		component: Layout,
 		meta: {
 			title: "表格",
-			icon: "chart"
+			icon: "chart",
 		},
 		children: [{
 				path: "index",
@@ -99,8 +100,7 @@ export const constantRoutes = [{
 				meta: {
 					title: "可编辑表格",
 					icon: "documentation",
-					affix: false
-				}
+				},
 			},
 			{
 				path: "scrollTable",
@@ -109,8 +109,7 @@ export const constantRoutes = [{
 				meta: {
 					title: "虚拟表格",
 					icon: "documentation",
-					affix: false
-				}
+				},
 			},
 			{
 				path: "adaptiveTable",
@@ -119,10 +118,9 @@ export const constantRoutes = [{
 				meta: {
 					title: "自适应高度table",
 					icon: "documentation",
-					affix: false
-				}
-			}
-		]
+				},
+			},
+		],
 	},
 	{
 		path: "/dataView",
@@ -134,7 +132,7 @@ export const constantRoutes = [{
 			title: "数据可视化",
 			icon: "lock",
 			roles: ["admin", "editor"], // you can set roles in root nav
-			affix: false
+			affix: false,
 		},
 		children: [{
 				path: "index",
@@ -143,8 +141,8 @@ export const constantRoutes = [{
 				meta: {
 					title: "流程图",
 					icon: "documentation",
-					affix: false
-				}
+					affix: false,
+				},
 			},
 			{
 				path: "draggbleLayout",
@@ -153,8 +151,8 @@ export const constantRoutes = [{
 				meta: {
 					title: "拖拽布局",
 					icon: "documentation",
-					affix: false
-				}
+					affix: false,
+				},
 			},
 			{
 				path: "echarts",
@@ -163,8 +161,8 @@ export const constantRoutes = [{
 				meta: {
 					title: "图形可视化",
 					icon: "documentation",
-					affix: false
-				}
+					affix: false,
+				},
 			},
 			{
 				path: "form",
@@ -173,13 +171,23 @@ export const constantRoutes = [{
 				meta: {
 					title: "表单可视化",
 					icon: "documentation",
-					affix: false
-				}
-			}
-		]
+					affix: false,
+				},
+			},
+			{
+				path: "gantt",
+				component: () => import("@/views/gantt/index"),
+				name: "gantt",
+				meta: {
+					title: "甘特图",
+					icon: "documentation",
+					affix: false,
+				},
+			},
+		],
 	},
 	leetCodeRouter,
-	component
+	component,
 ];
 
 /**
@@ -195,7 +203,7 @@ export const asyncRoutes = [{
 	meta: {
 		title: "permission",
 		icon: "lock",
-		roles: ["admin", "editor"] // you can set roles in root nav
+		roles: ["admin", "editor"], // you can set roles in root nav
 	},
 	children: [{
 			path: "page",
@@ -203,28 +211,28 @@ export const asyncRoutes = [{
 			name: "PagePermission",
 			meta: {
 				title: "pagePermission",
-				roles: ["admin"] // or you can only set roles in sub nav
-			}
+				roles: ["admin"], // or you can only set roles in sub nav
+			},
 		},
 		{
 			path: "directive",
 			component: () => import("@/views/documentation/index"),
 			name: "DirectivePermission",
 			meta: {
-				title: "directivePermission"
+				title: "directivePermission",
 				// if do not set roles, means: this page does not require permission
-			}
-		}
-	]
+			},
+		},
+	],
 }];
 
 const createRouter = () =>
 	new Router({
 		// mode: 'history', // require service support
 		scrollBehavior: () => ({
-			y: 0
+			y: 0,
 		}),
-		routes: constantRoutes
+		routes: constantRoutes,
 	});
 
 const router = createRouter();

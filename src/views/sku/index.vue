@@ -173,13 +173,10 @@ export default {
         this.$set(item, "active", true);
       } else { // 取消选择的情况
         this.$set(item, "active", false);
-        // let restData = this.commoditySpecs.filter(v => v.title !== title);
         let choseData = this.commoditySpecs.reduce(
           (total, current) => total.concat(current.list.filter(v => v.active)),
           []
         );
-
-        // let choseData = this.tdfs(restData);
         if (choseData.length === 0) { // 当前没有选中的元素
           this.init();
         } else { // 当前存在选中的元素
@@ -192,8 +189,6 @@ export default {
           arr = arr.concat(choseDataName);
           this.dfs(this.commoditySpecs, arr);
         }
-
-
       }
     }
   },

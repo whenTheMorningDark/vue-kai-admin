@@ -53,6 +53,7 @@ export default {
   watch: {
     $route () {
       // console.log("routeChan");
+      console.log("routeChan");
       this.addTags();
     },
     visible (value) {
@@ -119,6 +120,7 @@ export default {
     // 增加tag
     addTags () {
       const { name } = this.$route;
+      console.log(name);
       if (name) {
         this.$store.dispatch("tagsView/addView", this.$route);
       }
