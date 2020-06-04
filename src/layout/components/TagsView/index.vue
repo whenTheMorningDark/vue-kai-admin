@@ -21,9 +21,9 @@
     </ScrollPane>
     <ul v-show="visible" class="contextmenu" :style="{left:left+'px',top:top+'px'}">
       <li @click="refreshSelectedTag(selectedTag)">刷新</li>
-      <li>关闭</li>
-      <li>关闭其它</li>
-      <li>全部关闭</li>
+      <li @click="closeSelectedTag(selectedTag)" v-if="!isAffix(selectedTag)">关闭</li>
+      <li @click="closeOthersTags">关闭其它</li>
+      <li @click="closeAllTags(selectedTag)">全部关闭</li>
     </ul>
   </div>
 </template>
@@ -64,18 +64,27 @@ export default {
     }
   },
   methods: {
+    // 关闭所有的标签
+    closeAllTags (view) {
+      this.$store.dispatch("tagsView/delAllViews").then(({ visitedViews }) => {
+        console.log(visitedViews);
+        this.toLastView(visitedViews, view);
+      });
+    },
+
+    // 关闭其他页面
+    closeOthersTags () {
+      // console.log(this.selectedTag);
+      this.$router.push(this.selectedTag);
+      this.$store.dispatch("tagsView/delOthersViews", this.selectedTag).then(() => {
+        console.log("xxxx");
+      });
+    },
     // 刷新当前页面
     refreshSelectedTag (view) {
-      console.log(view);
       this.$store.dispatch("tagsView/delCachedView", view).then(() => {
-        // console.log(view);
         const { fullPath } = view;
-        console.log(fullPath);
-        // this.$router.replace({
-        //   path: "/redirect" + fullPath
-        // });
         this.$nextTick(() => {
-          console.log("asdax");
           this.$router.replace({
             path: "/redirect" + fullPath
           });

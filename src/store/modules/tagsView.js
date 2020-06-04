@@ -51,9 +51,89 @@ const actions = {
       commit("DEL_VISITED_VIEW", view);
       resolve([...state.visitedViews]);
     });
+  },
+  // 删除其它标签
+  delOthersViews({
+    dispatch,
+    state
+  }, view) {
+    return new Promise(resolve => {
+      dispatch("delOthersVisitedViews", view);
+      dispatch("delOthersCachedViews", view);
+    });
+  },
+  delOthersVisitedViews({
+    commit,
+    state
+  }, view) {
+    return new Promise(resolve => {
+      commit("DEL_OTHERS_VISITED_VIEWS", view);
+    });
+  },
+  delOthersCachedViews({
+    commit,
+    state
+  }, view) {
+    return new Promise(resolve => {
+      commit("DEL_OTHERS_CACHED_VIEWS", view);
+      resolve([...state.cachedViews]);
+    });
+  },
+  // 删除所有的标签
+  delAllViews({
+    dispatch,
+    state
+  }, view) {
+    return new Promise(resolve => {
+      dispatch("delAllVisitedViews", view);
+      dispatch("delAllCachedViews", view);
+      resolve({
+        visitedViews: [...state.visitedViews],
+        cachedViews: [...state.cachedViews]
+      });
+    });
+  },
+  delAllVisitedViews({
+    commit,
+    state
+  }) {
+    return new Promise(resolve => {
+      commit("DEL_ALL_VISITED_VIEWS");
+      resolve([...state.visitedViews]);
+    });
+  },
+  delAllCachedViews({
+    commit,
+    state
+  }) {
+    return new Promise(resolve => {
+      commit("DEL_ALL_CACHED_VIEWS");
+      resolve([...state.cachedViews]);
+    });
   }
 };
 const mutations = {
+  // 删除所有的标签
+  DEL_ALL_VISITED_VIEWS: (state, view) => {
+    const affixTags = state.visitedViews.filter(tag => tag.meta.affix);
+    state.visitedViews = affixTags;
+  },
+  DEL_ALL_CACHED_VIEWS: state => {
+    state.cachedViews = [];
+  },
+  // 删除其它标签
+  DEL_OTHERS_VISITED_VIEWS: (state, view) => {
+    state.visitedViews = state.visitedViews.filter(v => v.meta.affix || v.path === view.path);
+  },
+  DEL_OTHERS_CACHED_VIEWS: (state, view) => {
+    const index = state.cachedViews.indexOf(view.name);
+    if (index > -1) {
+      state.cachedViews = state.cachedViews.slice(index, index + 1);
+    } else {
+      // if index = -1, there is no cached tags
+      state.cachedViews = [];
+    }
+  },
   DEL_CACHED_VIEW: (state, view) => {
     const index = state.cachedViews.indexOf(view.name);
     index > -1 && state.cachedViews.splice(index, 1);
