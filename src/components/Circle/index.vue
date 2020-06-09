@@ -89,7 +89,7 @@ export default {
       return style;
     },
     computedStrokeWidth () {
-      return this.percent === 0 && this.dashboard ? 0 : this.strokeWidth;
+      return this.percent === 0 ? 0 : this.strokeWidth;
     },
     radius () {
       return 50 - this.strokeWidth / 2;
