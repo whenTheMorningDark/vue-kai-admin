@@ -12,6 +12,7 @@
 <script>
 import g2Template from "../g2Template";
 import VueDragResize from "vue-drag-resize";
+import { g2BarData, baseOptions } from "../data/g2Bar";
 export default {
   components: {
     g2Template,
@@ -20,11 +21,11 @@ export default {
   props: {
     data: {
       type: Array,
-      default: () => []
+      default: g2BarData
     },
     baseOptions: {
       type: Object,
-      default: () => ({})
+      default: baseOptions
     }
   },
   methods: {
