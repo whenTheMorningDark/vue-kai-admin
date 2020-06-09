@@ -63,6 +63,42 @@ export default {
             { id: 5, text: "text5", children: [] }
           ]
         }
+      ],
+      menu: [
+        { "id": "b25dbd2e-a70d-471f-a9c6-3a43143d779d", "pId": null, "Sort": 0, "Name": "12312312" },
+        { "id": "9426273b-b6d4-4836-b875-f23473b3ede6", "pId": "1", "Sort": 1, "Name": "777" },
+        { "id": "1", "pId": "b25dbd2e-a70d-471f-a9c6-3a43143d779d", "Sort": 0, "Name": "88" },
+        { "id": "e04aaea7-5532-48c9-841a-db1a0ddbc6e6", "pId": "1", "Sort": 1, "Name": "999" }
+      ],
+      dataMenu: [
+        { "id": 1, "parentId": 0, "Sort": 0, "Name": "菜单1" },
+        { "id": 2, "parentId": 1, "Sort": 0, "Name": "菜单1-1" },
+        { "id": 3, "parentId": 1, "Sort": 1, "Name": "菜单1-2" },
+        { "id": 4, "parentId": 2, "Sort": 2, "Name": "菜单1-1-2" },
+        { "id": 5, "parentId": 2, "Sort": 1, "Name": "菜单1-1-1" },
+        { "id": 6, "parentId": 0, "Sort": 1, "Name": "菜单2" },
+        { "id": 7, "parentId": 6, "Sort": 0, "Name": "菜单2-1" },
+        { "id": 8, "parentId": 6, "Sort": 1, "Name": "菜单2-2" },
+
+        { "id": 10, "parentId": 8, "Sort": 1, "Name": "菜单2-2-1" },
+        { "id": 11, "parentId": 10, "Sort": 0, "Name": "菜单2-2-1-1" },
+        { "id": 9, "parentId": 8, "Sort": 2, "Name": "菜单2-2-2" }
+      ],
+      test: [
+        { id: 1, parentId: 0, name: "一级菜单A", rank: 1 },
+        { id: 2, parentId: 0, name: "一级菜单B", rank: 1 },
+        { id: 3, parentId: 0, name: "一级菜单C", rank: 1 },
+        { id: 4, parentId: 1, name: "二级菜单A-A", rank: 2 },
+        { id: 5, parentId: 1, name: "二级菜单A-B", rank: 2 },
+        { id: 6, parentId: 2, name: "二级菜单B-A", rank: 2 },
+        { id: 7, parentId: 4, name: "三级菜单A-A-A", rank: 3 },
+        { id: 8, parentId: 7, name: "四级菜单A-A-A-A", rank: 4 },
+        { id: 9, parentId: 8, name: "五级菜单A-A-A-A-A", rank: 5 },
+        { id: 10, parentId: 9, name: "六级菜单A-A-A-A-A-A", rank: 6 },
+        { id: 11, parentId: 10, name: "七级菜单A-A-A-A-A-A-A", rank: 7 },
+        { id: 12, parentId: 11, name: "八级菜单A-A-A-A-A-A-A-A", rank: 8 },
+        { id: 13, parentId: 12, name: "九级菜单A-A-A-A-A-A-A-A-A", rank: 9 },
+        { id: 14, parentId: 13, name: "十级菜单A-A-A-A-A-A-A-A-A-A", rank: 10 }
       ]
     };
   },
@@ -85,8 +121,43 @@ export default {
     console.log(this.getTreeData(this.treeData, 5));
     // console.log(this.getTreeData(this.treeData, 1))
     // console.log(this.getTreeData(this.treeData, 2))
+    console.log(this.getTree(this.dataMenu));
   },
   methods: {
+    changMenuData (data) {
+      // let resultData;
+      // data.forEach(v => {
+      //   resultData = this.changDfs(data, v);
+      // });
+      // console.log(resultData);
+      // console.log(this.changDfs(data, data[1]));
+      let mId = data.filter(v => !(data.map(s => s.id).includes(v.pId)));
+      console.log(mId);
+    },
+    // 递归生成树结构
+    // recursion (total, item) {
+    //   if (!total || total.children === 0) {
+    //     return;
+    //   }
+    //   total.forEach(v => {
+    //     if (v.Id === item.ParentId) {
+    //       v.children = v.children || [];
+    //       v.children.push(item);
+    //       v.children.sort((a, b) => a.Sort - b.Sort);
+    //     }
+    //     this.recursion(v.children, item);
+    //   });
+    // },
+    // 根据pid和id生成树结构
+    getTree (source) {
+      let cloneData = JSON.parse(JSON.stringify(source)); // 对源数据深度克隆
+      return cloneData.filter(father => {
+        let branchArr = cloneData.filter(child => father.id === child.parentId); // 返回每一项的子级数组
+        branchArr.length > 0 ? father.children = branchArr : ""; // 如果存在子级，则给父级添加一个children属性，并赋值
+        return father.parentId === 0; // 返回第一层
+      });
+    },
+
     getData () {
       console.log(this.$refs.b.getCheckedNodesFun());
     },

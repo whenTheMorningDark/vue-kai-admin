@@ -20,27 +20,35 @@ export default {
     };
   },
   methods: {
-    maxSubnumsay (nums) {
-      if (!nums || nums.length === 0) {
-        return 0;
+    maxSubnumsay (n, W, wt, val) {
+      let dp = [];
+      for (let i = 0; i <= n; i++) {
+        dp[i] = [];
+        for (let j = 0; j <= W; j++) {
+          dp[i][j] = 0;
+        }
       }
-      let len = nums.length;
-      let dp = new Array(len);
-      dp[0] = nums[0];
-      for (let i = 1; i < nums.length; i++) {
-        dp[i] = Math.max(nums[i], nums[i] + dp[i - 1]);
+      wt.unshift(0);
+      val.unshift(0);
+      for (var i = 1; i <= n; i++) { // n是物品的个数 3
+        for (var j = 1; j <= W; j++) { // W 重量为4的背包
+          if (j < wt[i]) { // 当 1 < 2
+            dp[i][j] = dp[i - 1][j]; // dp[1][1] = dp[0][1] = 0
+          } else { // 当 2<1 // dp[1][2] = dp[0][2], 0+4
+            dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - wt[i]] + val[i]);
+          }
+        }
       }
-      // console.log(dp);
-      let res = -Infinity;
-      for (let i = 0; i < len; i++) {
-        res = Math.max(res, dp[i]);
-      }
-      return res;
+      return dp[n][W];
+
     }
   },
   mounted () {
-    let nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4];
-    console.log(this.maxSubnumsay(nums));
+    let n = 3; // 多少个物品
+    let W = 4; // 重量为4的背包
+    let weights = [2, 1, 3]; // 物品的重量
+    let values = [4, 2, 3]; // 物品的价值
+    console.log(this.maxSubnumsay(n, W, weights, values));
   }
 };
 </script>

@@ -42,14 +42,17 @@ Vue.use(Router);
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
-export const constantRoutes = [{
+export const constantRoutes = [
+	{
 		path: "/redirect",
 		component: Layout,
 		hidden: true,
-		children: [{
-			path: "/redirect/:path*",
-			component: () => import("@/views/redirect/index"),
-		}]
+		children: [
+			{
+				path: "/redirect/:path*",
+				component: () => import("@/views/redirect/index"),
+			},
+		],
 	},
 	{
 		path: "/login",
@@ -60,31 +63,35 @@ export const constantRoutes = [{
 		path: "/",
 		component: Layout,
 		redirect: "/dashboard",
-		children: [{
-			path: "dashboard",
-			component: () => import("@/views/dashboard/index"),
-			name: "Dashboard",
-			meta: {
-				title: "dashboard",
-				icon: "dashboard",
-				affix: true
-			}
-		}]
+		children: [
+			{
+				path: "dashboard",
+				component: () => import("@/views/dashboard/index"),
+				name: "Dashboard",
+				meta: {
+					title: "dashboard",
+					icon: "dashboard",
+					affix: true,
+				},
+			},
+		],
 	},
 	{
 		path: "/documentation",
 		component: Layout,
 		redirect: "/documentation/index",
-		children: [{
-			path: "index",
-			component: () => import("@/views/documentation/index"),
-			name: "Documentation",
-			meta: {
-				title: "documentation",
-				icon: "documentation",
-				affix: true,
+		children: [
+			{
+				path: "index",
+				component: () => import("@/views/documentation/index"),
+				name: "Documentation",
+				meta: {
+					title: "documentation",
+					icon: "documentation",
+					affix: true,
+				},
 			},
-		}]
+		],
 	},
 	{
 		path: "/table",
@@ -93,7 +100,8 @@ export const constantRoutes = [{
 			title: "表格",
 			icon: "chart",
 		},
-		children: [{
+		children: [
+			{
 				path: "index",
 				component: () => import("@/views/editTable/index"),
 				name: "editTable",
@@ -134,7 +142,8 @@ export const constantRoutes = [{
 			roles: ["admin", "editor"], // you can set roles in root nav
 			affix: false,
 		},
-		children: [{
+		children: [
+			{
 				path: "index",
 				component: () => import("@/views/mxgraph/index"),
 				name: "mxgraph",
@@ -184,6 +193,16 @@ export const constantRoutes = [{
 					affix: false,
 				},
 			},
+			{
+				path: "circle",
+				component: () => import("@/views/circle/index"),
+				name: "circle",
+				meta: {
+					title: "圆形进度条",
+					icon: "documentation",
+					affix: false,
+				},
+			},
 		],
 	},
 	leetCodeRouter,
@@ -194,37 +213,40 @@ export const constantRoutes = [{
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
-export const asyncRoutes = [{
-	path: "/permission",
-	component: Layout,
-	redirect: "/permission/page",
-	alwaysShow: true, // will always show the root menu
-	name: "Permission",
-	meta: {
-		title: "permission",
-		icon: "lock",
-		roles: ["admin", "editor"], // you can set roles in root nav
+export const asyncRoutes = [
+	{
+		path: "/permission",
+		component: Layout,
+		redirect: "/permission/page",
+		alwaysShow: true, // will always show the root menu
+		name: "Permission",
+		meta: {
+			title: "permission",
+			icon: "lock",
+			roles: ["admin", "editor"], // you can set roles in root nav
+		},
+		children: [
+			{
+				path: "page",
+				// component: () => import('@/views/permission/page'),
+				name: "PagePermission",
+				meta: {
+					title: "pagePermission",
+					roles: ["admin"], // or you can only set roles in sub nav
+				},
+			},
+			{
+				path: "directive",
+				component: () => import("@/views/documentation/index"),
+				name: "DirectivePermission",
+				meta: {
+					title: "directivePermission",
+					// if do not set roles, means: this page does not require permission
+				},
+			},
+		],
 	},
-	children: [{
-			path: "page",
-			// component: () => import('@/views/permission/page'),
-			name: "PagePermission",
-			meta: {
-				title: "pagePermission",
-				roles: ["admin"], // or you can only set roles in sub nav
-			},
-		},
-		{
-			path: "directive",
-			component: () => import("@/views/documentation/index"),
-			name: "DirectivePermission",
-			meta: {
-				title: "directivePermission",
-				// if do not set roles, means: this page does not require permission
-			},
-		},
-	],
-}];
+];
 
 const createRouter = () =>
 	new Router({
