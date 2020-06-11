@@ -1,12 +1,22 @@
 <template>
-  <div :id="baseOptions.container" style="height:100%"></div>
+  <VueDragResize
+    :w="baseOptions.width"
+    :h="baseOptions.height"
+    v-on:resizing="resize"
+    v-on:dragging="dragging"
+  >
+    <div :id="baseOptions.container" style="height:100%"></div>
+  </VueDragResize>
 </template>
 
 <script>
 import { Chart } from "@antv/g2";
+import VueDragResize from "vue-drag-resize";
+
 export default {
   name: "g2Tempalte",
   components: {
+    VueDragResize
   },
   props: {
     data: {
@@ -16,6 +26,10 @@ export default {
     baseOptions: {
       type: Object,
       default: () => ({})
+    },
+    type: {
+      type: String,
+      default: "interval"
     }
   },
   data () {
@@ -28,7 +42,15 @@ export default {
     };
   },
   methods: {
-
+    dragging (newRect) {
+      // ["top", "left"].forEach(v => {
+      //   this.$set(this.boxStyle, v, newRect[v] + "px");
+      // });
+      // this.$refs.g2Template.forceFit();
+    },
+    resize (newRect) {
+      this.forceFit();
+    },
     changeData (newData) {
       if (!newData || newData.length === 0) {
         return;
@@ -44,12 +66,9 @@ export default {
       this.chart = new Chart(this.baseOptions);
       this.chart.data(data);
       let keys = Object.keys(data[0]).join("*");
-      this.chart.interval().position(keys);
+      this.chart[this.type]().position(keys);
       this.chart.render();
       this.forceFit();
-      // const e = document.createEvent("Event");
-      // e.initEvent("resize", true, true);
-      // window.dispatchEvent(e);
     }
   },
   mounted () {

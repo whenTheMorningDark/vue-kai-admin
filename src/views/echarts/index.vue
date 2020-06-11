@@ -1,16 +1,21 @@
 <template>
   <div class="wrapper">
-    <div class="test" style="width:600px;height:400px">
+    <div class="test">
       <g2Bar ref="g2Bar"></g2Bar>
+    </div>
+    <div class="test">
+      <g2Line ref="g2Line"></g2Line>
     </div>
     <el-button @click.stop="changData">改变</el-button>
   </div>
 </template>
 <script>
 import g2Bar from "@/components/G2Template/component/g2Bar";
+import g2Line from "@/components/G2Template/component/g2Line";
 export default {
   components: {
-    g2Bar
+    g2Bar,
+    g2Line
   },
   data () {
     return {
@@ -46,5 +51,12 @@ export default {
 .wrapper {
   padding: 10px;
   position: relative;
+  .test {
+    width: 400px;
+    height: 250px;
+    position: relative;
+    float: left;
+    margin-right: 10px;
+  }
 }
 </style>

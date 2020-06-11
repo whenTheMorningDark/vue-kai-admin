@@ -1,10 +1,10 @@
 <template>
-  <g2Template v-bind="$props" ref="g2Template" type="interval"></g2Template>
+  <g2Template v-bind="$props" ref="g2Template" type="line"></g2Template>
 </template>
 
 <script>
 import g2Template from "../g2Template";
-import { g2BarData, baseOptions } from "../data/g2Bar";
+import { g2LineData, baseOptions } from "../data/g2Line";
 export default {
   components: {
     g2Template
@@ -12,19 +12,18 @@ export default {
   props: {
     data: {
       type: Array,
-      default: () => g2BarData
+      default: () => g2LineData
     },
     baseOptions: {
       type: Object,
       default: () => baseOptions
     }
-  },
-  methods: {
-    changeData (data) {
-      console.log(this.$refs.g2Template);
-      this.$refs.g2Template.changeData(data);
-    }
   }
+  // methods: {
+  //   changeData (data) {
+  //     this.$refs.g2Template.changeData(data);
+  //   }
+  // }
 };
 </script>
 
