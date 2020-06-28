@@ -1,21 +1,24 @@
 <template>
-  <div class="wrapper">
-    <div class="test">
+  <div class="echarts" style="width:900px;height:700px;overflow:auto">
+    <Rules :width="582" :height="482"></Rules>
+    <!-- <div class="test">
       <g2Bar ref="g2Bar"></g2Bar>
     </div>
     <div class="test">
       <g2Line ref="g2Line"></g2Line>
-    </div>
-    <el-button @click.stop="changData">改变</el-button>
+    </div>-->
+    <!-- <el-button @click.stop="changData">改变</el-button> -->
   </div>
 </template>
 <script>
 import g2Bar from "@/components/G2Template/component/g2Bar";
 import g2Line from "@/components/G2Template/component/g2Line";
+import Rules from "@/components/rules";
 export default {
   components: {
     g2Bar,
-    g2Line
+    g2Line,
+    Rules
   },
   data () {
     return {
@@ -48,7 +51,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.wrapper {
+.echarts {
   padding: 10px;
   position: relative;
   .test {
