@@ -3,8 +3,13 @@
     <div class="left-container">
       <toolbar></toolbar>
       <div class="add-wrapper" @drop="drop" @dragover="allowDrop" ref="addWrapper">
-        <resizeBox :boxStyle="boxStyle">
-          <component :is="componentsType" :id="'echart'+1"></component>
+        <resizeBox :item="item" v-for="item in resizeBox" :key="item.id" @onResize="onResize">
+          <component
+            :is="item.componentsType"
+            :id="item.id"
+            ref="echartComponent"
+            :optionsData="item.optionsData"
+          ></component>
         </resizeBox>
       </div>
     </div>
@@ -14,6 +19,7 @@
 import toolbar from "./components/toolBar";
 import dataBar from "./echartComponent/dataBar";
 import resizeBox from "./components/resizeBox";
+import { randomStr } from "@/utils";
 export default {
   name: "echarts",
   components: {
@@ -23,35 +29,43 @@ export default {
   },
   data () {
     return {
-      componentsType: "dataBar",
       resizeBox: [],
-      boxStyle: {
-        x: 0,
-        y: 0
-      }
+      currentId: "", // 当前操作的id
+      targetEchart: null // 当前操作的echart对象
     };
   },
   methods: {
     allowDrop (ev) {
       ev.preventDefault();
     },
-    drop (ev) {
+    async drop (ev) {
       let ele = this.$refs.addWrapper;
       let elex = ele.getBoundingClientRect().x;
       let eley = ele.getBoundingClientRect().y;
       let { x, y } = ev;
-      let styleOption = { x: x - elex, y: y - eley };
+      let uid = randomStr(8);
       ev.preventDefault();
-      // this.componentsType = "dataBar";
       var data = JSON.parse(ev.dataTransfer.getData("data"));
-      // this.componentsType = data.type;
-      let boxStyle = Object.assign({ x: 0, y: 0 }, styleOption);
-      this.resizeBox.push({
-        boxStyle,
-        componentsType: data.type
-      });
-      console.log(this.resizeBox);
-      // ev.target.appendChild(document.getElementById(data));
+      let styleOption = { x: x - elex, y: y - eley, id: uid, componentsType: data.type, optionsData: data.optionsData };
+      let boxOptions = Object.assign({ x: 0, y: 0, w: 300, h: 300 }, styleOption);
+      let id = await this.createEchart(boxOptions);
+      let targetEchart = this.$refs.echartComponent.find(v => v.id === id);
+      targetEchart.resizeFun();
+    },
+    createEchart (boxOptions) {
+      return new Promise((resolve => {
+        this.resizeBox.push({
+          ...boxOptions
+        });
+        resolve(boxOptions.id);
+      }));
+    },
+    onResize (data) { // 处理resize变化后的图形
+      if (this.currentId.length === 0 || this.currentId !== data.id) {
+        this.currentId = data.id;
+        this.targetEchart = this.$refs.echartComponent.find(v => v.id === data.id);
+      }
+      this.targetEchart.resizeFun();
     }
   }
 

@@ -1,42 +1,48 @@
 <template>
-  <div class="resizeBox" :style="cBoxStyle" @click="handClickFun" ref="resizeBox" v-drag>
+  <!-- <div class="resizeBox" :style="cBoxStyle" @click="handClickFun" ref="resizeBox" v-drag>
     <slot></slot>
-  </div>
+  </div>-->
+  <vdr :w="item.w" :h="item.h" :x="item.x" :y="item.y" @dragging="onDrag" @resizing="onResize">
+    <slot></slot>
+  </vdr>
 </template>
 
 <script>
-import drag from "@/directive/drag"; // base on element-ui
-
 export default {
   name: "resizeBox",
-  directives: { drag },
   props: {
-    boxStyle: {
+    item: {
       type: Object,
-      default: () => ({ x: 0, y: 0 })
+      default: () => ({})
     }
   },
-  computed: {
-    cBoxStyle () {
-      return {
-        left: this.boxStyle.x + "px",
-        top: this.boxStyle.y + "px"
-      };
-    }
+  data () {
+    return {
+      timer: null
+    };
+  },
+  components: {
+
   },
   methods: {
-    handClickFun () {
-      console.log("clcik");
-      // this.boxStyle.x = 200;
+    onResize (x, y, width, height) {
+      this.item = Object.assign(this.item, { x, y, w: width, h: height });
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.$emit("onResize", this.item);
+      }, 200);
+      // throttle(this.emitFun(this.item), 2300);
+    },
+    onDrag (x, y) {
+      this.item = Object.assign(this.item, { x, y });
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.$emit("onDrag", this.item);
+      }, 200);
     }
   }
 };
 </script>
 
 <style>
-.resizeBox {
-  position: absolute;
-  width: 600px;
-  height: 400px;
-}
 </style>

@@ -12,6 +12,9 @@ import "@/styles/index.scss"; // global css
 import "./icons"; // icon
 import "./permission";
 import router from "./router";
+import "vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css";
+import vdr from "vue-draggable-resizable-gorkys";
+Vue.component("vdr", vdr);
 Vue.config.productionTip = false;
 Vue.use(Element);
 new Vue({
