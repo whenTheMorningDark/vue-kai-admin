@@ -224,6 +224,7 @@ export default {
       }
       return item;
     }
+    // let arr = s.match(/./g).filter(v => v === "A"); // 字符串变成数组
   }
 };
 </script>
