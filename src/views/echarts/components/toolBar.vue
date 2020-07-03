@@ -32,6 +32,7 @@ import SvgIcon from "@/components/SvgIcon";
 import { barChildren } from "../echartComponent/data/bar/index";
 import { lineChildren } from "../echartComponent/data/line/index";
 import { pieChildren } from "../echartComponent/data/pie/index";
+import { scatterChildren } from "../echartComponent/data/scatter/index";
 export default {
   name: "echartToolbar",
   components: {
@@ -43,8 +44,7 @@ export default {
         { name: "bar", label: "柱形图", children: barChildren },
         { name: "line", label: "折线图", children: lineChildren },
         { name: "pie", label: "饼图", children: pieChildren },
-        // { name: "scatter", label: "散点图", children: [{ name: "基础散点图", id: 12, images: require("@/assets/images/scatter-simple.jpg"), type: "scatter", optionsData: map.scatterData }] },
-        // { name: "radar", label: "雷达图", children: [{ name: "基础雷达图", id: 12, images: require("@/assets/images/radar.jpg"), type: "radar", optionsData: map.radarData }] }
+        { name: "scatter", label: "散点图", children: scatterChildren },
       ],
       activeName: "bar"
     };
@@ -53,6 +53,9 @@ export default {
     drag (e, element) {
       e.dataTransfer.setData("data", JSON.stringify(element));
     }
+  },
+  mounted () {
+    console.log(scatterChildren);
   }
 
 };
