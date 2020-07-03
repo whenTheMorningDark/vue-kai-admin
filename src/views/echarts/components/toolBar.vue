@@ -15,8 +15,7 @@
 
 <script>
 import SvgIcon from "@/components/SvgIcon";
-import { barData } from "../echartComponent/data/barData";
-import { lineData } from "../echartComponent/data/lineData";
+import map from "../echartComponent/data";
 export default {
   name: "echartToolbar",
   components: {
@@ -25,11 +24,11 @@ export default {
   data () {
     return {
       listData: [
-        { name: "组件1", id: 1, content: "内容内容内容。。。。", type: "dataBar", optionsData: barData },
-        { name: "组件2", id: 2, content: "内容内容内容。。。。", type: "dataBar", optionsData: lineData },
-        { name: "组件3", id: 3, content: "内容内容内容。。。。", type: "dataBar" },
-        { name: "组件4", id: 4, content: "内容内容内容。。。。", type: "dataBar" },
-        { name: "组件5", id: 5, content: "内容内容内容。。。。", type: "dataBar" },
+        { name: "组件1", id: 1, content: "内容内容内容。。。。", type: "dataBar", optionsData: map.barData },
+        { name: "组件2", id: 2, content: "内容内容内容。。。。", type: "dataBar", optionsData: map.lineData },
+        { name: "组件3", id: 3, content: "内容内容内容。。。。", type: "dataBar", optionsData: map.pieData},
+        { name: "组件4", id: 4, content: "内容内容内容。。。。", type: "dataBar", optionsData: map.scatterData },
+        { name: "组件5", id: 5, content: "内容内容内容。。。。", type: "dataBar", optionsData: map.radarData },
         { name: "组件6", id: 6, content: "内容内容内容。。。。", type: "dataBar" },
         { name: "组件7", id: 7, content: "内容内容内容。。。。", type: "dataBar" }
       ]
@@ -39,6 +38,9 @@ export default {
     drag (e, element) {
       e.dataTransfer.setData("data", JSON.stringify(element));
     }
+  },
+  mounted() {
+    console.log(map);
   }
 };
 </script>

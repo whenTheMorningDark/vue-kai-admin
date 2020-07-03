@@ -8,6 +8,6 @@ export const barData = {
   series: [{
     name: "销量",
     type: "bar",
-    data: [5, 20, 36, 10, 10, 20]
-  }]
+    data: [5, 20, 36, 10, 10, 20],
+  }],
 };
