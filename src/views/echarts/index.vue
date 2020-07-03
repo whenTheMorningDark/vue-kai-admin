@@ -4,12 +4,7 @@
       <toolbar></toolbar>
       <div class="add-wrapper" @drop="drop" @dragover="allowDrop" ref="addWrapper">
         <resizeBox :item="item" v-for="item in resizeBox" :key="item.id" @onResize="onResize">
-          <component
-            :is="item.componentsType"
-            :id="item.id"
-            ref="echartComponent"
-            :optionsData="item.optionsData"
-          ></component>
+          <echartTemplate :id="item.id" ref="echartComponent" :optionsData="item.optionsData"></echartTemplate>
         </resizeBox>
       </div>
     </div>
@@ -17,14 +12,14 @@
 </template>
 <script>
 import toolbar from "./components/toolBar";
-import dataBar from "./echartComponent/dataBar";
+import echartTemplate from "./echartComponent/echartTemplate";
 import resizeBox from "./components/resizeBox";
 import { randomStr } from "@/utils";
 export default {
   name: "echarts",
   components: {
     toolbar,
-    dataBar,
+    echartTemplate,
     resizeBox
   },
   data () {
@@ -46,7 +41,7 @@ export default {
       let uid = randomStr(8);
       ev.preventDefault();
       var data = JSON.parse(ev.dataTransfer.getData("data"));
-      let styleOption = { x: x - elex, y: y - eley, id: uid, componentsType: data.type, optionsData: data.optionsData };
+      let styleOption = { x: x - elex, y: y - eley, id: uid, optionsData: data.optionsData };
       let boxOptions = Object.assign({ x: 0, y: 0, w: 300, h: 300 }, styleOption);
       let id = await this.createEchart(boxOptions);
       let targetEchart = this.$refs.echartComponent.find(v => v.id === id);
