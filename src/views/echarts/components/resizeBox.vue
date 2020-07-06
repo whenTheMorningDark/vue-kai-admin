@@ -2,9 +2,25 @@
   <!-- <div class="resizeBox" :style="cBoxStyle" @click="handClickFun" ref="resizeBox" v-drag>
     <slot></slot>
   </div>-->
-  <vdr :w="item.w" :h="item.h" :x="item.x" :y="item.y" @dragging="onDrag" @resizing="onResize">
-    <slot></slot>
-  </vdr>
+  <div>
+    <vdr
+      :w="item.w"
+      :h="item.h"
+      :x="item.x"
+      :y="item.y"
+      @dragging="onDrag"
+      @resizing="onResize"
+      v-contextmenu:contextmenu
+      :active="true"
+    >
+      <slot></slot>
+    </vdr>
+    <v-contextmenu ref="contextmenu">
+      <v-contextmenu-item>菜单1</v-contextmenu-item>
+      <v-contextmenu-item>菜单2</v-contextmenu-item>
+      <v-contextmenu-item>菜单3</v-contextmenu-item>
+    </v-contextmenu>
+  </div>
 </template>
 
 <script>
@@ -18,7 +34,7 @@ export default {
   },
   data () {
     return {
-      timer: null
+      timer: null,
     };
   },
   components: {

@@ -1,6 +1,6 @@
 <template>
   <div class="toolbar">
-    <el-popover placement="right" title="选择图表" width="800" trigger="click">
+    <el-popover placement="right" title="选择图表" width="800" trigger="hover">
       <el-tabs v-model="activeName" type="card">
         <el-tab-pane
           :label="item.label"

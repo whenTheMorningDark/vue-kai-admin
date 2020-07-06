@@ -8,6 +8,9 @@
         </resizeBox>
       </div>
     </div>
+    <div class="right-container">
+      <rightTool></rightTool>
+    </div>
   </div>
 </template>
 <script>
@@ -15,12 +18,14 @@ import toolbar from "./components/toolBar";
 import echartTemplate from "./echartComponent/echartTemplate";
 import resizeBox from "./components/resizeBox";
 import { randomStr } from "@/utils";
+import rightTool from "./rightTool/index";
 export default {
   name: "echarts",
   components: {
     toolbar,
     echartTemplate,
-    resizeBox
+    resizeBox,
+    rightTool
   },
   data () {
     return {
@@ -70,8 +75,9 @@ export default {
 .echarts-wrapper {
   width: 100%;
   height: 100%;
+  display: flex;
   .left-container {
-    width: calc(100% - 120px);
+    width: calc(100% - 220px);
     height: 100%;
     .add-wrapper {
       // width: 220px;
@@ -79,6 +85,10 @@ export default {
       height: calc(100% - 30px);
       position: relative;
     }
+  }
+  .right-container {
+    width: 220px;
+    height: 100%;
   }
 }
 </style>

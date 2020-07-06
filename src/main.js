@@ -14,6 +14,10 @@ import "./permission";
 import router from "./router";
 import "vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css";
 import vdr from "vue-draggable-resizable-gorkys";
+import contentmenu from "v-contextmenu";
+import "v-contextmenu/dist/index.css";
+
+Vue.use(contentmenu);
 Vue.component("vdr", vdr);
 Vue.config.productionTip = false;
 Vue.use(Element);
