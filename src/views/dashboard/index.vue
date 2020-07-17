@@ -18,77 +18,39 @@ export default {
     };
   },
   methods: {
-    aFun () {
-      console.log("a");
-    },
-    reverserStr (s) {
-      let left = 0;
-      let right = s.length - 1;
-      let queue = [];
-      let word = "";
-      queue.unshift(word);
-      while (s.charAt(left) === " ") {
-        left++;
-      }
-      while (s.charAt(right) === " ") {
-        right--;
-      }
-      while (left <= right) {
-        let char = s.charAt(left);
-        if (char === " " && word) {
-          queue.unshift(word);
-          word = "";
-          console.log(queue);
-        } else if (char !== " ") {
-          word += char;
-        }
-        left++;
-      }
-      queue.unshift(word);
-      return queue.join(" ");
-    },
-    permute (nums) {
-      // 缓存数组的长度
-      const len = nums.length;
-      // curr 变量用来记录当前的排列内容
-      const curr = [];
-      // res 用来记录所有的排列顺序
-      const res = [];
-      // visited 用来避免重复使用同一个数字
-      const visited = {};
-      // 定义 dfs 函数，入参是坑位的索引（从 0 计数）
-      function dfs (nth) {
-        // 若遍历到了不存在的坑位（第 len+1 个），则触碰递归边界返回
-        if (nth === len) {
-          // 此时前 len 个坑位已经填满，将对应的排列记录下来
-          res.push(curr.slice());
-          return;
-        }
-        // 检查手里剩下的数字有哪些
-        for (let i = 0; i < len; i++) {
-          // 若 nums[i] 之前没被其它坑位用过，则可以理解为“这个数字剩下了”
-          if (!visited[nums[i]]) {
-            // 给 nums[i] 打个“已用过”的标
-            visited[nums[i]] = 1;
-            // 将nums[i]推入当前排列
-            curr.push(nums[i]);
-            // 基于这个排列继续往下一个坑走去
-            dfs(nth + 1);
-            // nums[i]让出当前坑位
-            curr.pop();
-            // 下掉“已用过”标识
-            visited[nums[i]] = 0;
+    isBipartite (graph) {
+      const visited = {}; // undefined为未染色，1为蓝色，-1为黄色
+      // console.log(visited)
+      for (let i = 0; i < graph.length; i++) { // 遍历每个顶点
+        // console.log(graph[i])
+        if (visited[i]) {
+          continue;
+        } // 已经染过色的，跳过
+        const queue = [i]; // 队列初始推入顶点 i
+        visited[i] = 1; // 染为蓝色
+        while (queue.length) { // 遍历顶点 i 所有相邻的顶点
+          const cur = queue.shift(); // 考察出列的顶点
+          const curColor = visited[cur]; // 出列顶点的颜色
+          const neighborColor = -curColor; // 它的相邻顶点应该有的颜色
+          for (let i = 0; i < graph[cur].length; i++) { // 给他们都上色
+            const neighbor = graph[cur][i];
+            console.log(neighbor);
+            if (visited[neighbor] === undefined) { // 还没上色
+              visited[neighbor] = neighborColor; // 上色
+              queue.push(neighbor); // 并推入队列
+            } else if (visited[neighbor] !== neighborColor) { // 上了不对的颜色
+              return false;
+            }
           }
         }
       }
-      // 从索引为 0 的坑位（也就是第一个坑位）开始 dfs
-      dfs(0);
-      return res;
+
+      return true; // 遍历完所有顶点，没有发现哪里不对
     }
   },
   mounted () {
-    console.log(this.reverserStr(this.str));
-    console.log(this.permute(this.arr));
+    let nums = [[1, 2, 3], [0, 2], [0, 1, 3], [0, 2]];
+    console.log(this.isBipartite(nums));
   }
 };
 </script>

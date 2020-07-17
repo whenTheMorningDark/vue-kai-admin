@@ -3,7 +3,13 @@
     <div class="left-container">
       <toolbar></toolbar>
       <div class="add-wrapper" @drop="drop" @dragover="allowDrop" ref="addWrapper">
-        <resizeBox :item="item" v-for="item in resizeBox" :key="item.id" @onResize="onResize">
+        <resizeBox
+          :item="item"
+          v-for="item in resizeBox"
+          :key="item.id"
+          @onResize="onResize"
+          @delFun="delFun"
+        >
           <echartTemplate :id="item.id" ref="echartComponent" :optionsData="item.optionsData"></echartTemplate>
         </resizeBox>
       </div>
@@ -55,7 +61,8 @@ export default {
     createEchart (boxOptions) {
       return new Promise((resolve => {
         this.resizeBox.push({
-          ...boxOptions
+          ...boxOptions,
+          active: true
         });
         resolve(boxOptions.id);
       }));
@@ -66,6 +73,10 @@ export default {
         this.targetEchart = this.$refs.echartComponent.find(v => v.id === data.id);
       }
       this.targetEchart.resizeFun();
+    },
+    // 删除的方法
+    delFun (item) {
+      this.resizeBox = this.resizeBox.filter(v => v.id !== item.id);
     }
   }
 

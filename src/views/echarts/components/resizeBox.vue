@@ -11,14 +11,15 @@
       @dragging="onDrag"
       @resizing="onResize"
       v-contextmenu:contextmenu
-      :active="true"
+      :active="item.active"
+      @deactivated="onDeactivated"
+      @activated="onActivated"
     >
+      <!-- v-contextmenu:contextmenu -->
       <slot></slot>
     </vdr>
-    <v-contextmenu ref="contextmenu">
-      <v-contextmenu-item>菜单1</v-contextmenu-item>
-      <v-contextmenu-item>菜单2</v-contextmenu-item>
-      <v-contextmenu-item>菜单3</v-contextmenu-item>
+    <v-contextmenu ref="contextmenu" @contextmenu="handleContextmenu">
+      <v-contextmenu-item @click="delFun">删除</v-contextmenu-item>
     </v-contextmenu>
   </div>
 </template>
@@ -55,6 +56,24 @@ export default {
       this.timer = setTimeout(() => {
         this.$emit("onDrag", this.item);
       }, 200);
+    },
+    // 删除方法
+    delFun () {
+      this.$emit("delFun", this.item);
+    },
+    // 右键菜单
+    handleContextmenu () {
+      if (!this.item.active) {
+        this.$set(this.item, "active", true);
+      }
+    },
+    // 点击其它区域取消active状态
+    onDeactivated () {
+      this.$set(this.item, "active", false);
+    },
+    // 选中的状态
+    onActivated () {
+      this.$emit("onActivated", this.item);
     }
   }
 };
