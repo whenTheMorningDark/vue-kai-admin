@@ -2,7 +2,7 @@
   <!-- <div class="resizeBox" :style="cBoxStyle" @click="handClickFun" ref="resizeBox" v-drag>
     <slot></slot>
   </div>-->
-  <div>
+  <div ref="resizeBox">
     <vdr
       :w="item.w"
       :h="item.h"
@@ -27,6 +27,11 @@
 <script>
 export default {
   name: "resizeBox",
+  mounted () {
+    this.$nextTick(() => {
+      this.keyevent();
+    });
+  },
   props: {
     item: {
       type: Object,
@@ -42,6 +47,24 @@ export default {
 
   },
   methods: {
+    keyevent () {
+      console.log(this.$refs.resizeBox);
+      // let el = this.$refs.resizeBox;
+      document.onkeydown = function (e) { // 按下键盘
+        console.log(e);
+        if (e.keyCode === 17) {
+          console.log("触发");
+        }
+        // switch (e.keyCode) {
+        //   case 16:
+        //     that.isshift = true;
+        //     break;
+        //   case 17:
+        //     that.isctrl = true;
+        //     break;
+        // }
+      };
+    },
     onResize (x, y, width, height) {
       this.item = Object.assign(this.item, { x, y, w: width, h: height });
       clearTimeout(this.timer);
@@ -69,7 +92,7 @@ export default {
     },
     // 点击其它区域取消active状态
     onDeactivated () {
-      this.$set(this.item, "active", false);
+      this.$set(this.item, "active", true);
     },
     // 选中的状态
     onActivated () {
