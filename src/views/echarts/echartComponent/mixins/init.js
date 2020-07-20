@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 let echarts = require("echarts/lib/echarts");
 require("echarts/lib/chart/bar");
 require("echarts/lib/chart/line");
@@ -96,29 +97,28 @@ require("echarts/lib/component/dataZoom");
 // require("echarts/lib/component/tooltip");
 // require("echarts/lib/component/title");
 export default {
-  props: {
-    id: [String],
-    optionsData: {}
-  },
-  data() {
-    return {
-      myChart: null
-    };
-  },
-  methods: {
-    resizeFun() {
-      this.myChart.resize();
-    },
-    setOption(optionsData) {
-      this.myChart.setOption(optionsData);
-    },
-    init() {
-      this.myChart = echarts.init(document.getElementById(this.id));
-      this.setOption(this.optionsData);
-    }
-  },
-  mounted() {
-    console.log("sadasda");
-    this.init();
-  }
+	props: {
+		id: [String],
+		optionsData: {},
+	},
+	data() {
+		return {
+			myChart: null,
+		};
+	},
+	methods: {
+		resizeFun() {
+			this.myChart.resize();
+		},
+		setOption(optionsData) {
+			this.myChart.setOption(optionsData);
+		},
+		init() {
+			this.myChart = echarts.init(document.getElementById(this.id));
+			this.setOption(this.optionsData);
+		},
+	},
+	mounted() {
+		this.init();
+	},
 };

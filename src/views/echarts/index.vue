@@ -62,7 +62,7 @@ export default {
       return new Promise((resolve => {
         this.resizeBox.push({
           ...boxOptions,
-          active: true
+          active: false
         });
         resolve(boxOptions.id);
       }));

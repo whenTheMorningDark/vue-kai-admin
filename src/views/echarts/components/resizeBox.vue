@@ -25,13 +25,15 @@
 </template>
 
 <script>
+import event from "./event";
 export default {
   name: "resizeBox",
   mounted () {
-    this.$nextTick(() => {
-      this.keyevent();
-    });
+    // this.$nextTick(() => {
+    //   this.keyevent();
+    // });
   },
+  mixins: [event],
   props: {
     item: {
       type: Object,
@@ -41,30 +43,22 @@ export default {
   data () {
     return {
       timer: null,
+      currentItem: null
     };
   },
   components: {
 
   },
   methods: {
-    keyevent () {
-      console.log(this.$refs.resizeBox);
-      // let el = this.$refs.resizeBox;
-      document.onkeydown = function (e) { // 按下键盘
-        console.log(e);
-        if (e.keyCode === 17) {
-          console.log("触发");
-        }
-        // switch (e.keyCode) {
-        //   case 16:
-        //     that.isshift = true;
-        //     break;
-        //   case 17:
-        //     that.isctrl = true;
-        //     break;
-        // }
-      };
-    },
+    // keyevent () {
+    //   window.onkeypress = (e) => {
+    //     if (e.which === 1 && e.ctrlKey) {
+    //       console.log("触发");
+
+    //       console.log(this.item);
+    //     }
+    //   };
+    // },
     onResize (x, y, width, height) {
       this.item = Object.assign(this.item, { x, y, w: width, h: height });
       clearTimeout(this.timer);
@@ -92,10 +86,13 @@ export default {
     },
     // 点击其它区域取消active状态
     onDeactivated () {
+      this.currentItem = {};
       this.$set(this.item, "active", true);
     },
     // 选中的状态
     onActivated () {
+      console.log(this.item);
+      this.currentItem = this.item;
       this.$emit("onActivated", this.item);
     }
   }
