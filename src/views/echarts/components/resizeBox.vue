@@ -50,15 +50,6 @@ export default {
 
   },
   methods: {
-    // keyevent () {
-    //   window.onkeypress = (e) => {
-    //     if (e.which === 1 && e.ctrlKey) {
-    //       console.log("触发");
-
-    //       console.log(this.item);
-    //     }
-    //   };
-    // },
     onResize (x, y, width, height) {
       this.item = Object.assign(this.item, { x, y, w: width, h: height });
       clearTimeout(this.timer);
@@ -68,6 +59,7 @@ export default {
       // throttle(this.emitFun(this.item), 2300);
     },
     onDrag (x, y) {
+      console.log("onDrag");
       this.item = Object.assign(this.item, { x, y });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
@@ -86,12 +78,12 @@ export default {
     },
     // 点击其它区域取消active状态
     onDeactivated () {
-      this.currentItem = {};
-      this.$set(this.item, "active", true);
+      // this.currentItem = {};
+      // this.$set(this.item, "active", true);
     },
     // 选中的状态
     onActivated () {
-      console.log(this.item);
+      // console.log(this.item);
       this.currentItem = this.item;
       this.$emit("onActivated", this.item);
     }

@@ -1,11 +1,18 @@
 /* eslint-disable indent */
-import { cloneDeep } from "lodash";
+import { cloneDeep, isEqual } from "lodash";
+import { Message } from "element-ui";
 class History {
 	state = []; // 历史状态
 	index = 0; // 当前状态下标
 	maxState = 20; // 最大保存状态个数 (防止爆栈)
 	setState(state) {
 		debounce(() => {
+			console.log(this.checkRepeat(state));
+			if (this.checkRepeat(state)) {
+				// 判断是否是重复对象进来
+				return;
+			}
+
 			// 限制长度
 			if (this.state.length >= this.maxState) {
 				this.state.shift();
@@ -29,14 +36,13 @@ class History {
 		if (this.index > 0) {
 			this.index--;
 			let state = cloneDeep(this.state[this.index]);
-			// console.log(this.state);
-			// console.log(state);
 			return state;
-			// this.store.replaceState(state);
-			// this.state = state.concat([]);
-			// return state;
 		} else {
-			alert("已经无法再进行撤回");
+			// alert("已经无法再进行撤回");
+			Message({
+				message: "无法再撤销操作",
+				type: "warning",
+			});
 		}
 	}
 
@@ -45,12 +51,26 @@ class History {
 			// 反撤销
 			this.index++;
 			let state = cloneDeep(this.state[this.index]);
-			// this.store.replaceState(state);
-			// this.state = state;
 			return state;
 		} else {
-			alert("已经无法再进行操作");
+			Message({
+				message: "无法再进行前进操作",
+				type: "warning",
+			});
 		}
+	}
+
+	// 检验是否重复元素
+	checkRepeat(snapshot) {
+		const next = snapshot;
+		let prev;
+		if (this.index >= 0) {
+			prev = this.state[this.index];
+		} else {
+			prev = {};
+		}
+		// if(isEqual(next,prev))
+		return isEqual(next, prev);
 	}
 }
 export default History;

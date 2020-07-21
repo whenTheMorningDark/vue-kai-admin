@@ -1,8 +1,7 @@
 <template>
   <div class="echarts-wrapper">
-    <el-button @click="cancelFun">撤销</el-button>
     <div class="left-container">
-      <toolbar></toolbar>
+      <toolbar :rightBtn="rightBtn"></toolbar>
       <div class="add-wrapper" @drop="drop" @dragover="allowDrop" ref="addWrapper">
         <resizeBox
           :item="item"
@@ -10,6 +9,7 @@
           :key="item.id"
           @onResize="onResize"
           @delFun="delFun"
+          @onDrag="onDragFun"
         >
           <echartTemplate :id="item.id" ref="echartComponent" :optionsData="item.optionsData"></echartTemplate>
         </resizeBox>
@@ -27,6 +27,7 @@ import resizeBox from "./components/resizeBox";
 import { randomStr } from "@/utils";
 import rightTool from "./rightTool/index";
 import History from "./utils/history";
+
 export default {
   name: "echarts",
   components: {
@@ -40,7 +41,12 @@ export default {
       resizeBox: [],
       currentId: "", // 当前操作的id
       targetEchart: null, // 当前操作的echart对象
-      stack: new History()
+      stack: new History(), // 历史记录栈对象
+      rightBtn: [ // toolbar右侧按钮
+        { text: "回撤", icon: "el-icon-refresh-right", func: this.cancelFun },
+        { text: "前进", icon: "el-icon-refresh-left", func: this.uncancel }
+      ],
+      refresh: 1
     };
   },
   methods: {
@@ -69,30 +75,56 @@ export default {
           active: false
         });
         // console.log(this.stack);
-        this.stack.setState(this.resizeBox);
+        this.stack.setState(this.resizeBox); // 设置历史记录
         resolve(boxOptions.id);
       }));
     },
     onResize (data) { // 处理resize变化后的图形
-      if (this.currentId.length === 0 || this.currentId !== data.id) {
-        this.currentId = data.id;
-        this.targetEchart = this.$refs.echartComponent.find(v => v.id === data.id);
-      }
-      this.targetEchart.resizeFun();
+      this.$nextTick(() => {
+        if (this.currentId.length === 0 || this.currentId !== data.id || this.targetEchart === null) {
+          this.currentId = data.id;
+          this.targetEchart = this.$refs.echartComponent.find(v => v.id === data.id);
+        }
+        this.targetEchart.resizeFun();
+        this.stack.setState(this.resizeBox); // 设置历史记录
+      });
+    },
+    // 处理拖拽后的图形
+    onDragFun () {
+      this.stack.setState(this.resizeBox); // 设置历史记录
     },
     // 删除的方法
     delFun (item) {
       this.resizeBox = this.resizeBox.filter(v => v.id !== item.id);
+      this.stack.setState(this.resizeBox); // 设置历史记录
+    },
+    // 处理前进和撤销共同方法
+    commCancelGoFun (replaceArr) {
+      this.currentId = "";
+      if (replaceArr && replaceArr.length >= 0) {
+        this.resizeBox = replaceArr;
+        this.$nextTick(() => {
+          this.$refs.echartComponent.forEach(v => {
+            v.resizeFun();
+          });
+        });
+      }
     },
     // 撤销方法
     cancelFun () {
       // this.resizeBox = this.stack.replaceState();
       let replaceArr = this.stack.replaceState();
-      if (replaceArr && replaceArr.length >= 0) {
-        this.resizeBox = replaceArr;
-      }
+      this.commCancelGoFun(replaceArr);
       // console.log(this.stack.getState());
+    },
+    // 前进方法
+    uncancel () {
+      let replaceArr = this.stack.unReplaceState();
+      this.commCancelGoFun(replaceArr);
     }
+  },
+  mounted () {
+    this.stack.setState(this.resizeBox);
   }
 
 };

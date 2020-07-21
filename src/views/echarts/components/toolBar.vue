@@ -1,29 +1,43 @@
 <template>
   <div class="toolbar">
-    <el-popover placement="right" title="选择图表" width="800" trigger="hover">
-      <el-tabs v-model="activeName" type="card">
-        <el-tab-pane
-          :label="item.label"
-          :name="item.name"
-          v-for="(item,index) in listData"
-          :key="index"
-        >
-          <el-row :gutter="20">
-            <el-col :span="6" v-for="(element,index) in item.children" :key="index">
-              <div class="content-wrapper" @dragstart="drag($event,element)" draggable="true">
-                <div class="imgages" v-if="element.images">
-                  <img :src="element.images" width="100%" height="140" />
+    <div class="left-toolbar">
+      <el-popover placement="right" title="选择图表" width="800" trigger="hover">
+        <el-tabs v-model="activeName" type="card">
+          <el-tab-pane
+            :label="item.label"
+            :name="item.name"
+            v-for="(item,index) in listData"
+            :key="index"
+          >
+            <el-row :gutter="20">
+              <el-col :span="6" v-for="(element,index) in item.children" :key="index">
+                <div class="content-wrapper" @dragstart="drag($event,element)" draggable="true">
+                  <div class="imgages" v-if="element.images">
+                    <img :src="element.images" width="100%" height="140" />
+                  </div>
+                  <div>{{element.name}}</div>
                 </div>
-                <div>{{element.name}}</div>
-              </div>
-            </el-col>
-          </el-row>
-        </el-tab-pane>
-      </el-tabs>
-      <div class="toolbar-item" slot="reference">
-        <SvgIcon iconClass="tubiao" class="icon-item"></SvgIcon>
-      </div>
-    </el-popover>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+        </el-tabs>
+        <div class="toolbar-item" slot="reference">
+          <SvgIcon iconClass="tubiao" class="icon-item"></SvgIcon>
+        </div>
+      </el-popover>
+    </div>
+    <div class="right-toolbar">
+      <el-button
+        v-for="item in rightBtn"
+        :key="item.text"
+        :type="item.type ||'default'"
+        size="mini"
+        :icon="item.icon"
+        @click="item.func"
+      >{{item.text}}</el-button>
+      <!-- <el-button type="defult" size="mini" icon="el-icon-refresh-right">撤回</el-button>
+      <el-button type="defult" size="mini" icon="el-icon-refresh-left">前进</el-button>-->
+    </div>
   </div>
 </template>
 
@@ -35,6 +49,12 @@ import { pieChildren } from "../echartComponent/data/pie/index";
 import { scatterChildren } from "../echartComponent/data/scatter/index";
 export default {
   name: "echartToolbar",
+  props: {
+    rightBtn: {
+      type: Array,
+      default: () => []
+    }
+  },
   components: {
     SvgIcon
   },
@@ -69,12 +89,13 @@ export default {
 }
 .toolbar {
   width: 100%;
-  height: 30px;
   background: #ffffff;
   border-bottom: 1px solid #ddd;
   border-right: 1px solid #ddd;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 5px;
   .toolbar-item {
     cursor: pointer;
     width: 32px;
