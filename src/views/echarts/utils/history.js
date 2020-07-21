@@ -23,7 +23,6 @@ class History {
 			}
 			this.state.push(cloneDeep(state));
 			this.index = this.state.length - 1; // 方便下标的计算 都从0开始计算
-			console.log(this.state);
 		}, 200);
 	}
 

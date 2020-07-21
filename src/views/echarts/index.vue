@@ -90,7 +90,8 @@ export default {
       });
     },
     // 处理拖拽后的图形
-    onDragFun () {
+    onDragFun (data) {
+      console.log(data);
       this.stack.setState(this.resizeBox); // 设置历史记录
     },
     // 删除的方法

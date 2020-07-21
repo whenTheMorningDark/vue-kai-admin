@@ -14,6 +14,7 @@
       :active="item.active"
       @deactivated="onDeactivated"
       @activated="onActivated"
+      :parent="'.add-wrapper'"
     >
       <!-- v-contextmenu:contextmenu -->
       <slot></slot>
