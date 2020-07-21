@@ -1,5 +1,6 @@
 <template>
   <div class="echarts-wrapper">
+    <el-button @click="cancelFun">撤销</el-button>
     <div class="left-container">
       <toolbar></toolbar>
       <div class="add-wrapper" @drop="drop" @dragover="allowDrop" ref="addWrapper">
@@ -25,6 +26,7 @@ import echartTemplate from "./echartComponent/echartTemplate";
 import resizeBox from "./components/resizeBox";
 import { randomStr } from "@/utils";
 import rightTool from "./rightTool/index";
+import History from "./utils/history";
 export default {
   name: "echarts",
   components: {
@@ -37,7 +39,8 @@ export default {
     return {
       resizeBox: [],
       currentId: "", // 当前操作的id
-      targetEchart: null // 当前操作的echart对象
+      targetEchart: null, // 当前操作的echart对象
+      stack: new History()
     };
   },
   methods: {
@@ -55,6 +58,7 @@ export default {
       let styleOption = { x: x - elex, y: y - eley, id: uid, optionsData: data.optionsData };
       let boxOptions = Object.assign({ x: 0, y: 0, w: 300, h: 300 }, styleOption);
       let id = await this.createEchart(boxOptions);
+
       let targetEchart = this.$refs.echartComponent.find(v => v.id === id);
       targetEchart.resizeFun();
     },
@@ -64,6 +68,8 @@ export default {
           ...boxOptions,
           active: false
         });
+        // console.log(this.stack);
+        this.stack.setState(this.resizeBox);
         resolve(boxOptions.id);
       }));
     },
@@ -77,6 +83,15 @@ export default {
     // 删除的方法
     delFun (item) {
       this.resizeBox = this.resizeBox.filter(v => v.id !== item.id);
+    },
+    // 撤销方法
+    cancelFun () {
+      // this.resizeBox = this.stack.replaceState();
+      let replaceArr = this.stack.replaceState();
+      if (replaceArr && replaceArr.length >= 0) {
+        this.resizeBox = replaceArr;
+      }
+      // console.log(this.stack.getState());
     }
   }
 

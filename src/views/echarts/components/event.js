@@ -8,7 +8,6 @@ export default {
 	methods: {
 		move(direction) {
 			let targetKeys = [40, 37, 39, 38];
-			console.log(this.currentItem);
 			if (
 				!targetKeys.includes(direction) ||
 				Object.keys(this.currentItem).length === 0
