@@ -3,7 +3,9 @@
     <rightHeader :tabData="tabData" @click="tabChange" :activeName="activeName"></rightHeader>
     <div class="rightToolContent">
       <el-scrollbar style="height:100%">
-        <component :is="tabConponent"></component>
+        <keep-alive>
+          <component :is="tabConponent"></component>
+        </keep-alive>
       </el-scrollbar>
     </div>
   </div>

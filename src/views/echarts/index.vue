@@ -30,14 +30,20 @@ import resizeBox from "./components/resizeBox";
 import { randomStr } from "@/utils";
 import rightTool from "./rightTool/index";
 import History from "./utils/history";
-
+import event from "./utils/event";
 export default {
   name: "echarts",
+  mixins: [event],
   components: {
     toolbar,
     echartTemplate,
     resizeBox,
     rightTool
+  },
+  provide () {
+    return {
+      root: this
+    };
   },
   data () {
     return {
@@ -50,8 +56,8 @@ export default {
         { text: "前进", icon: "el-icon-refresh-left", func: this.uncancel },
         { text: "全选", icon: "el-icon-crop", func: this.selectAllFun }
       ],
-      refresh: 1,
-      flag: false
+      flag: false,
+      currentItem: {} // 当前的对象
     };
   },
   methods: {
@@ -86,23 +92,28 @@ export default {
     },
     onResize (data) { // 处理resize变化后的图形
       this.$nextTick(() => {
+        if (!data || Object.keys(data).length === 0) {
+          data = this.currentItem;
+        }
         if (this.currentId.length === 0 || this.currentId !== data.id || this.targetEchart === null) {
           this.currentId = data.id;
           this.targetEchart = this.$refs.echartComponent.find(v => v.id === data.id);
         }
         this.targetEchart.resizeFun();
         this.stack.setState(this.resizeBox); // 设置历史记录
-        this.$store.commit("echart/setCurrentTarget", data);
+        // this.$store.commit("echart/setCurrentTarget", data);
       });
     },
     // 处理拖拽后的图形
     onDragFun (data) {
       console.log(data);
       this.stack.setState(this.resizeBox); // 设置历史记录
-      this.$store.commit("echart/setCurrentTarget", data);
+      // this.$store.commit("echart/setCurrentTarget", data);
     },
     // 选中元素
     onActivated (data) {
+      console.log(data);
+      this.currentItem = data;
       this.$store.commit("echart/setCurrentTarget", data);
     },
     // 不选中元素
@@ -149,12 +160,32 @@ export default {
         this.$set(v, "active", false);
       });
       console.log(this.resizeBox);
+    },
+    // 点击addWrapper状态都为false,点击当前resizeBox的active则为true,其它为false
+    addWrapperMouseDownFun (e) { // 点击是图形的情况
+      if (e.target.tagName === "CANVAS") {
+        let filterArr = this.resizeBox.filter(v => v.id !== this.currentItem.id);
+        filterArr.forEach(v => {
+          this.$set(v, "active", false);
+        });
+        this.$store.commit("echart/setCurrentTarget", this.currentItem);
+      } else { // 只是点击空白addWrapper的情况
+        this.resizeBox.forEach(v => {
+          this.$set(v, "active", false);
+        });
+        this.$store.commit("echart/setCurrentTarget", {});
+      }
     }
   },
   mounted () {
     this.stack.setState(this.resizeBox);
+    let el = this.$refs.addWrapper;
+    el.addEventListener("mousedown", this.addWrapperMouseDownFun);
+  },
+  destroyed () {
+    let el = this.$refs.addWrapper;
+    el.removeEventListener("mousedown", this.addWrapperMouseDownFun);
   }
-
 };
 </script>
 <style lang="scss" scoped>

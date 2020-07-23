@@ -3,6 +3,8 @@
     <slot></slot>
   </div>-->
   <div ref="resizeBox">
+    <!-- @deactivated="onDeactivated" -->
+    <!-- @activated="onActivated" -->
     <vdr
       :w="item.width"
       :h="item.height"
@@ -11,11 +13,10 @@
       @dragging="onDrag"
       @resizing="onResize"
       v-contextmenu:contextmenu
-      :active="item.active"
-      @deactivated="onDeactivated"
-      @activated="onActivated"
+      :active.sync="item.active"
       :prevent-deactivation="preventActiveBehavior"
       :parent="'.add-wrapper'"
+      @activated="onActivated"
     >
       <!-- v-contextmenu:contextmenu -->
       <slot></slot>
@@ -27,7 +28,7 @@
 </template>
 
 <script>
-import event from "./event";
+
 // import { debounce } from "@/utils/common";
 export default {
   name: "resizeBox",
@@ -36,7 +37,6 @@ export default {
     //   this.keyevent();
     // });
   },
-  mixins: [event],
   props: {
     item: {
       type: Object,
@@ -46,8 +46,7 @@ export default {
   data () {
     return {
       timer: null,
-      currentItem: null,
-      preventActiveBehavior: false
+      preventActiveBehavior: true
     };
   },
   components: {
@@ -76,27 +75,19 @@ export default {
     },
     // 右键菜单
     handleContextmenu () {
-      // console.log(this.item);
-      // this.$set(this.item, "active", true);
-      this.currentItem = this.item;
       this.$emit("handleContextmenu", this.item);
-      // if (!this.item.active) {
-      //   this.$set(this.item, "active", true);
-      // }
     },
-    // 点击其它区域取消active状态
-    onDeactivated () {
-      console.log("axxx");
-      // this.currentItem = {};
-      // this.$set(this.item, "active", true);
-      this.$emit("onDeactivated", {});
-    },
+    // // 点击其它区域取消active状态
+    // onDeactivated () {
+    //   console.log("onDeactivated");
+    //   // this.currentItem = {};
+    //   // this.$set(this.item, "active", true);
+    //   this.$emit("onDeactivated", {});
+    // },
     // 选中的状态
     onActivated () {
-      // this.$set(this.item, "active", true);
-      console.log("xxxxadwdw");
+      console.log("onActivated");
       this.$emit("onActivated", this.item);
-
     }
   }
 };
