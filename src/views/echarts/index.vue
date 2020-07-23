@@ -12,7 +12,6 @@
           @onDrag="onDragFun"
           @handleContextmenu="handleContextmenu"
           @onActivated="onActivated"
-          @onDeactivated="onDeactivated"
         >
           <echartTemplate :id="item.id" ref="echartComponent" :optionsData="item.optionsData"></echartTemplate>
         </resizeBox>
@@ -116,13 +115,11 @@ export default {
       this.currentItem = data;
       this.$store.commit("echart/setCurrentTarget", data);
     },
-    // 不选中元素
-    onDeactivated (data) {
-      this.$store.commit("echart/setCurrentTarget", data);
-    },
     // 删除的方法
     delFun (item) {
       this.resizeBox = this.resizeBox.filter(v => v.id !== item.id);
+      this.currentItem = {};
+      this.$store.commit("echart/setCurrentTarget", this.currentItem);
       this.stack.setState(this.resizeBox); // 设置历史记录
     },
     // 处理前进和撤销共同方法
@@ -139,10 +136,8 @@ export default {
     },
     // 撤销方法
     cancelFun () {
-      // this.resizeBox = this.stack.replaceState();
       let replaceArr = this.stack.replaceState();
       this.commCancelGoFun(replaceArr);
-      // console.log(this.stack.getState());
     },
     // 前进方法
     uncancel () {
@@ -151,7 +146,14 @@ export default {
     },
     // 菜单事件
     handleContextmenu (item) {
-      console.log(item);
+      this.currentItem = item;
+      let filterArr = this.resizeBox.filter(v => v.id !== this.currentItem.id);
+      filterArr.forEach(v => {
+        this.$set(v, "active", false);
+      });
+      let target = this.resizeBox.find(v => v.id === item.id) || {};
+      this.$set(target, "active", true);
+      this.$store.commit("echart/setCurrentTarget", this.currentItem);
     },
     // 全选
     selectAllFun () {
@@ -173,7 +175,8 @@ export default {
         this.resizeBox.forEach(v => {
           this.$set(v, "active", false);
         });
-        this.$store.commit("echart/setCurrentTarget", {});
+        this.currentItem = {};
+        this.$store.commit("echart/setCurrentTarget", this.currentItem);
       }
     }
   },
