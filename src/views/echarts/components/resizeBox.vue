@@ -4,8 +4,8 @@
   </div>-->
   <div ref="resizeBox">
     <vdr
-      :w="item.w"
-      :h="item.h"
+      :w="item.width"
+      :h="item.height"
       :x="item.x"
       :y="item.y"
       @dragging="onDrag"
@@ -14,6 +14,7 @@
       :active="item.active"
       @deactivated="onDeactivated"
       @activated="onActivated"
+      :prevent-deactivation="preventActiveBehavior"
       :parent="'.add-wrapper'"
     >
       <!-- v-contextmenu:contextmenu -->
@@ -27,6 +28,7 @@
 
 <script>
 import event from "./event";
+// import { debounce } from "@/utils/common";
 export default {
   name: "resizeBox",
   mounted () {
@@ -44,7 +46,8 @@ export default {
   data () {
     return {
       timer: null,
-      currentItem: null
+      currentItem: null,
+      preventActiveBehavior: false
     };
   },
   components: {
@@ -52,7 +55,7 @@ export default {
   },
   methods: {
     onResize (x, y, width, height) {
-      this.item = Object.assign(this.item, { x, y, w: width, h: height });
+      this.item = Object.assign(this.item, { x, y, width, height });
       clearTimeout(this.timer);
       this.timer = setTimeout(() => {
         this.$emit("onResize", this.item);
@@ -73,20 +76,27 @@ export default {
     },
     // 右键菜单
     handleContextmenu () {
-      if (!this.item.active) {
-        this.$set(this.item, "active", true);
-      }
+      // console.log(this.item);
+      // this.$set(this.item, "active", true);
+      this.currentItem = this.item;
+      this.$emit("handleContextmenu", this.item);
+      // if (!this.item.active) {
+      //   this.$set(this.item, "active", true);
+      // }
     },
     // 点击其它区域取消active状态
     onDeactivated () {
+      console.log("axxx");
       // this.currentItem = {};
       // this.$set(this.item, "active", true);
+      this.$emit("onDeactivated", {});
     },
     // 选中的状态
     onActivated () {
-      // console.log(this.item);
-      this.currentItem = this.item;
+      // this.$set(this.item, "active", true);
+      console.log("xxxxadwdw");
       this.$emit("onActivated", this.item);
+
     }
   }
 };

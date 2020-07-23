@@ -10,6 +10,9 @@
           @onResize="onResize"
           @delFun="delFun"
           @onDrag="onDragFun"
+          @handleContextmenu="handleContextmenu"
+          @onActivated="onActivated"
+          @onDeactivated="onDeactivated"
         >
           <echartTemplate :id="item.id" ref="echartComponent" :optionsData="item.optionsData"></echartTemplate>
         </resizeBox>
@@ -44,9 +47,11 @@ export default {
       stack: new History(), // 历史记录栈对象
       rightBtn: [ // toolbar右侧按钮
         { text: "回撤", icon: "el-icon-refresh-right", func: this.cancelFun },
-        { text: "前进", icon: "el-icon-refresh-left", func: this.uncancel }
+        { text: "前进", icon: "el-icon-refresh-left", func: this.uncancel },
+        { text: "全选", icon: "el-icon-crop", func: this.selectAllFun }
       ],
-      refresh: 1
+      refresh: 1,
+      flag: false
     };
   },
   methods: {
@@ -62,7 +67,7 @@ export default {
       ev.preventDefault();
       var data = JSON.parse(ev.dataTransfer.getData("data"));
       let styleOption = { x: x - elex, y: y - eley, id: uid, optionsData: data.optionsData };
-      let boxOptions = Object.assign({ x: 0, y: 0, w: 300, h: 300 }, styleOption);
+      let boxOptions = Object.assign({ x: 0, y: 0, width: 300, height: 300 }, styleOption);
       let id = await this.createEchart(boxOptions);
 
       let targetEchart = this.$refs.echartComponent.find(v => v.id === id);
@@ -87,12 +92,22 @@ export default {
         }
         this.targetEchart.resizeFun();
         this.stack.setState(this.resizeBox); // 设置历史记录
+        this.$store.commit("echart/setCurrentTarget", data);
       });
     },
     // 处理拖拽后的图形
     onDragFun (data) {
       console.log(data);
       this.stack.setState(this.resizeBox); // 设置历史记录
+      this.$store.commit("echart/setCurrentTarget", data);
+    },
+    // 选中元素
+    onActivated (data) {
+      this.$store.commit("echart/setCurrentTarget", data);
+    },
+    // 不选中元素
+    onDeactivated (data) {
+      this.$store.commit("echart/setCurrentTarget", data);
     },
     // 删除的方法
     delFun (item) {
@@ -122,6 +137,18 @@ export default {
     uncancel () {
       let replaceArr = this.stack.unReplaceState();
       this.commCancelGoFun(replaceArr);
+    },
+    // 菜单事件
+    handleContextmenu (item) {
+      console.log(item);
+    },
+    // 全选
+    selectAllFun () {
+      this.flag = !this.flag;
+      this.resizeBox.forEach(v => {
+        this.$set(v, "active", false);
+      });
+      console.log(this.resizeBox);
     }
   },
   mounted () {
@@ -136,8 +163,9 @@ export default {
   height: 100%;
   display: flex;
   .left-container {
-    width: calc(100% - 220px);
+    width: calc(100% - 280px);
     height: 100%;
+    margin-right: 20px;
     .add-wrapper {
       // width: 220px;
       width: 100%;
@@ -146,7 +174,7 @@ export default {
     }
   }
   .right-container {
-    width: 220px;
+    width: 300px;
     height: 100%;
   }
 }

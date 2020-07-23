@@ -4,7 +4,10 @@ export const defaultBar = {
 	type: "bar",
 	images: require("@/assets/images/bar-simple.jpg"),
 	optionsData: {
-		title: {},
+		title: {
+			show: true,
+			text: "默认标题",
+		},
 		tooltip: {},
 		xAxis: {
 			data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"],

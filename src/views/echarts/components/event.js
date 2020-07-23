@@ -10,7 +10,7 @@ export default {
 			let targetKeys = [40, 37, 39, 38];
 			if (
 				!targetKeys.includes(direction) ||
-				Object.keys(this.currentItem).length === 0
+				Object.keys(this.item).length === 0
 			) {
 				return;
 			}
@@ -25,26 +25,26 @@ export default {
 		// 向下的方法
 		downFun() {
 			console.log("down");
-			let y = this.currentItem.y + this.steps;
-			this.$set(this.currentItem, "y", y);
+			let y = this.item.y + this.steps;
+			this.$set(this.item, "y", y);
 		},
 		// 向上的方法
 		upFun() {
 			console.log("up");
-			let y = this.currentItem.y - this.steps;
-			this.$set(this.currentItem, "y", y);
+			let y = this.item.y - this.steps;
+			this.$set(this.item, "y", y);
 		},
 		// 向左的方法
 		leftFun() {
 			console.log("left");
-			let x = this.currentItem.x - this.steps;
-			this.$set(this.currentItem, "x", x);
+			let x = this.item.x - this.steps;
+			this.$set(this.item, "x", x);
 		},
 		// 向右的方法
 		rightFun() {
 			console.log("left");
-			let x = this.currentItem.x + this.steps;
-			this.$set(this.currentItem, "x", x);
+			let x = this.item.x + this.steps;
+			this.$set(this.item, "x", x);
 		},
 	},
 	mounted() {

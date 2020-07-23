@@ -41,28 +41,42 @@ export default {
         }
       }
       return -1;
+    },
+    minPathSum (grid) {
+      let rows = grid.length;
+      let cols = grid[0].length;
+      let dp = [];
+      for (let i = 0; i < rows; i++) {
+        dp[i] = [];
+      }
+      dp[0][0] = grid[0][0];
+      for (let i = 0; i < rows; i++) {
+        if (i > 0) {
+          dp[i][0] = dp[i - 1][0] + grid[i][0];
+        }
+      }
+      for (let i = 0; i < cols; i++) {
+        if (i > 0) {
+          dp[0][i] = dp[0][i - 1] + grid[0][i];
+        }
+      }
+      for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+          if (i > 0 && j > 0) {
+            dp[i][j] = Math.min(dp[i][j - 1], dp[i - 1][j]) + grid[i][j];
+          }
+        }
+      }
+      return dp[rows - 1][cols - 1];
     }
-    // 递归
-    // binary_search (targetArr, key, low = 0, high = targetArr.length - 1) {
-    //   // let low = 0;
-    //   // let high = targetArr.length - 1;
-    //   let mid = parseInt(low + (high - low) / 2, 10);
-    //   if (low > high) {
-    //     return -1;
-    //   }
-    //   if (targetArr[mid] === key) {
-    //     return mid;
-    //   } else if (targetArr[mid] > key) {
-    //     high = mid - 1;
-    //     return this.binary_search(targetArr, key, low, high);
-    //   } else if (targetArr[mid] < key) {
-    //     low = mid + 1;
-    //     return this.binary_search(targetArr, key, low, high);
-    //   }
-    // }
   },
   mounted () {
-    console.log(this.binary_search(this.targetArr, this.key));
+    let grid = [
+      [1, 3, 1],
+      [1, 5, 1],
+      [4, 2, 1]
+    ];
+    console.log(this.minPathSum(grid));
   }
 };
 </script>
