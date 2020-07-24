@@ -33,7 +33,6 @@
 /* eslint-disable space-before-function-paren */
 import path from "path";
 import { isExternal } from "@/utils/validate";
-import { generateTitle } from "@/utils/i18n";
 import AppLink from "./Link";
 import item from "./Item";
 export default {
@@ -93,8 +92,7 @@ export default {
         return this.basePath;
       }
       return path.resolve(this.basePath, routePath);
-    },
-    generateTitle
+    }
   }
 
 };

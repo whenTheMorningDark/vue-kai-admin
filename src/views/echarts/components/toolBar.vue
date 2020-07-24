@@ -47,6 +47,7 @@ import { barChildren } from "../echartComponent/data/bar/index";
 import { lineChildren } from "../echartComponent/data/line/index";
 import { pieChildren } from "../echartComponent/data/pie/index";
 import { scatterChildren } from "../echartComponent/data/scatter/index";
+import { radarChildren } from "../echartComponent/data/radar/index";
 export default {
   name: "echartToolbar",
   props: {
@@ -65,6 +66,7 @@ export default {
         { name: "line", label: "折线图", children: lineChildren },
         { name: "pie", label: "饼图", children: pieChildren },
         { name: "scatter", label: "散点图", children: scatterChildren },
+        { name: "radar", label: "雷达图", children: radarChildren },
       ],
       activeName: "bar"
     };
