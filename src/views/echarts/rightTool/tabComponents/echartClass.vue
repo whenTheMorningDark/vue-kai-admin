@@ -37,9 +37,9 @@ export default {
     currentTarget: {
       deep: true,
       handler (nVal) {
-        if (Object.keys(nVal).length === 0) {
-          return;
-        }
+        // if (Object.keys(nVal).length === 0) {
+        //   return;
+        // }
         console.log("出发");
         this.setData(nVal);
       }
@@ -56,22 +56,27 @@ export default {
     },
     // 设置标题的值
     setTitleData (data) {
-      let targetObject = data.optionsData.title;
-      if (isUndefined(targetObject)) {
-        data.optionsData.title = this.initTitleOption(); // 初始化title
+      if (Object.keys(data).length === 0) {
+        this.$refs.titleComponents.setData(defaultTtileKeys);
       } else {
-        if (isUndefined(targetObject.show)) {
-          if (targetObject.text && targetObject.text.length > 0) {
-            this.$set(targetObject, "show", true);
-          } else {
-            this.$set(targetObject, "show", false);
-          }
+        let targetObject = data.optionsData.title;
+        if (isUndefined(targetObject)) {
+          data.optionsData.title = this.initTitleOption(); // 初始化title
         } else {
-          this.$set(targetObject, "show", targetObject.show);
+          if (isUndefined(targetObject.show)) {
+            if (targetObject.text && targetObject.text.length > 0) {
+              this.$set(targetObject, "show", true);
+            } else {
+              this.$set(targetObject, "show", false);
+            }
+          } else {
+            this.$set(targetObject, "show", targetObject.show);
+          }
         }
+        console.log(targetObject);
+        this.$refs.titleComponents.setData(targetObject);
       }
-      console.log(targetObject);
-      this.$refs.titleComponents.setData(targetObject);
+
     },
     // 初始化title的值
     initTitleOption () {
