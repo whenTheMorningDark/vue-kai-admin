@@ -111,6 +111,7 @@ export default {
 			this.myChart.resize();
 		},
 		setOption(optionsData) {
+			console.log(optionsData);
 			this.myChart.setOption(optionsData);
 		},
 		init() {

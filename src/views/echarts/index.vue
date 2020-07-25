@@ -75,8 +75,9 @@ export default {
       let styleOption = { x: x - elex, y: y - eley, id: uid, optionsData: data.optionsData };
       let boxOptions = Object.assign({ x: 0, y: 0, width: 300, height: 300 }, styleOption);
       let id = await this.createEchart(boxOptions);
-
-      let targetEchart = this.$refs.echartComponent.find(v => v.id === id);
+      let echartsComponents = this.$refs.echartComponent;
+      let targetEchart = echartsComponents.find(v => v.id === id);
+      this.$store.commit("echart/setEchartArr", echartsComponents); // 设置当前echart对象集合
       targetEchart.resizeFun();
     },
     createEchart (boxOptions) {

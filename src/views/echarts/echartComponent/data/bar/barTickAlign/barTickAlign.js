@@ -4,6 +4,10 @@ export const barTickAlign = {
 	type: "bar",
 	images: require("@/assets/images/bar-tick-align.jpg"),
 	optionsData: {
+		title: {
+			show: false,
+			title: ""
+		},
 		color: ["#3398DB"],
 		tooltip: {
 			trigger: "axis",
@@ -18,27 +22,21 @@ export const barTickAlign = {
 			bottom: "3%",
 			containLabel: true,
 		},
-		xAxis: [
-			{
-				type: "category",
-				data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-				axisTick: {
-					alignWithLabel: true,
-				},
+		xAxis: [{
+			type: "category",
+			data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+			axisTick: {
+				alignWithLabel: true,
 			},
-		],
-		yAxis: [
-			{
-				type: "value",
-			},
-		],
-		series: [
-			{
-				name: "直接访问",
-				type: "bar",
-				barWidth: "60%",
-				data: [10, 52, 200, 334, 390, 330, 220],
-			},
-		],
+		}],
+		yAxis: [{
+			type: "value",
+		}],
+		series: [{
+			name: "直接访问",
+			type: "bar",
+			barWidth: "60%",
+			data: [10, 52, 200, 334, 390, 330, 220],
+		}],
 	},
 };

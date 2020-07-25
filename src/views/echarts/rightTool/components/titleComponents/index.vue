@@ -29,7 +29,10 @@ export default {
   methods: {
     // 输入框改变的类型和值
     changeFun (type, value) {
+      console.log(type, value);
+      // this.$set(this.titleInfo, type, value);
       this.$emit("change", { type, value });
+
     },
     setData (data) {
       if (!data || data === null) {

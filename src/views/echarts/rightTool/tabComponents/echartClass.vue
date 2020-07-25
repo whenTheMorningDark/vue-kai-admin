@@ -5,7 +5,7 @@
         <baseAttr ref="baseAttr" @change="changeBaseAttrFun"></baseAttr>
       </el-collapse-item>
       <el-collapse-item title="标题组件" name="2">
-        <titleComponents ref="titleComponents"></titleComponents>
+        <titleComponents ref="titleComponents" @change="changeTitleDataFun"></titleComponents>
       </el-collapse-item>
     </el-collapse>
   </div>
@@ -40,6 +40,7 @@ export default {
         if (Object.keys(nVal).length === 0) {
           return;
         }
+        console.log("出发");
         this.setData(nVal);
       }
     }
@@ -59,12 +60,17 @@ export default {
       if (isUndefined(targetObject)) {
         data.optionsData.title = this.initTitleOption(); // 初始化title
       } else {
-        if (targetObject.text && targetObject.text.length > 0) {
-          this.$set(targetObject, "show", true);
+        if (isUndefined(targetObject.show)) {
+          if (targetObject.text && targetObject.text.length > 0) {
+            this.$set(targetObject, "show", true);
+          } else {
+            this.$set(targetObject, "show", false);
+          }
         } else {
-          this.$set(targetObject, "show", false);
+          this.$set(targetObject, "show", targetObject.show);
         }
       }
+      console.log(targetObject);
       this.$refs.titleComponents.setData(targetObject);
     },
     // 初始化title的值
@@ -91,6 +97,11 @@ export default {
       } else if (xYArr.includes(item.type)) {
         this.root.onDragFun();
       }
+    },
+    // 改变标题组件的值
+    changeTitleDataFun ({ type, value }) {
+      console.log(type, value);
+      this.$store.commit("echart/changeCurrentTagetOptions", { attr: "title", key: type, value: value });
     }
   }
 };

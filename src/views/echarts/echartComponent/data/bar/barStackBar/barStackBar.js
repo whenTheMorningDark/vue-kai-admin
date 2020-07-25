@@ -4,6 +4,10 @@ export const barStackBar = {
 	type: "bar",
 	images: require("@/assets/images/bar-stack.jpg"),
 	optionsData: {
+		itle: {
+			show: false,
+			title: ""
+		},
 		tooltip: {
 			trigger: "axis",
 			axisPointer: {
@@ -30,19 +34,14 @@ export const barStackBar = {
 			bottom: "3%",
 			containLabel: true,
 		},
-		xAxis: [
-			{
-				type: "category",
-				data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-			},
-		],
-		yAxis: [
-			{
-				type: "value",
-			},
-		],
-		series: [
-			{
+		xAxis: [{
+			type: "category",
+			data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+		}],
+		yAxis: [{
+			type: "value",
+		}],
+		series: [{
 				name: "直接访问",
 				type: "bar",
 				data: [320, 332, 301, 334, 390, 330, 320],
@@ -73,7 +72,13 @@ export const barStackBar = {
 					lineStyle: {
 						type: "dashed",
 					},
-					data: [[{ type: "min" }, { type: "max" }]],
+					data: [
+						[{
+							type: "min"
+						}, {
+							type: "max"
+						}]
+					],
 				},
 			},
 			{

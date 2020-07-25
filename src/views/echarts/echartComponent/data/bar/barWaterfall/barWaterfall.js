@@ -8,6 +8,7 @@ export const barWaterfall = {
 			text: "阶梯瀑布图",
 			subtext: "From ExcelHome",
 			sublink: "http://e.weibo.com/1341556070/Aj1J2x5a5",
+			show: true
 		},
 		tooltip: {
 			trigger: "axis",
@@ -15,7 +16,7 @@ export const barWaterfall = {
 				// 坐标轴指示器，坐标轴触发有效
 				type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
 			},
-			formatter: function(params) {
+			formatter: function (params) {
 				var tar;
 				if (params[1].value !== "-") {
 					tar = params[1];
@@ -36,8 +37,10 @@ export const barWaterfall = {
 		},
 		xAxis: {
 			type: "category",
-			splitLine: { show: false },
-			data: (function() {
+			splitLine: {
+				show: false
+			},
+			data: (function () {
 				var list = [];
 				for (var i = 1; i <= 11; i++) {
 					list.push("11月" + i + "日");
@@ -48,8 +51,7 @@ export const barWaterfall = {
 		yAxis: {
 			type: "value",
 		},
-		series: [
-			{
+		series: [{
 				name: "辅助",
 				type: "bar",
 				stack: "总量",
