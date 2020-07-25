@@ -14,6 +14,7 @@ export const barAnimationDelay = {
 	optionsData: {
 		title: {
 			text: "柱状图动画延迟",
+			show: true
 		},
 		legend: {
 			data: ["bar", "bar2"],
@@ -38,12 +39,11 @@ export const barAnimationDelay = {
 			},
 		},
 		yAxis: {},
-		series: [
-			{
+		series: [{
 				name: "bar",
 				type: "bar",
 				data: data1,
-				animationDelay: function(idx) {
+				animationDelay: function (idx) {
 					return idx * 10;
 				},
 			},
@@ -51,13 +51,13 @@ export const barAnimationDelay = {
 				name: "bar2",
 				type: "bar",
 				data: data2,
-				animationDelay: function(idx) {
+				animationDelay: function (idx) {
 					return idx * 10 + 100;
 				},
 			},
 		],
 		animationEasing: "elasticOut",
-		animationDelayUpdate: function(idx) {
+		animationDelayUpdate: function (idx) {
 			return idx * 5;
 		},
 	},
