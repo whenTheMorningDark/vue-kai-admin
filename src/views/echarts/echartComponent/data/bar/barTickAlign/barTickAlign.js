@@ -1,13 +1,13 @@
 /* eslint-disable indent */
+import {
+	defaultTtileKeys
+} from "../../../../rightTool/components/commonData/commonData";
 export const barTickAlign = {
 	name: "坐标轴刻度与标签对齐",
 	type: "bar",
 	images: require("@/assets/images/bar-tick-align.jpg"),
 	optionsData: {
-		title: {
-			show: false,
-			title: ""
-		},
+		title: JSON.parse(JSON.stringify(defaultTtileKeys)),
 		color: ["#3398DB"],
 		tooltip: {
 			trigger: "axis",

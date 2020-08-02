@@ -2,7 +2,7 @@
 /* eslint-disable require-jsdoc */
 export const debounce = (func, wait, immediate) => {
 	let timeout;
-	return function() {
+	return function () {
 		const context = this;
 		const args = arguments;
 
@@ -26,7 +26,7 @@ export const debounce = (func, wait, immediate) => {
 };
 export function throttle(func, wait) {
 	var previous = 0;
-	return function() {
+	return function () {
 		const now = Date.now();
 		const context = this;
 		const args = arguments;
@@ -38,6 +38,8 @@ export function throttle(func, wait) {
 }
 // 判断元素是否是undefine
 export const isUndefined = (val) => val === void 0;
+// 判断元素是否是对象
+export const isObject = (obj) => Object.prototype.toString.call(obj) === "[object Object]";
 // 根据路径寻找元素的value
 // let obj = {
 //   a: {

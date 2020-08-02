@@ -1,15 +1,13 @@
 /* eslint-disable indent */
+import {
+	defaultTtileKeys
+} from "../../../../rightTool/components/commonData/commonData";
 export const barWaterfall = {
 	name: "阶梯瀑布图",
 	type: "bar",
 	images: require("@/assets/images/bar-waterfall2.jpg"),
 	optionsData: {
-		title: {
-			text: "阶梯瀑布图",
-			subtext: "From ExcelHome",
-			sublink: "http://e.weibo.com/1341556070/Aj1J2x5a5",
-			show: true
-		},
+		title: JSON.parse(JSON.stringify(defaultTtileKeys)),
 		tooltip: {
 			trigger: "axis",
 			axisPointer: {

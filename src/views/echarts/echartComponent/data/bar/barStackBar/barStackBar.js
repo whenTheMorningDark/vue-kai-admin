@@ -1,13 +1,13 @@
 /* eslint-disable indent */
+import {
+	defaultTtileKeys
+} from "../../../../rightTool/components/commonData/commonData";
 export const barStackBar = {
 	name: "堆叠柱状图",
 	type: "bar",
 	images: require("@/assets/images/bar-stack.jpg"),
 	optionsData: {
-		itle: {
-			show: false,
-			title: ""
-		},
+		title: JSON.parse(JSON.stringify(defaultTtileKeys)),
 		tooltip: {
 			trigger: "axis",
 			axisPointer: {

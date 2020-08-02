@@ -23,7 +23,8 @@ export default {
   data () {
     return {
       activeNames: ["1"],
-      timer: null
+      timer: null,
+      currentId: ""
     };
   },
   computed: {
@@ -56,22 +57,31 @@ export default {
     },
     // 设置标题的值
     setTitleData (data) {
+      console.log(data);
       if (Object.keys(data).length === 0) {
-        this.$refs.titleComponents.setData(defaultTtileKeys);
+        this.$refs.titleComponents.setData(data);
       } else {
         let targetObject = data.optionsData.title;
+        if (isUndefined(targetObject.show)) {
+          if (targetObject.text && targetObject.text.length > 0) {
+            this.$set(targetObject, "show", true);
+          } else {
+            this.$set(targetObject, "show", false);
+          }
+        } else {
+          this.$set(targetObject, "show", targetObject.show);
+        }
         if (isUndefined(targetObject)) {
           data.optionsData.title = this.initTitleOption(); // 初始化title
         } else {
-          if (isUndefined(targetObject.show)) {
-            if (targetObject.text && targetObject.text.length > 0) {
-              this.$set(targetObject, "show", true);
-            } else {
-              this.$set(targetObject, "show", false);
+          let targetKeys = Object.keys(targetObject);
+          let defaultKeys = Object.keys(defaultTtileKeys);
+          let notKeys = defaultKeys.filter(v => !targetKeys.includes(v));
+          notKeys.forEach(v => {
+            if (isUndefined(targetObject[v])) {
+              this.$set(targetObject, v, defaultTtileKeys[v]);
             }
-          } else {
-            this.$set(targetObject, "show", targetObject.show);
-          }
+          });
         }
         console.log(targetObject);
         this.$refs.titleComponents.setData(targetObject);
@@ -83,8 +93,18 @@ export default {
       let data = {};
       Object.keys(defaultTtileKeys).forEach(v => {
         let needBool = ["show"];
+        let needObject = ["textStyle"];
         if (needBool.includes(v)) {
           this.$set(data, v, false);
+        } else if (needObject.includes(v)) {
+          let needObjectArr = Object.keys(needObject);
+          if (needObjectArr.length > 0) {
+            needObjectArr.forEach(s => {
+              this.$set(v, s, "");
+            });
+          } else {
+            this.$set(data, v, {});
+          }
         } else {
           this.$set(data, v, "");
         }

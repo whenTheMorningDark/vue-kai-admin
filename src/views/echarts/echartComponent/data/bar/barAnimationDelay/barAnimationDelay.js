@@ -1,4 +1,7 @@
 /* eslint-disable indent */
+import {
+	defaultTtileKeys
+} from "../../../../rightTool/components/commonData/commonData";
 var xAxisData = [];
 var data1 = [];
 var data2 = [];
@@ -12,10 +15,7 @@ export const barAnimationDelay = {
 	type: "bar",
 	images: require("@/assets/images/bar-animation-delay.jpg"),
 	optionsData: {
-		title: {
-			text: "柱状图动画延迟",
-			show: true
-		},
+		title: JSON.parse(JSON.stringify(defaultTtileKeys)),
 		legend: {
 			data: ["bar", "bar2"],
 		},
