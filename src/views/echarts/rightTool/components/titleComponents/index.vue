@@ -4,7 +4,7 @@
       <baseItem label="显示">
         <el-checkbox
           v-model="dataInfo.show"
-          @change="changeFun('show',dataInfo.show)"
+          @change="changeFun('title','show',dataInfo.show)"
           :disabled="cShowDisabled"
         ></el-checkbox>
       </baseItem>
@@ -14,7 +14,7 @@
         <el-input
           v-model="dataInfo.text"
           size="mini"
-          @change="changeFun('text',dataInfo.text)"
+          @change="changeFun('title','text',dataInfo.text)"
           :disabled="cDisabled"
         ></el-input>
       </baseItem>
@@ -24,7 +24,7 @@
         <el-color-picker
           v-model="dataInfo.textStyle.color"
           size="mini"
-          @change="changeFun('textStyle.color',dataInfo.textStyle.color)"
+          @change="changeFun('title','textStyle.color',dataInfo.textStyle.color)"
           :disabled="cDisabled"
         ></el-color-picker>
       </baseItem>
@@ -34,7 +34,7 @@
         <el-select
           v-model="dataInfo.textStyle.fontStyle"
           placeholder="请选择字体样式"
-          @change="changeFun('textStyle.fontStyle',dataInfo.textStyle.fontStyle)"
+          @change="changeFun('title','textStyle.fontStyle',dataInfo.textStyle.fontStyle)"
           size="mini"
           :disabled="cDisabled"
         >
@@ -54,7 +54,7 @@
           v-model="dataInfo.textStyle.fontSize"
           :min="1"
           size="mini"
-          @change="changeFun('textStyle.fontSize',dataInfo.textStyle.fontSize)"
+          @change="changeFun('title','textStyle.fontSize',dataInfo.textStyle.fontSize)"
           :disabled="cDisabled"
         ></el-input-number>
       </baseItem>
@@ -65,7 +65,7 @@
         <el-select
           v-model="dataInfo.textStyle.fontFamily"
           placeholder="请选择字体样式"
-          @change="changeFun('textStyle.fontFamily',dataInfo.textStyle.fontFamily)"
+          @change="changeFun('title','textStyle.fontFamily',dataInfo.textStyle.fontFamily)"
           size="mini"
           :disabled="cDisabled"
         >
@@ -84,7 +84,7 @@
         <el-select
           v-model="dataInfo.x"
           placeholder="请选择水平方向"
-          @change="changeFun('x',dataInfo.x)"
+          @change="changeFun('title','x',dataInfo.x)"
           size="mini"
           :disabled="cDisabled"
         >
@@ -102,7 +102,7 @@
         <el-select
           v-model="dataInfo.y"
           placeholder="请选择垂直方向"
-          @change="changeFun('y',dataInfo.y)"
+          @change="changeFun('title','y',dataInfo.y)"
           size="mini"
           :disabled="cDisabled"
         >

@@ -4,7 +4,7 @@
       <baseItem label="显示">
         <el-checkbox
           v-model="dataInfo.show"
-          @change="changeFun('show',dataInfo.show)"
+          @change="changeFun('legend','show',dataInfo.show)"
           :disabled="cShowDisabled"
         ></el-checkbox>
       </baseItem>
@@ -15,14 +15,14 @@
           placeholder="请输入内容"
           v-model="dataInfo.left"
           size="mini"
-          @change="changeFun('left',dataInfo.left)"
+          @change="changeFun('legend','left',dataInfo.left)"
           :disabled="cDisabled"
         >
           <el-select
             v-model="dataInfo.left"
             slot="prepend"
             placeholder="请选择"
-            @change="changeFun('left',dataInfo.left)"
+            @change="changeFun('legend','left',dataInfo.left)"
             :disabled="cDisabled"
           >
             <el-option
@@ -42,14 +42,14 @@
           placeholder="请输入内容"
           v-model="dataInfo.top"
           size="mini"
-          @change="changeFun('top',dataInfo.top)"
+          @change="changeFun('legend','top',dataInfo.top)"
           :disabled="cDisabled"
         >
           <el-select
             v-model="dataInfo.top"
             slot="prepend"
             placeholder="请选择"
-            @change="changeFun('top',dataInfo.top)"
+            @change="changeFun('legend','top',dataInfo.top)"
             :disabled="cDisabled"
           >
             <el-option
@@ -68,7 +68,7 @@
         <el-select
           v-model="dataInfo.orient"
           placeholder="请选择"
-          @change="changeFun('orient',dataInfo.orient)"
+          @change="changeFun('legend','orient',dataInfo.orient)"
           size="mini"
           :disabled="cDisabled"
         >
@@ -89,7 +89,7 @@
             v-model="dataInfo.padding[sitem.index]"
             :min="1"
             size="mini"
-            @change="changeFun(sitem.key,dataInfo.padding[sitem.index])"
+            @change="changeFun('legend',sitem.key,dataInfo.padding[sitem.index])"
             :disabled="cDisabled"
           ></el-input-number>
         </baseItem>
@@ -101,7 +101,7 @@
           v-model="dataInfo.itemGap"
           :min="1"
           size="mini"
-          @change="changeFun('itemGap',dataInfo.itemGap)"
+          @change="changeFun('legend','itemGap',dataInfo.itemGap)"
           :disabled="cDisabled"
         ></el-input-number>
       </baseItem>

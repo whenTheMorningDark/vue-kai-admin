@@ -13,8 +13,8 @@ export default {
 	},
 	methods: {
 		// 输入框改变的类型和值
-		changeFun(type, value) {
-			this.$emit("change", { type, value });
+		changeFun(attr, type, value) {
+			this.$emit("change", { attr, type, value });
 		},
 		setData(data) {
 			console.log(data);

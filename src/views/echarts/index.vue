@@ -106,13 +106,11 @@ export default {
     },
     // 处理拖拽后的图形
     onDragFun (data) {
-      console.log(data);
       this.stack.setState(this.resizeBox); // 设置历史记录
       // this.$store.commit("echart/setCurrentTarget", data);
     },
     // 选中元素
     onActivated (data) {
-      console.log(data);
       this.currentItem = data;
       this.$store.commit("echart/setCurrentTarget", data);
     },
