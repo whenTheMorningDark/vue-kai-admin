@@ -1,7 +1,10 @@
 /* eslint-disable indent */
-import {
-	defaultTtileKeys
-} from "../../../../rightTool/components/commonData/commonData";
+import { defaultTtileKeys } from "../../../../rightTool/components/commonData/commonData";
+import { cloneDeep } from "lodash";
+import { legendData } from "../../../../rightTool/components/commonData/legendData";
+let currentLegendData = {
+	data: ["bar", "bar2"],
+};
 var xAxisData = [];
 var data1 = [];
 var data2 = [];
@@ -16,9 +19,7 @@ export const barAnimationDelay = {
 	images: require("@/assets/images/bar-animation-delay.jpg"),
 	optionsData: {
 		title: JSON.parse(JSON.stringify(defaultTtileKeys)),
-		legend: {
-			data: ["bar", "bar2"],
-		},
+		legend: Object.assign({}, cloneDeep(legendData), currentLegendData),
 		toolbox: {
 			// y: 'bottom',
 			feature: {
@@ -39,11 +40,12 @@ export const barAnimationDelay = {
 			},
 		},
 		yAxis: {},
-		series: [{
+		series: [
+			{
 				name: "bar",
 				type: "bar",
 				data: data1,
-				animationDelay: function (idx) {
+				animationDelay: function(idx) {
 					return idx * 10;
 				},
 			},
@@ -51,13 +53,13 @@ export const barAnimationDelay = {
 				name: "bar2",
 				type: "bar",
 				data: data2,
-				animationDelay: function (idx) {
+				animationDelay: function(idx) {
 					return idx * 10 + 100;
 				},
 			},
 		],
 		animationEasing: "elasticOut",
-		animationDelayUpdate: function (idx) {
+		animationDelayUpdate: function(idx) {
 			return idx * 5;
 		},
 	},

@@ -55,7 +55,6 @@ export default {
 
   .wrapper-row {
     display: flex;
-    padding-right: 5px;
     margin-bottom: 8px;
     .wrapper {
       flex: 1;

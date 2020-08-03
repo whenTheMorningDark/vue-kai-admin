@@ -1,7 +1,6 @@
 /* eslint-disable indent */
-import {
-	defaultTtileKeys
-} from "../../../../rightTool/components/commonData/commonData";
+import { defaultTtileKeys } from "../../../../rightTool/components/commonData/commonData";
+import { legendData } from "../../../../rightTool/components/commonData/legendData";
 export const barTickAlign = {
 	name: "坐标轴刻度与标签对齐",
 	type: "bar",
@@ -9,6 +8,7 @@ export const barTickAlign = {
 	optionsData: {
 		title: JSON.parse(JSON.stringify(defaultTtileKeys)),
 		color: ["#3398DB"],
+		legend: legendData,
 		tooltip: {
 			trigger: "axis",
 			axisPointer: {
@@ -22,21 +22,27 @@ export const barTickAlign = {
 			bottom: "3%",
 			containLabel: true,
 		},
-		xAxis: [{
-			type: "category",
-			data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-			axisTick: {
-				alignWithLabel: true,
+		xAxis: [
+			{
+				type: "category",
+				data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+				axisTick: {
+					alignWithLabel: true,
+				},
 			},
-		}],
-		yAxis: [{
-			type: "value",
-		}],
-		series: [{
-			name: "直接访问",
-			type: "bar",
-			barWidth: "60%",
-			data: [10, 52, 200, 334, 390, 330, 220],
-		}],
+		],
+		yAxis: [
+			{
+				type: "value",
+			},
+		],
+		series: [
+			{
+				name: "直接访问",
+				type: "bar",
+				barWidth: "60%",
+				data: [10, 52, 200, 334, 390, 330, 220],
+			},
+		],
 	},
 };

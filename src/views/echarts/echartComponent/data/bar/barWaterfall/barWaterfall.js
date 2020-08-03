@@ -1,7 +1,12 @@
 /* eslint-disable indent */
-import {
-	defaultTtileKeys
-} from "../../../../rightTool/components/commonData/commonData";
+import { defaultTtileKeys } from "../../../../rightTool/components/commonData/commonData";
+import { legendData } from "../../../../rightTool/components/commonData/legendData";
+import { cloneDeep } from "lodash";
+let currentLegendData = {
+	data: ["支出", "收入"],
+	left: 10,
+	show: true,
+};
 export const barWaterfall = {
 	name: "阶梯瀑布图",
 	type: "bar",
@@ -14,7 +19,7 @@ export const barWaterfall = {
 				// 坐标轴指示器，坐标轴触发有效
 				type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
 			},
-			formatter: function (params) {
+			formatter: function(params) {
 				var tar;
 				if (params[1].value !== "-") {
 					tar = params[1];
@@ -24,9 +29,7 @@ export const barWaterfall = {
 				return tar.name + "<br/>" + tar.seriesName + " : " + tar.value;
 			},
 		},
-		legend: {
-			data: ["支出", "收入"],
-		},
+		legend: Object.assign({}, cloneDeep(legendData), currentLegendData),
 		grid: {
 			left: "3%",
 			right: "4%",
@@ -36,9 +39,9 @@ export const barWaterfall = {
 		xAxis: {
 			type: "category",
 			splitLine: {
-				show: false
+				show: false,
 			},
-			data: (function () {
+			data: (function() {
 				var list = [];
 				for (var i = 1; i <= 11; i++) {
 					list.push("11月" + i + "日");
@@ -49,7 +52,8 @@ export const barWaterfall = {
 		yAxis: {
 			type: "value",
 		},
-		series: [{
+		series: [
+			{
 				name: "辅助",
 				type: "bar",
 				stack: "总量",

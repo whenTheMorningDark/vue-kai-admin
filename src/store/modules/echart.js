@@ -27,7 +27,7 @@ export function getPropByPath(obj, path, strict) {
 	return {
 		o: tempObj,
 		k: keyArr[i],
-		v: tempObj ? tempObj[keyArr[i]] : null
+		v: tempObj ? tempObj[keyArr[i]] : null,
 	};
 }
 // eslint-disable-next-line require-jsdoc
@@ -54,7 +54,7 @@ function getValueByPath(object, prop) {
 
 const state = {
 	currentTarget: {}, // 当前单选的对象
-	echartArr: [] // echart对象集合
+	echartArr: [], // echart对象集合
 };
 const mutations = {
 	// 设置当前的对象
@@ -65,30 +65,34 @@ const mutations = {
 	setEchartArr(state, arr) {
 		state.echartArr = arr;
 	},
-	changeCurrentTagetAttr(state, {
-		key,
-		value
-	}) {
+	changeCurrentTagetAttr(state, { key, value }) {
 		state.currentTarget[key] = value;
 	},
 	// 改变当前对象的optionsData方法
-	changeCurrentTagetOptions(state, {
-		attr,
-		key,
-		value
-	}) {
+	changeCurrentTagetOptions(state, { attr, key, value }) {
 		let targetObj = state.currentTarget.optionsData[attr];
-		console.log(getPropByPath(targetObj, key));
-		let {
-			o,
-			k
-		} = getPropByPath(targetObj, key);
-		Vue.set(o, k, value);
-		// Vue.set(o, key, value);
-		console.log(state.currentTarget);
-		let targetEchart = state.echartArr.find(v => v.id === state.currentTarget.id);
+		let paddingArr = {
+			paddingTop: 0,
+			paddingRight: 1,
+			paddingBottom: 2,
+			paddingLeft: 3,
+		};
+		if (Object.keys(paddingArr).includes(key)) {
+			let searchKeys = "padding";
+			let { o, k } = getPropByPath(targetObj, searchKeys);
+			Vue.set(o, k[paddingArr[key]], value);
+		} else {
+			console.log(getPropByPath(targetObj, key));
+			let { o, k } = getPropByPath(targetObj, key);
+			Vue.set(o, k, value);
+		}
+		// let { o, k } = getPropByPath(targetObj, key);
+		// Vue.set(o, k, value);
+		let targetEchart = state.echartArr.find(
+			(v) => v.id === state.currentTarget.id
+		);
 		targetEchart.setOption(state.currentTarget.optionsData);
-	}
+	},
 };
 const actions = {};
 export default {

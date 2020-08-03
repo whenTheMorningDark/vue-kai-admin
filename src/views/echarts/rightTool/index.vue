@@ -49,6 +49,7 @@ export default {
   height: 100%;
   .rightToolContent {
     height: calc(100% - 43px);
+    padding-right: 5px;
   }
 }
 </style>

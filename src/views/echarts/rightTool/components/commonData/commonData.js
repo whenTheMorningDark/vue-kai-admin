@@ -9,7 +9,7 @@ export const defaultTtileKeys = {
 		fontFamily: "Microsoft YaHei",
 		fontSize: 20,
 	},
-	x: "center",
+	x: "left",
 	y: "top",
 };
 

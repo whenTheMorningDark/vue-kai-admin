@@ -7,6 +7,9 @@
       <el-collapse-item title="标题组件" name="2">
         <titleComponents ref="titleComponents" @change="changeTitleDataFun"></titleComponents>
       </el-collapse-item>
+      <el-collapse-item title="图例组件" name="3">
+        <legendComponents ref="legendComponents" @change="changeLegendDataFun"></legendComponents>
+      </el-collapse-item>
     </el-collapse>
   </div>
 </template>
@@ -14,6 +17,7 @@
 <script>
 import baseAttr from "../components/baseAttr";
 import titleComponents from "../components/titleComponents";
+import legendComponents from "../components/legendComponents";
 import { mapGetters } from "vuex";
 import { defaultTtileKeys } from "../components/commonData/commonData";
 import { isUndefined } from "@/utils/common";
@@ -32,7 +36,8 @@ export default {
   },
   components: {
     baseAttr,
-    titleComponents
+    titleComponents,
+    legendComponents
   },
   watch: {
     currentTarget: {
@@ -54,6 +59,16 @@ export default {
     setData (data) {
       this.$refs.baseAttr.setData(data);
       this.setTitleData(data);
+      this.setlegendData(data);
+    },
+    // 设置图例的值
+    setlegendData (data) {
+      if (Object.keys(data).length === 0) {
+        this.$refs.legendComponents.setData(data);
+      } else {
+        let targetObject = data.optionsData.legend;
+        this.$refs.legendComponents.setData(targetObject);
+      }
     },
     // 设置标题的值
     setTitleData (data) {
@@ -87,6 +102,23 @@ export default {
         this.$refs.titleComponents.setData(targetObject);
       }
 
+    },
+    // 修改图例的值
+    changeLegendDataFun ({ type, value }) {
+      console.log(type, value);
+      this.$store.commit("echart/changeCurrentTagetOptions", { attr: "legend", key: type, value: value });
+      // let paddingArr = {
+      //   paddingTop: 0,
+      //   paddingRight: 1,
+      //   paddingBottom: 2,
+      //   paddingLeft: 3,
+      // };
+      // if (Object.keys(paddingArr).includes(type)) {
+
+      //   this.$store.commit("echart/changeCurrentTagetOptions", { attr: "legend", key: "padding", value: value });
+      // } else {
+      //   this.$store.commit("echart/changeCurrentTagetOptions", { attr: "legend", key: type, value: value });
+      // }
     },
     // 初始化title的值
     initTitleOption () {
