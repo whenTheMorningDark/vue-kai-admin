@@ -1,18 +1,19 @@
 /* eslint-disable indent */
+import { defaultTtileKeys } from "../../../../rightTool/components/commonData/commonData";
+import { cloneDeep } from "lodash";
+import { legendData } from "../../../../rightTool/components/commonData/legendData";
+let currentLegendData = {
+	data: ["最高气温", "最低气温"],
+};
 export const lineMarker = {
 	name: "平滑折线图",
 	type: "line",
 	images: require("@/assets/images/line-marker.jpg"),
 	optionsData: {
-		title: {
-			text: "未来一周气温变化",
-			subtext: "纯属虚构",
-		},
+		title: defaultTtileKeys,
+		legend: Object.assign({}, cloneDeep(legendData), currentLegendData),
 		tooltip: {
 			trigger: "axis",
-		},
-		legend: {
-			data: ["最高气温", "最低气温"],
 		},
 		toolbox: {
 			show: true,

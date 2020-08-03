@@ -2,7 +2,11 @@
   <div class="legendComponents">
     <div class="wrapper">
       <baseItem label="显示">
-        <el-checkbox v-model="dataInfo.show" @change="changeFun('show',dataInfo.show)"></el-checkbox>
+        <el-checkbox
+          v-model="dataInfo.show"
+          @change="changeFun('show',dataInfo.show)"
+          :disabled="cShowDisabled"
+        ></el-checkbox>
       </baseItem>
     </div>
     <div class="wrapper">
@@ -12,12 +16,14 @@
           v-model="dataInfo.left"
           size="mini"
           @change="changeFun('left',dataInfo.left)"
+          :disabled="cDisabled"
         >
           <el-select
             v-model="dataInfo.left"
             slot="prepend"
             placeholder="请选择"
             @change="changeFun('left',dataInfo.left)"
+            :disabled="cDisabled"
           >
             <el-option
               v-for="item in leftDataOptopns"
@@ -37,12 +43,14 @@
           v-model="dataInfo.top"
           size="mini"
           @change="changeFun('top',dataInfo.top)"
+          :disabled="cDisabled"
         >
           <el-select
             v-model="dataInfo.top"
             slot="prepend"
             placeholder="请选择"
             @change="changeFun('top',dataInfo.top)"
+            :disabled="cDisabled"
           >
             <el-option
               v-for="item in topDataOptopns"
@@ -62,6 +70,7 @@
           placeholder="请选择"
           @change="changeFun('orient',dataInfo.orient)"
           size="mini"
+          :disabled="cDisabled"
         >
           <el-option
             v-for="item in orientOptopns"
@@ -80,7 +89,8 @@
             v-model="dataInfo.padding[sitem.index]"
             :min="1"
             size="mini"
-            @change="changeFun('paddingTop',dataInfo.padding[sitem.index])"
+            @change="changeFun(sitem.key,dataInfo.padding[sitem.index])"
+            :disabled="cDisabled"
           ></el-input-number>
         </baseItem>
       </div>
@@ -92,6 +102,7 @@
           :min="1"
           size="mini"
           @change="changeFun('itemGap',dataInfo.itemGap)"
+          :disabled="cDisabled"
         ></el-input-number>
       </baseItem>
     </div>
@@ -102,13 +113,13 @@
 import baseItem from "../baseItem";
 import { legendData, leftDataOptopns, topDataOptopns, orientOptopns } from "../commonData/legendData";
 import componentsMixins from "../mixins/component";
+import { clearValues } from "../../../utils/utils";
 export default {
   name: "legendComponents",
   mixins: [componentsMixins],
   data () {
     return {
-      dataInfo: JSON.parse(JSON.stringify(legendData)),
-      defaultData: JSON.parse(JSON.stringify(legendData)),
+      dataInfo: clearValues(legendData),
       leftDataOptopns,
       topDataOptopns,
       orientOptopns,

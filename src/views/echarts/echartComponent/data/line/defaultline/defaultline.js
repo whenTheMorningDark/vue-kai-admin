@@ -1,9 +1,14 @@
 /* eslint-disable indent */
+import { defaultTtileKeys } from "../../../../rightTool/components/commonData/commonData";
+import { legendData } from "../../../../rightTool/components/commonData/legendData";
+console.log(defaultTtileKeys);
 export const defaultline = {
-	name: "折线图",
+	name: "默认折线图",
 	type: "line",
 	images: require("@/assets/images/line-simple.jpg"),
 	optionsData: {
+		title: JSON.parse(JSON.stringify(defaultTtileKeys)),
+		legend: legendData,
 		xAxis: {
 			type: "category",
 			data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],

@@ -2,12 +2,21 @@
   <div class="titleComponents">
     <div class="wrapper">
       <baseItem label="显示">
-        <el-checkbox v-model="dataInfo.show" @change="changeFun('show',dataInfo.show)"></el-checkbox>
+        <el-checkbox
+          v-model="dataInfo.show"
+          @change="changeFun('show',dataInfo.show)"
+          :disabled="cShowDisabled"
+        ></el-checkbox>
       </baseItem>
     </div>
     <div class="wrapper">
       <baseItem label="文本">
-        <el-input v-model="dataInfo.text" size="mini" @change="changeFun('text',dataInfo.text)"></el-input>
+        <el-input
+          v-model="dataInfo.text"
+          size="mini"
+          @change="changeFun('text',dataInfo.text)"
+          :disabled="cDisabled"
+        ></el-input>
       </baseItem>
     </div>
     <div class="wrapper">
@@ -16,6 +25,7 @@
           v-model="dataInfo.textStyle.color"
           size="mini"
           @change="changeFun('textStyle.color',dataInfo.textStyle.color)"
+          :disabled="cDisabled"
         ></el-color-picker>
       </baseItem>
     </div>
@@ -26,6 +36,7 @@
           placeholder="请选择字体样式"
           @change="changeFun('textStyle.fontStyle',dataInfo.textStyle.fontStyle)"
           size="mini"
+          :disabled="cDisabled"
         >
           <el-option
             v-for="item in fontStyleOptions"
@@ -44,6 +55,7 @@
           :min="1"
           size="mini"
           @change="changeFun('textStyle.fontSize',dataInfo.textStyle.fontSize)"
+          :disabled="cDisabled"
         ></el-input-number>
       </baseItem>
     </div>
@@ -55,6 +67,7 @@
           placeholder="请选择字体样式"
           @change="changeFun('textStyle.fontFamily',dataInfo.textStyle.fontFamily)"
           size="mini"
+          :disabled="cDisabled"
         >
           <el-option
             v-for="item in fontFamilyOptions"
@@ -73,6 +86,7 @@
           placeholder="请选择水平方向"
           @change="changeFun('x',dataInfo.x)"
           size="mini"
+          :disabled="cDisabled"
         >
           <el-option
             v-for="item in xDirections"
@@ -90,6 +104,7 @@
           placeholder="请选择垂直方向"
           @change="changeFun('y',dataInfo.y)"
           size="mini"
+          :disabled="cDisabled"
         >
           <el-option
             v-for="item in yDirections"
@@ -107,7 +122,7 @@
 import baseItem from "../baseItem";
 import { defaultTtileKeys, fontStyleOptions, fontFamilyOptions, xDirections, yDirections } from "../commonData/commonData";
 import componentsMixins from "../mixins/component";
-// import { isObject } from "@/utils/common";
+import { clearValues } from "../../../utils/utils";
 export default {
   name: "titleComponents",
   mixins: [componentsMixins],
@@ -116,8 +131,7 @@ export default {
   },
   data () {
     return {
-      dataInfo: JSON.parse(JSON.stringify(defaultTtileKeys)),
-      defaultData: JSON.parse(JSON.stringify(defaultTtileKeys)),
+      dataInfo: clearValues(defaultTtileKeys),
       fontStyleOptions,
       fontFamilyOptions,
       yDirections,

@@ -1,18 +1,20 @@
 /* eslint-disable indent */
+import { defaultTtileKeys } from "../../../../rightTool/components/commonData/commonData";
+import { cloneDeep } from "lodash";
+import { legendData } from "../../../../rightTool/components/commonData/legendData";
+let currentLegendData = {
+	data: ["邮件营销", "联盟广告", "视频广告", "直接访问", "搜索引擎"],
+};
 export const lineStack = {
 	name: "多条折线图",
 	type: "line",
 	images: require("@/assets/images/line-stack.jpg"),
 	optionsData: {
-		title: {
-			text: "折线图堆叠",
-		},
+		title: defaultTtileKeys,
 		tooltip: {
 			trigger: "axis",
 		},
-		legend: {
-			data: ["邮件营销", "联盟广告", "视频广告", "直接访问", "搜索引擎"],
-		},
+		legend: Object.assign({}, cloneDeep(legendData), currentLegendData),
 		grid: {
 			left: "3%",
 			right: "4%",

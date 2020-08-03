@@ -1,9 +1,14 @@
 /* eslint-disable indent */
+import { defaultTtileKeys } from "../../../../rightTool/components/commonData/commonData";
+import { legendData } from "../../../../rightTool/components/commonData/legendData";
+import { cloneDeep } from "lodash";
 export const areaBasicData = {
 	name: "折线图",
 	type: "line",
 	images: require("@/assets/images/area-basic.jpg"),
 	optionsData: {
+		title: defaultTtileKeys,
+		legend: cloneDeep(legendData),
 		xAxis: {
 			type: "category",
 			boundaryGap: false,

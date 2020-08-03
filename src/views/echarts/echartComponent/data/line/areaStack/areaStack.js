@@ -1,12 +1,16 @@
 /* eslint-disable indent */
+import { defaultTtileKeys } from "../../../../rightTool/components/commonData/commonData";
+import { cloneDeep } from "lodash";
+import { legendData } from "../../../../rightTool/components/commonData/legendData";
+let currentLegendData = {
+	data: ["邮件营销", "联盟广告", "视频广告", "直接访问", "搜索引擎"],
+};
 export const areaStack = {
 	name: "堆叠折线图",
 	type: "line",
 	images: require("@/assets/images/area-stack.jpg"),
 	optionsData: {
-		title: {
-			text: "堆叠区域图",
-		},
+		title: defaultTtileKeys,
 		tooltip: {
 			trigger: "axis",
 			axisPointer: {
@@ -16,9 +20,7 @@ export const areaStack = {
 				},
 			},
 		},
-		legend: {
-			data: ["邮件营销", "联盟广告", "视频广告", "直接访问", "搜索引擎"],
-		},
+		legend: Object.assign({}, cloneDeep(legendData), currentLegendData),
 		toolbox: {
 			feature: {
 				saveAsImage: {},

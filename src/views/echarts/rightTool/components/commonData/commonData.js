@@ -1,4 +1,5 @@
 /* eslint-disable indent */
+// import { clearValues } from "../../../utils/utils";
 export const defaultTtileKeys = {
 	text: "默认标题",
 	show: true,
@@ -12,7 +13,6 @@ export const defaultTtileKeys = {
 	x: "left",
 	y: "top",
 };
-
 export const fontStyleOptions = [
 	{ label: "normal", value: "normal" },
 	{ label: "italic", value: "italic" },

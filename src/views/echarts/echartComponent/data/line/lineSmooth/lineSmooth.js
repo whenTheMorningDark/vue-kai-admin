@@ -1,9 +1,14 @@
 /* eslint-disable indent */
+import { defaultTtileKeys } from "../../../../rightTool/components/commonData/commonData";
+import { cloneDeep } from "lodash";
+import { legendData } from "../../../../rightTool/components/commonData/legendData";
 export const lineSmooth = {
 	name: "平滑折线图",
 	type: "line",
 	images: require("@/assets/images/line-smooth.jpg"),
 	optionsData: {
+		title: defaultTtileKeys,
+		legend: cloneDeep(legendData),
 		xAxis: {
 			type: "category",
 			data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],

@@ -8,7 +8,13 @@
     </div>
     <div class="wrapper-row" v-for="item in attrsData" :key="item.id">
       <BaseItem :label="sItem.label" v-for="sItem in item.children" :key="sItem.type">
-        <el-input-number v-model="sItem.value" :min="1" size="mini" @change="changeFun(sItem)"></el-input-number>
+        <el-input-number
+          v-model="sItem.value"
+          :min="1"
+          size="mini"
+          @change="changeFun(sItem)"
+          :disabled="cShowDisabled"
+        ></el-input-number>
       </BaseItem>
     </div>
   </div>
@@ -16,8 +22,10 @@
 
 <script>
 import BaseItem from "./baseItem";
+import componentsMixins from "../components/mixins/component";
 export default {
   name: "baseAttr",
+  mixins: [componentsMixins],
   components: {
     BaseItem
   },
