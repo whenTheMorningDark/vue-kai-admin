@@ -30,7 +30,6 @@ import { randomStr } from "@/utils";
 import rightTool from "./rightTool/index";
 import History from "./utils/history";
 import event from "./utils/event";
-import { searchKeys } from "@/utils/common";
 export default {
   name: "echarts",
   mixins: [event],
@@ -186,21 +185,6 @@ export default {
     this.stack.setState(this.resizeBox);
     let el = this.$refs.addWrapper;
     el.addEventListener("mousedown", this.addWrapperMouseDownFun);
-    let obj = {
-      key1: "str1",
-      key2: {
-        key3: "str3"
-      },
-      key4: {
-        key5: {
-          key6: "str6",
-          key7: "str7"
-        },
-        key8: "str8"
-      },
-      key9: "str9"
-    };
-    console.log(searchKeys(obj, "str6"));
   },
   destroyed () {
     let el = this.$refs.addWrapper;

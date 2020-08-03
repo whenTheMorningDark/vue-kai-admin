@@ -12,7 +12,6 @@
     </div>
     <div class="wrapper">
       <baseItem label="颜色">
-        <!-- <el-input v-model="titleInfo.text" size="mini" @change="changeFun('text',titleInfo.text)"></el-input> -->
         <el-color-picker
           v-model="titleInfo.textStyle.color"
           size="mini"
@@ -20,12 +19,93 @@
         ></el-color-picker>
       </baseItem>
     </div>
+    <div class="wrapper">
+      <baseItem label="字体">
+        <el-select
+          v-model="titleInfo.textStyle.fontStyle"
+          placeholder="请选择字体样式"
+          @change="changeFun('textStyle.fontStyle',titleInfo.textStyle.fontStyle)"
+          size="mini"
+        >
+          <el-option
+            v-for="item in fontStyleOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </baseItem>
+    </div>
+
+    <div class="wrapper">
+      <baseItem label="大小">
+        <el-input-number
+          v-model="titleInfo.textStyle.fontSize"
+          :min="1"
+          size="mini"
+          @change="changeFun('textStyle.fontSize',titleInfo.textStyle.fontSize)"
+        ></el-input-number>
+      </baseItem>
+    </div>
+
+    <div class="wrapper">
+      <baseItem label="主题">
+        <el-select
+          v-model="titleInfo.textStyle.fontFamily"
+          placeholder="请选择字体样式"
+          @change="changeFun('textStyle.fontFamily',titleInfo.textStyle.fontFamily)"
+          size="mini"
+        >
+          <el-option
+            v-for="item in fontFamilyOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </baseItem>
+    </div>
+
+    <div class="wrapper">
+      <baseItem label="x方向">
+        <el-select
+          v-model="titleInfo.x"
+          placeholder="请选择水平方向"
+          @change="changeFun('x',titleInfo.x)"
+          size="mini"
+        >
+          <el-option
+            v-for="item in xDirections"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </baseItem>
+    </div>
+    <div class="wrapper">
+      <baseItem label="y方向">
+        <el-select
+          v-model="titleInfo.y"
+          placeholder="请选择垂直方向"
+          @change="changeFun('y',titleInfo.y)"
+          size="mini"
+        >
+          <el-option
+            v-for="item in yDirections"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </baseItem>
+    </div>
   </div>
 </template>
 
 <script>
 import baseItem from "../baseItem";
-import { defaultTtileKeys } from "../commonData/commonData";
+import { defaultTtileKeys, fontStyleOptions, fontFamilyOptions, xDirections, yDirections } from "../commonData/commonData";
 // import { isObject } from "@/utils/common";
 export default {
   name: "titleComponents",
@@ -34,7 +114,14 @@ export default {
   },
   data () {
     return {
-      titleInfo: JSON.parse(JSON.stringify(defaultTtileKeys))
+      titleInfo: JSON.parse(JSON.stringify(defaultTtileKeys)),
+      fontStyleOptions,
+      fontFamilyOptions,
+      yDirections,
+      xDirections,
+      titleData: [
+        { label: "显示", valueKey: "show", type: "el-checkbox" }
+      ] // 标题组件的数据
     };
   },
   methods: {
