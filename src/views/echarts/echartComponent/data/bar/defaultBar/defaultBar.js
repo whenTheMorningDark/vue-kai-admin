@@ -2,6 +2,7 @@
 import { defaultTtileKeys } from "../../../../rightTool/components/commonData/commonData";
 import { legendData } from "../../../../rightTool/components/commonData/legendData";
 import { xData } from "../../../../rightTool/components/commonData/xData";
+import { yData } from "../../../../rightTool/components/commonData/yData";
 import { cloneDeep } from "lodash";
 let currentXdata = {
 	data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"],
@@ -15,7 +16,7 @@ export const defaultBar = {
 		legend: legendData,
 		tooltip: {},
 		xAxis: Object.assign({}, cloneDeep(xData), currentXdata),
-		yAxis: {},
+		yAxis: Object.assign({}, cloneDeep(yData), {}),
 		series: [
 			{
 				name: "销量",

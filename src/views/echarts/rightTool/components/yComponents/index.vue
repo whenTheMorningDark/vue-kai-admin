@@ -5,14 +5,14 @@
       :dataInfo="dataInfo"
       :cShowDisabled="cShowDisabled"
       :cDisabled="cDisabled"
-      attrsKey="xAxis"
+      attrsKey="yAxis"
     ></xyComponent>
   </div>
 </template>
 
 <script>
 import componentsMixins from "../mixins/component";
-import { xData } from "../commonData/xData";
+import { yData } from "../commonData/yData";
 import xyComponent from "../xyComponent";
 import { clearValues } from "../../../utils/utils";
 export default {
@@ -23,7 +23,7 @@ export default {
   },
   data () {
     return {
-      dataInfo: clearValues(xData),
+      dataInfo: clearValues(yData),
       // nameLocationOptions
     };
   },

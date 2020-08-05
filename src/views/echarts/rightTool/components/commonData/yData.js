@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-export const xData = {
+export const yData = {
 	show: true,
 	name: "",
 	nameLocation: "middle",

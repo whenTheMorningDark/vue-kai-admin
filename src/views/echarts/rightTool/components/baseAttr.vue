@@ -41,7 +41,7 @@ export default {
   methods: {
     changeFun (item) {
       console.log(item);
-      this.$emit("change", item);
+      this.$emit("change", { attr: "baseAttr", type: item.type, value: item.value });
     },
     setData (data) {
       let targetArr = ["width", "height", "x", "y"];

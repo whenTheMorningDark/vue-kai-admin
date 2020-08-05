@@ -1,7 +1,15 @@
 <template>
   <div class="echartClass">
     <el-collapse v-model="activeNames" @change="handleChange" accordion>
-      <el-collapse-item title="基本属性" name="1">
+      <el-collapse-item
+        v-for="item in collapseData"
+        :key="item.name"
+        :title="item.title"
+        :name="item.name"
+      >
+        <component :is="item.type" @change="changeFun" :ref="item.ref"></component>
+      </el-collapse-item>
+      <!-- <el-collapse-item title="基本属性" name="1">
         <baseAttr ref="baseAttr" @change="changeBaseAttrFun"></baseAttr>
       </el-collapse-item>
       <el-collapse-item title="标题组件" name="2">
@@ -13,6 +21,10 @@
       <el-collapse-item title="x轴组件" name="4">
         <xComponents ref="xComponents" @change="changeDataFun"></xComponents>
       </el-collapse-item>
+
+      <el-collapse-item title="y轴组件" name="5">
+        <yComponents ref="yComponents" @change="changeDataFun"></yComponents>
+      </el-collapse-item>-->
     </el-collapse>
   </div>
 </template>
@@ -22,6 +34,7 @@ import baseAttr from "../components/baseAttr";
 import titleComponents from "../components/titleComponents";
 import legendComponents from "../components/legendComponents";
 import xComponents from "../components/xComponents";
+import yComponents from "../components/yComponents";
 import { mapGetters } from "vuex";
 export default {
   name: "echartClass",
@@ -30,7 +43,14 @@ export default {
     return {
       activeNames: ["1"],
       timer: null,
-      currentId: ""
+      currentId: "",
+      collapseData: [
+        { name: "1", title: "基本属性", type: baseAttr, ref: "baseAttr", },
+        { name: "2", title: "标题组件", type: titleComponents, ref: "titleComponents" },
+        { name: "3", title: "图例组件", type: legendComponents, ref: "legendComponents" },
+        { name: "4", title: "x轴组件", type: xComponents, ref: "xComponents" },
+        { name: "5", title: "y轴组件", type: yComponents, ref: "yComponents" }
+      ]
     };
   },
   computed: {
@@ -40,7 +60,8 @@ export default {
     baseAttr,
     titleComponents,
     legendComponents,
-    xComponents
+    xComponents,
+    yComponents
   },
   watch: {
     currentTarget: {
@@ -50,15 +71,18 @@ export default {
         //   return;
         // }
         console.log("出发");
-        this.$refs.baseAttr.setData(nVal);
-        let mapComponent = {
-          titleComponents: "title",
-          legendComponents: "legend",
-          xComponents: "xAxis"
-        };
-        for (let key in mapComponent) {
-          this.setData(nVal, key, mapComponent[key]);
-        }
+        this.$nextTick(() => {
+          this.$refs.baseAttr[0].setData(nVal);
+          let mapComponent = {
+            titleComponents: "title",
+            legendComponents: "legend",
+            xComponents: "xAxis",
+            yComponents: "yAxis"
+          };
+          for (let key in mapComponent) {
+            this.setData(nVal, key, mapComponent[key]);
+          }
+        });
       }
     }
   },
@@ -69,10 +93,11 @@ export default {
     // 设置数据
     setData (data, key, value) {
       if (Object.keys(data).length === 0) {
-        this.$refs[key].setData(data);
+        this.$refs[key][0].setData(data);
       } else {
         let targetObject = data.optionsData[value];
-        this.$refs[key].setData(targetObject);
+
+        this.$refs[key][0].setData(targetObject);
       }
     },
     // // 修改图例的值
@@ -83,18 +108,25 @@ export default {
     // changexDataFun ({ type, value }) {
     //   this.$store.commit("echart/changeCurrentTagetOptions", { attr: "xAxis", key: type, value: value });
     // },
+    changeFun ({ attr, type, value }) {
+      if (attr === "baseAttr") {
+        this.changeBaseAttrFun(type, value);
+      } else {
+        this.changeDataFun({ attr, type, value });
+      }
+    },
     // 改变标题组件的值
     changeDataFun ({ attr, type, value }) {
       this.$store.commit("echart/changeCurrentTagetOptions", { attr, key: type, value: value });
     },
     // 改变基础属性的回调
-    changeBaseAttrFun (item) {
-      this.$store.commit("echart/changeCurrentTagetAttr", { key: item.type, value: item.value });
+    changeBaseAttrFun (type, value) {
+      this.$store.commit("echart/changeCurrentTagetAttr", { key: type, value: value });
       let widthHeightArr = ["width", "height"];
       let xYArr = ["x", "y"];
-      if (widthHeightArr.includes(item.type)) {
+      if (widthHeightArr.includes(type)) {
         this.root.onResize();
-      } else if (xYArr.includes(item.type)) {
+      } else if (xYArr.includes(type)) {
         this.root.onDragFun();
       }
     }
