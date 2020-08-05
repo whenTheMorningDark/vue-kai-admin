@@ -2,7 +2,7 @@
 export const xData = {
 	show: true,
 	name: "kafei",
-	nameLocation: "end",
+	nameLocation: "middle",
 	nameTextStyle: {
 		color: "#333",
 		fontSize: 14,

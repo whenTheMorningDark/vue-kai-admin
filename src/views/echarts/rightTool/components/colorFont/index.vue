@@ -5,7 +5,7 @@
         <component
           :is="item.type"
           v-model="dataInfo[attrsKey][item.keys]"
-          @change="changeFun"
+          @change="changeFun(item.keys)"
           :disabled="disabled"
           size="mini"
         >
@@ -81,8 +81,8 @@ export default {
     baseItem
   },
   methods: {
-    changeFun () {
-      this.$emit("changeColorFont", this.attrs, `${this.attrsKey}.color`, this.dataInfo[this.attrsKey].color);
+    changeFun (keys) {
+      this.$emit("changeColorFont", this.attrs, `${this.attrsKey}.${keys}`, this.dataInfo[this.attrsKey][keys]);
     }
   }
 };
