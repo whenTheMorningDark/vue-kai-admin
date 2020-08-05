@@ -2,6 +2,7 @@
 import { defaultTtileKeys } from "../../../../rightTool/components/commonData/commonData";
 import { cloneDeep } from "lodash";
 import { legendData } from "../../../../rightTool/components/commonData/legendData";
+import { xData } from "../../../../rightTool/components/commonData/xData";
 let currentLegendData = {
 	data: [
 		"直接访问",
@@ -14,6 +15,10 @@ let currentLegendData = {
 		"必应",
 		"其他",
 	],
+};
+let currentXdata = {
+	type: "category",
+	data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
 };
 export const barStackBar = {
 	name: "堆叠柱状图",
@@ -35,12 +40,7 @@ export const barStackBar = {
 			bottom: "3%",
 			containLabel: true,
 		},
-		xAxis: [
-			{
-				type: "category",
-				data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-			},
-		],
+		xAxis: Object.assign({}, cloneDeep(xData), currentXdata),
 		yAxis: [
 			{
 				type: "value",

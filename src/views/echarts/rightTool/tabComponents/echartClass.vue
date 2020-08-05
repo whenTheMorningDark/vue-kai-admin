@@ -1,6 +1,6 @@
 <template>
   <div class="echartClass">
-    <el-collapse v-model="activeNames" @change="handleChange">
+    <el-collapse v-model="activeNames" @change="handleChange" accordion>
       <el-collapse-item title="基本属性" name="1">
         <baseAttr ref="baseAttr" @change="changeBaseAttrFun"></baseAttr>
       </el-collapse-item>

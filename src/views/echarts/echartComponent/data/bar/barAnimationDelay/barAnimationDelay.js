@@ -2,6 +2,7 @@
 import { defaultTtileKeys } from "../../../../rightTool/components/commonData/commonData";
 import { cloneDeep } from "lodash";
 import { legendData } from "../../../../rightTool/components/commonData/legendData";
+import { xData } from "../../../../rightTool/components/commonData/xData";
 let currentLegendData = {
 	data: ["bar", "bar2"],
 };
@@ -13,6 +14,12 @@ for (var i = 0; i < 100; i++) {
 	data1.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
 	data2.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
 }
+let currentXdata = {
+	data: xAxisData,
+	splitLine: {
+		show: false,
+	},
+};
 export const barAnimationDelay = {
 	name: "柱状图动画延迟",
 	type: "bar",
@@ -33,12 +40,7 @@ export const barAnimationDelay = {
 			},
 		},
 		tooltip: {},
-		xAxis: {
-			data: xAxisData,
-			splitLine: {
-				show: false,
-			},
-		},
+		xAxis: Object.assign({}, cloneDeep(xData), currentXdata),
 		yAxis: {},
 		series: [
 			{

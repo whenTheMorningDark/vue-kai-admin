@@ -1,6 +1,15 @@
 /* eslint-disable indent */
 import { defaultTtileKeys } from "../../../../rightTool/components/commonData/commonData";
 import { legendData } from "../../../../rightTool/components/commonData/legendData";
+import { xData } from "../../../../rightTool/components/commonData/xData";
+import { cloneDeep } from "lodash";
+let currentXdata = {
+	type: "category",
+	data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+	axisTick: {
+		alignWithLabel: true,
+	},
+};
 export const barTickAlign = {
 	name: "坐标轴刻度与标签对齐",
 	type: "bar",
@@ -22,15 +31,7 @@ export const barTickAlign = {
 			bottom: "3%",
 			containLabel: true,
 		},
-		xAxis: [
-			{
-				type: "category",
-				data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-				axisTick: {
-					alignWithLabel: true,
-				},
-			},
-		],
+		xAxis: Object.assign({}, cloneDeep(xData), currentXdata),
 		yAxis: [
 			{
 				type: "value",

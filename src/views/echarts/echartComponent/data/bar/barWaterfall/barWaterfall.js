@@ -2,6 +2,20 @@
 import { defaultTtileKeys } from "../../../../rightTool/components/commonData/commonData";
 import { legendData } from "../../../../rightTool/components/commonData/legendData";
 import { cloneDeep } from "lodash";
+import { xData } from "../../../../rightTool/components/commonData/xData";
+let currentXdata = {
+	type: "category",
+	splitLine: {
+		show: false,
+	},
+	data: (function() {
+		var list = [];
+		for (var i = 1; i <= 11; i++) {
+			list.push("11月" + i + "日");
+		}
+		return list;
+	})(),
+};
 let currentLegendData = {
 	data: ["支出", "收入"],
 	left: 10,
@@ -36,19 +50,7 @@ export const barWaterfall = {
 			bottom: "3%",
 			containLabel: true,
 		},
-		xAxis: {
-			type: "category",
-			splitLine: {
-				show: false,
-			},
-			data: (function() {
-				var list = [];
-				for (var i = 1; i <= 11; i++) {
-					list.push("11月" + i + "日");
-				}
-				return list;
-			})(),
-		},
+		xAxis: Object.assign({}, cloneDeep(xData), currentXdata),
 		yAxis: {
 			type: "value",
 		},
