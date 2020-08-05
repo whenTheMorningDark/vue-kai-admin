@@ -19,65 +19,6 @@
         ></el-input>
       </baseItem>
     </div>
-    <div class="wrapper">
-      <baseItem label="颜色">
-        <el-color-picker
-          v-model="dataInfo.textStyle.color"
-          size="mini"
-          @change="changeFun('title','textStyle.color',dataInfo.textStyle.color)"
-          :disabled="cDisabled"
-        ></el-color-picker>
-      </baseItem>
-    </div>
-    <div class="wrapper">
-      <baseItem label="字体">
-        <el-select
-          v-model="dataInfo.textStyle.fontStyle"
-          placeholder="请选择字体样式"
-          @change="changeFun('title','textStyle.fontStyle',dataInfo.textStyle.fontStyle)"
-          size="mini"
-          :disabled="cDisabled"
-        >
-          <el-option
-            v-for="item in fontStyleOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-      </baseItem>
-    </div>
-
-    <div class="wrapper">
-      <baseItem label="大小">
-        <el-input-number
-          v-model="dataInfo.textStyle.fontSize"
-          :min="1"
-          size="mini"
-          @change="changeFun('title','textStyle.fontSize',dataInfo.textStyle.fontSize)"
-          :disabled="cDisabled"
-        ></el-input-number>
-      </baseItem>
-    </div>
-
-    <div class="wrapper">
-      <baseItem label="主题">
-        <el-select
-          v-model="dataInfo.textStyle.fontFamily"
-          placeholder="请选择字体样式"
-          @change="changeFun('title','textStyle.fontFamily',dataInfo.textStyle.fontFamily)"
-          size="mini"
-          :disabled="cDisabled"
-        >
-          <el-option
-            v-for="item in fontFamilyOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-      </baseItem>
-    </div>
 
     <div class="wrapper">
       <baseItem label="x方向">
@@ -115,6 +56,13 @@
         </el-select>
       </baseItem>
     </div>
+    <colorFont
+      :dataInfo="dataInfo"
+      :disabled="cDisabled"
+      @changeColorFont="changeColorFontFun"
+      attrs="title"
+      attrsKey="textStyle"
+    ></colorFont>
   </div>
 </template>
 
@@ -123,11 +71,13 @@ import baseItem from "../baseItem";
 import { defaultTtileKeys, fontStyleOptions, fontFamilyOptions, xDirections, yDirections } from "../commonData/commonData";
 import componentsMixins from "../mixins/component";
 import { clearValues } from "../../../utils/utils";
+import colorFont from "../colorFont/index";
 export default {
   name: "titleComponents",
   mixins: [componentsMixins],
   components: {
-    baseItem
+    baseItem,
+    colorFont
   },
   data () {
     return {
@@ -137,6 +87,11 @@ export default {
       yDirections,
       xDirections
     };
+  },
+  methods: {
+    changeColorFontFun (attrs, props, value) {
+      this.changeFun(attrs, props, value);
+    },
   }
 };
 </script>
