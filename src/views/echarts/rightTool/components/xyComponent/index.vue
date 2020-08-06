@@ -21,7 +21,8 @@
     </div>
 
     <div class="wrapper">
-      <baseItem :width="70" label="x轴文本">
+      <baseItem :width="70" :label="cLabel+'文本'">
+        <!-- @click="handleFontclick" -->
         <settingDialog
           :dataInfo="dataInfo"
           :disabled="cDisabled"
@@ -29,7 +30,7 @@
           :attrs="attrsKey"
           :width="70"
           attrsKey="nameTextStyle"
-          @click="handleFontclick"
+          :clickBeforFun="handleFontclick"
         ></settingDialog>
       </baseItem>
     </div>
@@ -55,7 +56,7 @@
           :attrs="attrsKey"
           :width="70"
           attrsKey="axisLabel"
-          @click="handleAxisLabelclick"
+          :clickBeforFun="handleAxisLabelclick"
         ></settingDialog>
       </baseItem>
     </div>
@@ -90,6 +91,11 @@ export default {
     baseInput,
     settingDialog
   },
+  computed: {
+    cLabel () {
+      return this.attrsKey === "xAxis" ? "x轴" : "y轴";
+    }
+  },
   data () {
     return {
       nameLocationOptions,
@@ -114,37 +120,33 @@ export default {
       this.$emit("change", attr, type, value);
     },
     // 检测弹窗的公用方法
-    checkDialogFun ({ message, reslove, check }) {
-      if (this.cDisabled) {
-        return;
-      }
+    checkDialogFun ({ message, check }) {
       if (check) {
         this.$message({
           message: message,
           type: "warning"
         });
-      } else {
-        reslove();
+        return false;
       }
+      return true;
     },
     // 处理点击文本的icon
-    handleFontclick (reslove) {
+    handleFontclick () {
       let check = this.dataInfo.name.length === 0;
       let json = {
-        message: "请输入x轴文字",
-        reslove,
+        message: `请输入${this.cLabel}文字`,
         check
       };
-      this.checkDialogFun(json);
+      return this.checkDialogFun(json);
     },
-    handleAxisLabelclick (reslove) {
+    // 处理点击xy轴的icon
+    handleAxisLabelclick () {
       let check = !this.dataInfo.axisLabel.show;
       let json = {
-        message: "请勾选显示x轴",
-        reslove,
+        message: `请勾选显示${this.cLabel}轴`,
         check
       };
-      this.checkDialogFun(json);
+      return this.checkDialogFun(json);
     }
   }
 };

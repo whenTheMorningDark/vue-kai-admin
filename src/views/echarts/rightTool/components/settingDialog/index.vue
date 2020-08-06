@@ -23,6 +23,10 @@ export default {
     };
   },
   props: {
+    clickBeforFun: { // 点击前校验函数
+      type: Function,
+      default: () => true
+    },
     dataInfo: {
       type: Object,
       default: () => ({})
@@ -55,7 +59,10 @@ export default {
       this.$emit("changeColorFont", this.attrs, `${this.attrsKey}.${keys}`, this.dataInfo[this.attrsKey][keys]);
     },
     handleClick () {
-      this.$emit("click", this.showDialogFun);
+      if (this.clickBeforFun()) {
+        this.showDialogFun();
+      }
+      // this.$emit("click", this.showDialogFun);
     },
     showDialogFun () {
       this.dialogVisible = true;

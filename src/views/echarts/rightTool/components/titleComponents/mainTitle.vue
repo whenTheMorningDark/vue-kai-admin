@@ -57,28 +57,33 @@
         </el-select>
       </baseItem>
     </div>
-    <colorFont
-      :dataInfo="dataInfo"
-      :disabled="cDisabled"
-      @changeColorFont="changeColorFontFun"
-      attrs="title"
-      attrsKey="textStyle"
-    ></colorFont>
+    <div class="wrapper">
+      <baseItem label="样式">
+        <settingDialog
+          :dataInfo="dataInfo"
+          :disabled="cDisabled"
+          @changeColorFont="changeColorFontFun"
+          attrs="title"
+          :width="70"
+          attrsKey="textStyle"
+        ></settingDialog>
+      </baseItem>
+    </div>
   </div>
 </template>
 
 <script>
 import baseItem from "../baseItem";
+import settingDialog from "../settingDialog";
 import { defaultTtileKeys, fontStyleOptions, fontFamilyOptions, xDirections, yDirections } from "../commonData/commonData";
 import componentsMixins from "../mixins/component";
 import { clearValues } from "../../../utils/utils";
-import colorFont from "../colorFont/index";
 export default {
   name: "mainTitle",
   mixins: [componentsMixins],
   components: {
     baseItem,
-    colorFont
+    settingDialog
   },
   data () {
     return {
@@ -92,7 +97,7 @@ export default {
   methods: {
     changeColorFontFun (attrs, props, value) {
       this.changeFun(attrs, props, value);
-    },
+    }
   }
 };
 </script>
