@@ -17,7 +17,6 @@ export default {
 			this.$emit("change", { attr, type, value });
 		},
 		setData(data) {
-			console.log(data);
 			if (!data || data === null || Object.keys(data).length === 0) {
 				this.dataInfo = clearValues(this.dataInfo);
 			} else {
@@ -26,7 +25,6 @@ export default {
 					this.$set(this.dataInfo, v, data[v]);
 				});
 			}
-			console.log(this.dataInfo.nameTextStyle);
 		},
 	},
 };

@@ -1,31 +1,11 @@
 <template>
   <div class="colorFont">
-    <div class="wrapper" v-for="item in colorFontData" :key="item.keys">
-      <baseItem :label="item.label" :width="width">
-        <component
-          :is="item.type"
-          v-model="dataInfo[attrsKey][item.keys]"
-          @change="changeFun(item.keys)"
-          :disabled="disabled"
-          size="mini"
-          v-bind="item.props"
-        >
-          <template v-if="item.type==='el-select' && item.option && item.option.length>0">
-            <el-option
-              v-for="item in item.option"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </template>
-        </component>
-      </baseItem>
-    </div>
+    <baseInput v-bind="$props" :componentData="colorFontData" @changeColorFont="changeColorFont"></baseInput>
   </div>
 </template>
 
 <script>
-import baseItem from "../baseItem";
+import baseInput from "../baseInput";
 const fontStyleOptions = [
   { label: "normal", value: "normal" },
   { label: "italic", value: "italic" },
@@ -83,21 +63,13 @@ export default {
     }
   },
   components: {
-    baseItem
+    baseInput
   },
   methods: {
-    changeFun (keys) {
+    changeColorFont (keys) {
       this.$emit("changeColorFont", this.attrs, `${this.attrsKey}.${keys}`, this.dataInfo[this.attrsKey][keys]);
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
-.wrapper {
-  margin-bottom: 5px;
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-</style>

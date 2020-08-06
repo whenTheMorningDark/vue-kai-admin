@@ -15,6 +15,13 @@ export const xData = {
 	axisLabel: {
 		formatter: "{value}",
 		show: true,
+		rotate: 0,
+		margin: 8,
+		color: "#333",
+		fontSize: 14,
+		fontStyle: "normal",
+		fontWeight: "bolder",
+		fontFamily: "Microsoft YaHei",
 	},
 };
 export const nameLocationOptions = [
