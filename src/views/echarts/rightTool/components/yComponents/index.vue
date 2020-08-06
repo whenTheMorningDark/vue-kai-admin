@@ -12,7 +12,7 @@
 
 <script>
 import componentsMixins from "../mixins/component";
-import { yData } from "../commonData/yData";
+import { xData } from "../commonData/xData";
 import xyComponent from "../xyComponent";
 import { clearValues } from "../../../utils/utils";
 export default {
@@ -23,7 +23,7 @@ export default {
   },
   data () {
     return {
-      dataInfo: clearValues(yData),
+      dataInfo: clearValues(xData),
       // nameLocationOptions
     };
   },

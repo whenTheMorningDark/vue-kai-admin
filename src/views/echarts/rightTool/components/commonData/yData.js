@@ -11,6 +11,10 @@ export const yData = {
 		fontFamily: "Microsoft YaHei",
 	},
 	nameGap: 15,
+	axisLabel: {
+		formatter: "{value}",
+		show: true,
+	},
 };
 export const nameLocationOptions = [
 	{ label: "start", value: "start" },

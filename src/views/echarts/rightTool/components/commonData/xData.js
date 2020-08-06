@@ -12,6 +12,10 @@ export const xData = {
 	},
 	nameGap: 15,
 	nameRotate: 0,
+	axisLabel: {
+		formatter: "{value}",
+		show: true,
+	},
 };
 export const nameLocationOptions = [
 	{ label: "start", value: "start" },

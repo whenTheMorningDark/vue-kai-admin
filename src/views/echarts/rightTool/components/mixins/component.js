@@ -26,6 +26,7 @@ export default {
 					this.$set(this.dataInfo, v, data[v]);
 				});
 			}
+			console.log(this.dataInfo.nameTextStyle);
 		},
 	},
 };

@@ -1,6 +1,6 @@
 <template>
   <div class="baseItem">
-    <div class="baseItem-label">{{label}}</div>
+    <div class="baseItem-label" :style="{width:width+'px'}">{{label}}</div>
     <div class="baseItem-content">
       <slot></slot>
     </div>
@@ -14,6 +14,10 @@ export default {
     label: {
       type: String,
       default: ""
+    },
+    width: {
+      type: Number,
+      default: 50
     }
   }
 };
@@ -25,7 +29,6 @@ export default {
   height: 100%;
   display: flex;
   .baseItem-label {
-    width: 50px;
     // text-align: center;
     display: flex;
     align-items: center;

@@ -1,7 +1,7 @@
 <template>
   <div class="xyComponents">
     <div class="wrapper">
-      <baseItem label="显示">
+      <baseItem label="显示" :width="70">
         <el-checkbox
           v-model="dataInfo.show"
           @change="changeFun(attrsKey,'show',dataInfo.show)"
@@ -10,24 +10,26 @@
       </baseItem>
     </div>
     <div class="wrapper">
-      <baseItem label="名称">
+      <baseItem label="名称" :width="70">
         <el-input
           v-model="dataInfo.name"
           size="mini"
           @change="changeFun(attrsKey,'name',dataInfo.name)"
           :disabled="cDisabled"
+          clearable
         ></el-input>
       </baseItem>
     </div>
 
     <div class="wrapper">
-      <baseItem label="位置">
+      <baseItem label="位置" :width="70">
         <el-select
           v-model="dataInfo.nameLocation"
           placeholder="请选择名称位置"
           @change="changeFun(attrsKey,'nameLocation',dataInfo.nameLocation)"
           size="mini"
           :disabled="cDisabled"
+          clearable
         >
           <el-option
             v-for="item in nameLocationOptions"
@@ -46,11 +48,12 @@
         @changeColorFont="changeColorFontFun"
         :attrs="attrsKey"
         attrsKey="nameTextStyle"
+        :width="70"
       ></colorFont>
     </div>
 
     <div class="wrapper">
-      <baseItem label="距离">
+      <baseItem label="距离" :width="70">
         <el-input-number
           v-model="dataInfo.nameGap"
           :min="1"
@@ -62,7 +65,7 @@
     </div>
 
     <div class="wrapper">
-      <baseItem label="角度">
+      <baseItem label="角度" :width="70">
         <el-input-number
           v-model="dataInfo.nameRotate"
           :min="0"
@@ -70,6 +73,29 @@
           @change="changeFun(attrsKey,'nameRotate',dataInfo.nameRotate)"
           :disabled="cDisabled"
         ></el-input-number>
+      </baseItem>
+    </div>
+
+    <div class="wrapper">
+      <baseItem label="自定义" :width="70">
+        <el-input
+          v-model="dataInfo.axisLabel.formatter"
+          :min="0"
+          size="mini"
+          @change="changeFun(attrsKey,'axisLabel.formatter',dataInfo.axisLabel.formatter)"
+          :disabled="cDisabled"
+          placeholder="必须输入{value}"
+        ></el-input>
+      </baseItem>
+    </div>
+
+    <div class="wrapper">
+      <baseItem label="刻度显示" :width="70">
+        <el-checkbox
+          v-model="dataInfo.axisLabel.show"
+          @change="changeFun(attrsKey,'axisLabel.show',dataInfo.axisLabel.show)"
+          :disabled="cShowDisabled"
+        ></el-checkbox>
       </baseItem>
     </div>
   </div>
@@ -102,7 +128,15 @@ export default {
   },
   data () {
     return {
-      nameLocationOptions
+      nameLocationOptions,
+      // xyData: [
+      //   { label: "名称", type: "el-input", keys: "name", props: { clearable: true } },
+      //   { label: "位置", type: "el-select", keys: "nameLocation", option: nameLocationOptions, props: { clearable: true, placeholder: "请选择名称位置" } },
+      //   { label: "距离", type: "el-input-number", keys: "nameGap", props: { min: 1 } },
+      //   { label: "角度", type: "el-input-number", keys: "nameRotate", props: { min: 0 } },
+      //   { label: "自定义", type: "el-input", keys: "axisLabel.formatter", props: { min: 0, placeholder: "必须输入{value}" } },
+      //   { label: "刻度显示", type: "el-checkbox", keys: "axisLabel.show", props: {} },
+      // ]
     };
   },
   methods: {

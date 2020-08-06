@@ -1,7 +1,7 @@
 <template>
   <div class="colorFont">
     <div class="wrapper" v-for="item in colorFontData" :key="item.keys">
-      <baseItem :label="item.label">
+      <baseItem :label="item.label" :width="width">
         <component
           :is="item.type"
           v-model="dataInfo[attrsKey][item.keys]"
@@ -76,6 +76,10 @@ export default {
     attrsKey: {
       type: String,
       default: ""
+    },
+    width: {
+      type: Number,
+      default: 50
     }
   },
   components: {
