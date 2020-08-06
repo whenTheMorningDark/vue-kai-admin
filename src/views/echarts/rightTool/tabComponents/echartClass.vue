@@ -9,22 +9,6 @@
       >
         <component :is="item.type" @change="changeFun" :ref="item.ref"></component>
       </el-collapse-item>
-      <!-- <el-collapse-item title="基本属性" name="1">
-        <baseAttr ref="baseAttr" @change="changeBaseAttrFun"></baseAttr>
-      </el-collapse-item>
-      <el-collapse-item title="标题组件" name="2">
-        <titleComponents ref="titleComponents" @change="changeDataFun"></titleComponents>
-      </el-collapse-item>
-      <el-collapse-item title="图例组件" name="3">
-        <legendComponents ref="legendComponents" @change="changeDataFun"></legendComponents>
-      </el-collapse-item>
-      <el-collapse-item title="x轴组件" name="4">
-        <xComponents ref="xComponents" @change="changeDataFun"></xComponents>
-      </el-collapse-item>
-
-      <el-collapse-item title="y轴组件" name="5">
-        <yComponents ref="yComponents" @change="changeDataFun"></yComponents>
-      </el-collapse-item>-->
     </el-collapse>
   </div>
 </template>

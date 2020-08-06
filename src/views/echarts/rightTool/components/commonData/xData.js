@@ -10,6 +10,8 @@ export const xData = {
 		fontWeight: "bolder",
 		fontFamily: "Microsoft YaHei",
 	},
+	nameGap: 15,
+	nameRotate: 0,
 };
 export const nameLocationOptions = [
 	{ label: "start", value: "start" },

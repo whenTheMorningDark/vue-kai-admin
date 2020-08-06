@@ -10,6 +10,7 @@ export const yData = {
 		fontWeight: "bolder",
 		fontFamily: "Microsoft YaHei",
 	},
+	nameGap: 15,
 };
 export const nameLocationOptions = [
 	{ label: "start", value: "start" },

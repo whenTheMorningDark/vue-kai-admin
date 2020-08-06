@@ -48,6 +48,30 @@
         attrsKey="nameTextStyle"
       ></colorFont>
     </div>
+
+    <div class="wrapper">
+      <baseItem label="距离">
+        <el-input-number
+          v-model="dataInfo.nameGap"
+          :min="1"
+          size="mini"
+          @change="changeFun(attrsKey,'nameGap',dataInfo.nameGap)"
+          :disabled="cDisabled"
+        ></el-input-number>
+      </baseItem>
+    </div>
+
+    <div class="wrapper">
+      <baseItem label="角度">
+        <el-input-number
+          v-model="dataInfo.nameRotate"
+          :min="0"
+          size="mini"
+          @change="changeFun(attrsKey,'nameRotate',dataInfo.nameRotate)"
+          :disabled="cDisabled"
+        ></el-input-number>
+      </baseItem>
+    </div>
   </div>
 </template>
 

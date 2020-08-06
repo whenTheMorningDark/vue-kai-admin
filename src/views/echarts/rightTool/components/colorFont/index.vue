@@ -8,6 +8,7 @@
           @change="changeFun(item.keys)"
           :disabled="disabled"
           size="mini"
+          v-bind="item.props"
         >
           <template v-if="item.type==='el-select' && item.option && item.option.length>0">
             <el-option
@@ -50,9 +51,9 @@ export default {
       colorFontData: [
         { label: "颜色", keys: "color", type: "el-color-picker" },
         { label: "大小", keys: "fontSize", type: "el-input-number" },
-        { label: "字体", keys: "fontStyle", type: "el-select", option: fontStyleOptions },
-        { label: "主题", keys: "fontFamily", type: "el-select", option: fontFamilyOptions },
-        { label: "粗细", keys: "fontWeight", type: "el-select", option: fontWeightOptions },
+        { label: "字体", keys: "fontStyle", type: "el-select", option: fontStyleOptions, props: { clearable: true, placeholder: "请选择字体" } },
+        { label: "主题", keys: "fontFamily", type: "el-select", option: fontFamilyOptions, props: { clearable: true, placeholder: "请选择主题" } },
+        { label: "粗细", keys: "fontWeight", type: "el-select", option: fontWeightOptions, props: { clearable: true, placeholder: "请选择粗细" } },
       ],
       fontStyleOptions,
       fontFamilyOptions,
