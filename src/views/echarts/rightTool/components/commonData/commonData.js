@@ -3,7 +3,15 @@
 export const defaultTtileKeys = {
 	text: "默认标题",
 	show: true,
+	subtext: "默认二级标题",
 	textStyle: {
+		color: "#333",
+		fontStyle: "normal",
+		fontWeight: "bolder",
+		fontFamily: "Microsoft YaHei",
+		fontSize: 20,
+	},
+	subtextStyle: {
 		color: "#333",
 		fontStyle: "normal",
 		fontWeight: "bolder",
