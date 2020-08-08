@@ -1,7 +1,12 @@
 
 <h2 align="center">vue中实现ehart图表交互和图表展示</h2>
 
-![image](https://github.com/whenTheMorningDark/vue-kai-admin/blob/master/src/assets/images/area-stack.jpg)
+<p align="center">
+  <img src="http://119.23.36.73/githubImages/echarts1.png">
+</p>
+<p align="center">
+  <img src="http://119.23.36.73/githubImages/echarts2.png">
+</p>
 
 ## 简介
 <p>该模块也是平时工作中所负责的一个模块，目的是为了能够快速生成图表。</p>
