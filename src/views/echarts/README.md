@@ -59,4 +59,63 @@
 在编写代码的过程中我一直在思考的如何让进行最简单和最为高效的开发方式，如果每一个每个图表的引入都要业务组件中引入数据，则会变得非常的麻烦，而这个时候我就想到了webpack中的require.context方法，其中思路与动态生成路由组件是一样的，参考代码在echartComponent/data/utils/common.js中。
 </p>
 
+## 业务组件主要代码实现过程
+
+<h3>顶部导航栏组件</h3>
+<p>该组件只要是用于实现拖拽图表,并且把图表的数据一一暴露出外部组件以供于使用,这里的拖拽我是使用了HTML5拖拽的api进行实现，主要参考代码在于echarts/components/toolbar</p>
+
+```
+<el-popover placement="right" title="选择图表" width="800" trigger="hover">
+  <el-tabs v-model="activeName" type="card">
+    <el-tab-pane
+      :label="item.label"
+      :name="item.name"
+      v-for="(item,index) in listData"
+      :key="index"
+    >
+      <el-row :gutter="20">
+        <el-col :span="6" v-for="(element,index) in item.children" :key="index">
+          <div class="content-wrapper" @dragstart="drag($event,element)" draggable="true">
+            <div class="imgages" v-if="element.images">
+              <img :src="element.images" width="100%" height="140" />
+            </div>
+            <div>{{element.name}}</div>
+            </div>
+        </el-col>
+      </el-row>
+      </el-tab-pane>
+        </el-tabs>
+        <div class="toolbar-item" slot="reference">
+          <SvgIcon iconClass="tubiao" class="icon-item"></SvgIcon>
+        </div>
+      </el-popover>
+			import SvgIcon from "@/components/SvgIcon";
+			import { barChildren } from "../echartComponent/data/bar/index";
+			import { lineChildren } from "../echartComponent/data/line/index";
+			import { pieChildren } from "../echartComponent/data/pie/index";
+			import { scatterChildren } from "../echartComponent/data/scatter/index";
+			import { radarChildren } from "../echartComponent/data/radar/index";
+			listData: [
+        { name: "bar", label: "柱形图", children: barChildren },
+        { name: "line", label: "折线图", children: lineChildren },
+        { name: "pie", label: "饼图", children: pieChildren },
+        { name: "scatter", label: "散点图", children: scatterChildren },
+        { name: "radar", label: "雷达图", children: radarChildren },
+      ],
+```
+<h3>侧边栏组件</h3>
+<p>该组件主要是用来修改当前选中图表的基本属性,包括当前的x,y,width,height和基本的echarts图表属性，值得注意的一点是，我们是需要对外暴露setData和getData这两种方法的，换句话来说，我们只需要调用该组件的setData方法就可以了去设置侧边栏所有的属性值。这里就涉及到了不同组件中的通信方式,为了后面的维护,我选择了vuex来作为数据管理。主要代码在store/modules/echart.js。另外，由于我是使用到了element中form表单组件，那么在vuex中使用v-model是需要在计算属性中，重写set和get方法的。而且我们也不可能一一去重写每个属性，这样代码量就太多了。我在这个地方是通过计算属性去动态获取当前currentData,然后去设置当前的属性值。主要参考代码在echarts/rightTool/tabComponents/echartClass中。</p>
+
+## 关于历史记录代码实现
+
+<p>实现历史记录的功能无非就是使用一个栈堆思想，记录当前你所操作的数据，然后push进这个stack中，然后通过步数来对应stack中的下标元素，但值得注意一点就是,当前操作中断后，我们需要删除后续所有的元素。而且在这个过程中我们需要保证数据的不变性,你可以使用JSON.parse(JSON.stringfly(data))的方式去实现数据的深拷贝,我在这个地方就是用loadsh库中cloneDeep函数。主要实现的代码在src/utils/history.js中</p>
+
+## 最后
+
+这个模块,只是我工作中所抽取出来的一下部分,但是核心的思路是不会变，只是会给添加到许多奇奇怪怪的需求上去而已。如果我这个模块对你有所帮助也希望你能点个star,稍微的小小支持一下。
+
+```
+如果你有其它的问题或者你有其它更加好的实现方法,也欢迎联系我.
+- qq 404792402
+```
 
