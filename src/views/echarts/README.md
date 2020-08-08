@@ -1,6 +1,8 @@
 
 <h2 align="center">vue中实现ehart图表交互和图表展示</h2>
 
+![image](https://github.com/whenTheMorningDark/vue-kai-admin/blob/master/src/assets/images/area-stack.jpg)
+
 ## 简介
 <p>该模块也是平时工作中所负责的一个模块，目的是为了能够快速生成图表。</p>
 <p>在实际工作中的项目这是个主要为了绘制大屏所使用，在这里我选择抽了部分的功能与大家一起分享一下,里面的代码或许不是最好的写法，如果你有不同的写法也欢迎分享和提issues</p>
