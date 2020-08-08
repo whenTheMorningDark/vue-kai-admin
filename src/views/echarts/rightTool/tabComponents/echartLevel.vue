@@ -1,10 +1,16 @@
 <template>
-  <div class="echartLevel">echartLevel</div>
+  <div class="echartLevel">
+    <echartLevelComponents />
+  </div>
 </template>
 
 <script>
+import echartLevelComponents from "../echartLevelComponents";
 export default {
-  name: "echartLevel"
+  name: "echartLevel",
+  components: {
+    echartLevelComponents
+  }
 };
 </script>
 

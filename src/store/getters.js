@@ -10,7 +10,7 @@ const getters = {
 	roles: (state) => state.user.roles,
 	visitedViews: (state) => state.tagsView.visitedViews,
 	cachedViews: (state) => state.tagsView.cachedViews,
-	currentTarget: (state) => state.echart.currentTarget,
+	currentTarget: (state) => state.echart.currentTarget
 };
 // eslint-disable-next-line eol-last
 export default getters;

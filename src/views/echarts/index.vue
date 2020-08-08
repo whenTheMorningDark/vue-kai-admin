@@ -44,6 +44,11 @@ export default {
       root: this
     };
   },
+  computed: {
+    currentSelectArr () {
+      return this.resizeBox.filter(v => v.active);
+    }
+  },
   data () {
     return {
       resizeBox: [],
@@ -115,10 +120,14 @@ export default {
       this.$store.commit("echart/setCurrentTarget", data);
     },
     // 删除的方法
-    delFun (item) {
-      this.resizeBox = this.resizeBox.filter(v => v.id !== item.id);
-      this.currentItem = {};
-      this.$store.commit("echart/setCurrentTarget", this.currentItem);
+    delFun () {
+      // console.log(this.currentSelectArr);
+      // let ids = this.currentSelectArr.map(v => v.id) || [];
+      this.resizeBox = this.resizeBox.filter(v => !v.active);
+      // console.log(this.resizeBox);
+      // this.$store.commit("echart/setCurrentSelectArr", []);
+      // this.currentItem = {};
+      // this.$store.commit("echart/setCurrentTarget", this.currentItem);
       this.stack.setState(this.resizeBox); // 设置历史记录
     },
     // 处理前进和撤销共同方法
@@ -145,14 +154,16 @@ export default {
     },
     // 菜单事件
     handleContextmenu (item) {
-      this.currentItem = item;
-      let filterArr = this.resizeBox.filter(v => v.id !== this.currentItem.id);
-      filterArr.forEach(v => {
-        this.$set(v, "active", false);
-      });
-      let target = this.resizeBox.find(v => v.id === item.id) || {};
-      this.$set(target, "active", true);
-      this.$store.commit("echart/setCurrentTarget", this.currentItem);
+      console.log(item);
+      console.log(this.currentSelectArr);
+      // this.currentItem = item;
+      // let filterArr = this.resizeBox.filter(v => v.id !== this.currentItem.id);
+      // filterArr.forEach(v => {
+      //   this.$set(v, "active", false);
+      // });
+      // let target = this.resizeBox.find(v => v.id === item.id) || {};
+      // this.$set(target, "active", true);
+      // this.$store.commit("echart/setCurrentTarget", this.currentItem);
     },
     // 全选
     selectAllFun () {
@@ -163,20 +174,36 @@ export default {
       console.log(this.resizeBox);
     },
     // 点击addWrapper状态都为false,点击当前resizeBox的active则为true,其它为false
-    addWrapperMouseDownFun (e) { // 点击是图形的情况
-      if (e.target.tagName === "CANVAS") {
-        let filterArr = this.resizeBox.filter(v => v.id !== this.currentItem.id);
-        filterArr.forEach(v => {
-          this.$set(v, "active", false);
-        });
-        this.$store.commit("echart/setCurrentTarget", this.currentItem);
-      } else { // 只是点击空白addWrapper的情况
-        this.resizeBox.forEach(v => {
-          this.$set(v, "active", false);
-        });
-        this.currentItem = {};
-        this.$store.commit("echart/setCurrentTarget", this.currentItem);
+    addWrapperMouseDownFun (e) { // 如果是ctrl+左健的情况
+      console.log(e);
+      if (e.button === 0 && e.ctrlKey) {
+        console.log("c+");
+        console.log(this.resizeBox);
+        // let filterArr = this.resizeBox.filter(v => v.active);
+        // this.$store.commit("echart/setCurrentSelectArr", filterArr);
+        // filterArr.forEach(v => {
+        //   this.$store.commit("echart/setCurrentSelectArr", v);
+        // });
+      } else {
+        console.log(e.button === 1);
+        if (e.target.tagName === "CANVAS" && e.button === 0) { // 点击是图形的情况
+          console.log("点击是图形的情况");
+          let filterArr = this.resizeBox.filter(v => v.id !== this.currentItem.id);
+          filterArr.forEach(v => {
+            this.$set(v, "active", false);
+          });
+          this.$store.commit("echart/setCurrentTarget", this.currentItem);
+        } else if (e.button === 0 && e.target.className === "add-wrapper") { // 只是点击空白addWrapper的情况
+          console.log("只是点击空白addWrapper的情况");
+          this.resizeBox.forEach(v => {
+            this.$set(v, "active", false);
+          });
+          this.currentItem = {};
+          this.$store.commit("echart/setCurrentTarget", this.currentItem);
+          // this.$store.commit("echart/setCurrentSelectArr", []);
+        }
       }
+
     }
   },
   mounted () {
