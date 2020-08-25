@@ -202,8 +202,6 @@ export default {
     },
     // 删除某个树的节点
     getTreeData (treeData, id) {
-      // todo ...
-      // 广度遍历
       if (!treeData || treeData.length === 0) {
         return;
       }
