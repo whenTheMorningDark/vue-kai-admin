@@ -51,11 +51,13 @@ export default {
         section_type: "Type",
 
         /* grid columns */
-        column_wbs: "WBS",
-        column_text: "任务名称",
-        column_start_date: "开始时间",
-        column_duration: "工期",
-        column_add: "",
+        // column_wbs: "WBS",
+        // column_text: "任务名称",
+        // column_start_date: "开始时间",
+        // column_duration: "工期",
+        // column_add: "",
+        // column_end_date: "结束时间",
+
 
         /* link confirmation */
         link: "Link",
@@ -97,8 +99,28 @@ export default {
       }
     });
     gantt.config.scale_unit = "day"; // "minute", "hour", "day", "week", "quarter", "month", "year"
-    gantt.config.scale_height = 50;
-    gantt.config.min_column_width = 80;
+    gantt.config.fit_tasks = true;
+    gantt.config.min_column_width = 50;
+    gantt.config.scale_height = 54;
+    // gantt.config.min_column_width = 80;
+    gantt.config.order_branch = true;
+
+    // gantt.config.order_branch = "marker";
+//     gantt.config.columns = [
+//     {name: "text", label: "任务名称", width: "200", tree: true, editor: {
+//       type: "text", map_to: "text"
+//     }, resize: true },
+//     {name: "start_date", label: "Start time", align: "center", editor: {
+//       type: "date", map_to: "start_date"
+//     } },
+//     {name: "duration", label: "Duration", align: "center", editor: {
+//       type: "number", map_to: "duration"
+//     } },
+//     {name: "end_date", label: "end_date", align: "center", editor: {
+//       type: "date", map_to: "end_date"
+//     } },
+//     {name: "add", label: "", width: 44 }
+// ];
     gantt.attachEvent("onTemplatesReady", function () {
       // 依照年月日周显示日期
       gantt.templates.date_scale = function (date) {

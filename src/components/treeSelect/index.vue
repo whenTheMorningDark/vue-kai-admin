@@ -201,7 +201,6 @@ export default {
           this.selecteds = currentAllNode;
           this.$emit("change", this.selecteds);
         });
-
       }
 
 

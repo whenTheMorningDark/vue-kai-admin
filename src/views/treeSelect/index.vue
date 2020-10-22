@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import treeSelect from "@/components/treeSelect";
+import treeSelect from "@/components/treeSelect/index";
 export default {
   components: {
     treeSelect

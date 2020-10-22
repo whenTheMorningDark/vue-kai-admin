@@ -16,7 +16,11 @@ import "vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css";
 import vdr from "vue-draggable-resizable-gorkys";
 import contentmenu from "v-contextmenu";
 import "v-contextmenu/dist/index.css";
+import wlGantt from "wl-gantt";
 
+import "wl-gantt/lib/wl-gantt.css";
+
+Vue.use(wlGantt);
 Vue.use(contentmenu);
 Vue.component("vdr", vdr);
 Vue.config.productionTip = false;

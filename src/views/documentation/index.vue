@@ -1,15 +1,12 @@
 <template>
-  <div>
-    document
-    <A text="44" :keya="key" title="asdasda" :test="test" @testFun="testFun" />
-  </div>
+  <div>asd</div>
 </template>
 <script>
-import A from "./a";
+// import A from "./a";
 // import { getIntersection } from "@/utils/index";
+import "./call";
 export default {
   components: {
-    A
   },
   data () {
     return {
