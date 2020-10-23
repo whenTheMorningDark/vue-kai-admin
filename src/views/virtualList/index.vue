@@ -1,22 +1,31 @@
 <template>
   <div class="virtualListView">
-    <virtualList :data="data"></virtualList>
+    <virtualList :listData="data" :estimatedItemSize="100" v-slot="slotProps">
+      <Item :item="slotProps.item"/>
+    </virtualList>
   </div>
 </template>
 
 <script>
-import virtualList from "@/components/virtualList";
+import virtualList from "@/components/virtualList/test";
+import Item from "@/components/virtualList/item";
+import faker from "faker";
+let data = [];
+for (let id = 0; id < 1000; id++) {
+  data.push({
+    id,
+    value: faker.lorem.sentences() // 长文本
+  });
+}
 export default {
   name: "virtualListView",
   components: {
-    virtualList
+    virtualList,
+    Item
   },
   data() {
     return {
-      data: Array.from({ length: 300 }, (k, v) => ({
-        value: "王小虎" + v,
-        id: v
-      }))
+      data
     };
   }
 };
@@ -25,5 +34,6 @@ export default {
 <style>
 .virtualListView{
   padding:10px;
+  height: 400px;
 }
 </style>
