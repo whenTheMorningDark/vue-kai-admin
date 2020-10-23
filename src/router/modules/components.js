@@ -37,6 +37,14 @@ const componentsRouter = {
 				title: "递归组件",
 			},
 		},
+		{
+			path: "virtualList",
+			component: () => import("@/views/virtualList/index.vue"),
+			name: "virtualList",
+			meta: {
+				title: "虚拟列表",
+			},
+		},
 	],
 };
 
