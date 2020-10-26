@@ -14,7 +14,7 @@ import virtualList from "@/components/virtualList/test";
 import Item from "@/components/virtualList/item";
 import faker from "faker";
 let data = [];
-for (let id = 0; id < 100; id++) {
+for (let id = 0; id < 2000; id++) {
   data.push({
     id,
     value: faker.lorem.sentences() // 长文本
@@ -37,6 +37,6 @@ export default {
 <style>
 .virtualListView{
   padding:10px;
-  height: 400px;
+  height: 100%;
 }
 </style>

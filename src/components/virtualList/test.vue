@@ -1,12 +1,4 @@
 <template>
-  <!-- <div ref="list" :style="{height}" class="infinite-list-container" @scroll="scrollEvent($event)">
-    <div ref="phantom" class="infinite-list-phantom"></div>
-    <div ref="content" class="infinite-list">
-      <div class="infinite-list-item" ref="items" :id="item._index" :key="item._index" v-for="item in visibleData">
-        <slot ref="slot" :item="item.item"></slot>
-      </div>
-    </div>
-  </div> -->
   <el-scrollbar class="virtualList z-h-100" ref="scrollbar">
       <div ref="list" :style="{height:contentHieghtS+'px'}" class="infinite-list-container">
         <div ref="content" class="infinite-list">
@@ -53,6 +45,7 @@ export default {
       }));
     },
     visibleCount() {
+      console.log(Math.ceil(this.screenHeight / this.estimatedItemSize));
       return Math.ceil(this.screenHeight / this.estimatedItemSize);
     },
     aboveCount() {
@@ -64,10 +57,14 @@ export default {
     visibleData() {
       let start = this.start - this.aboveCount;
       let end = this.end + this.belowCount;
+      console.log(this.belowCount);
+      console.log(start);
+      console.log(end);
       return this._listData.slice(start, end);
     }
   },
   created() {
+    console.log("created");
     this.initPositions();
   },
   mounted() {
@@ -77,7 +74,8 @@ export default {
     this.handleScroll();
   },
   updated() {
-    this.$nextTick(function () {
+    console.log("updated");
+    this.$nextTick(() => {
       if (!this.$refs.items || !this.$refs.items.length) {
         return ;
       }
@@ -107,16 +105,13 @@ export default {
       this.$nextTick(() => {
         let scrollbarEl = this.$refs.scrollbar.wrap;
         scrollbarEl.onscroll = () => {
-          console.log("xx");
-          // @scroll="scrollEvent($event)"
           var st = this.$refs.scrollbar.$refs.wrap.scrollTop;
           this.scrollEvent(st);
-          // var st = this.$refs.scrollbar.$refs.wrap.scrollTop; // 滚动条距离顶部的距离
-          // this.updateVisibleData(st);
         };
       });
     },
     initPositions() {
+      console.log(this.estimatedItemSize);
       this.positions = this.listData.map((d, index) => ({
         index,
         height: this.estimatedItemSize,

@@ -1,25 +1,25 @@
 <template>
-    <!-- virtualList -->
-        <el-scrollbar class="virtualList z-h-100" ref="scrollbar">
-        <div class="virtualList-phantom" ref="content" :style="{height:contentHeight}">
-          <div class="virtualList-wrapper" ref="wrapper">
-            <div
-              class="virtualList-phantom-item"
-              v-for="item in visibleData" :key="item.id"
-              :style="{height:itemHeight+'px'}"
-            >
-              {{item.value}}
-            </div>
-          </div>
-        </div>
-      </el-scrollbar>
+  <el-scrollbar class="virtualList z-h-100" ref="scrollbar">
+    <div class="virtualList-phantom" ref="content" :style="{height:contentHeight}">
+      <div class="virtualList-wrapper" ref="wrapper">
+        <div
+          class="virtualList-phantom-item"
+          v-for="item in visibleData" :key="item.id"
+          :style="{height:itemHeight+'px'}"
+        >
+          <!-- <slot ref="slot" :item="item.item"></slot> -->
+          <slot ref="slot" :item="item"></slot>
+         </div>
+      </div>
+    </div>
+  </el-scrollbar>
 </template>
 
 <script>
 export default {
   name: "virtualList",
   props: {
-    data: {
+    listData: {
       type: Array,
       default: () => []
     },
@@ -30,8 +30,7 @@ export default {
   },
   computed: {
     contentHeight() {
-
-      return this.data.length * this.itemHeight + "px";
+      return this.listData.length * this.itemHeight + "px";
     }
   },
   data() {
@@ -48,7 +47,7 @@ export default {
       const visibleCount = Math.ceil(this.$el.clientHeight / this.itemHeight);
       const start = Math.floor(scrollTop / this.itemHeight);
       const end = start + visibleCount;
-      this.visibleData = this.data.slice(start, end);
+      this.visibleData = this.listData.slice(start, end);
       let pH = start * this.itemHeight;
       this.$refs.content.style.webkitTransform = `translate3d(0, ${-pH}px, 0)`;
       this.$refs.wrapper.style.webkitTransform = `translate3d(0, ${pH * 2}px, 0)`;
@@ -72,13 +71,12 @@ export default {
 }
 .virtualList{
   width:100%;
-  height:400px;
+  height:100%;
   position: relative;
   overflow: hidden;
   border: 1px solid #aaa;
   .virtualList-phantom{
     width:100%;
-    height: 600px;
   }
   .virtualList-wrapper{
     position: absolute;
