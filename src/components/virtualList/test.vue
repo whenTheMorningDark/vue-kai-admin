@@ -1,12 +1,21 @@
 <template>
-  <div ref="list" :style="{height}" class="infinite-list-container" @scroll="scrollEvent($event)">
+  <!-- <div ref="list" :style="{height}" class="infinite-list-container" @scroll="scrollEvent($event)">
     <div ref="phantom" class="infinite-list-phantom"></div>
     <div ref="content" class="infinite-list">
       <div class="infinite-list-item" ref="items" :id="item._index" :key="item._index" v-for="item in visibleData">
         <slot ref="slot" :item="item.item"></slot>
       </div>
     </div>
-  </div>
+  </div> -->
+  <el-scrollbar class="virtualList z-h-100" ref="scrollbar">
+      <div ref="list" :style="{height:contentHieghtS+'px'}" class="infinite-list-container">
+        <div ref="content" class="infinite-list">
+          <div class="infinite-list-item" ref="items" :id="item._index" :key="item._index" v-for="item in visibleData">
+            <slot ref="slot" :item="item.item"></slot>
+          </div>
+      </div>
+      </div>
+  </el-scrollbar>
 </template>
 
 
@@ -65,6 +74,7 @@ export default {
     this.screenHeight = this.$el.clientHeight;
     this.start = 0;
     this.end = this.start + this.visibleCount;
+    this.handleScroll();
   },
   updated() {
     this.$nextTick(function () {
@@ -75,7 +85,8 @@ export default {
       this.updateItemsSize();
       // 更新列表总高度
       let height = this.positions[this.positions.length - 1].bottom;
-      this.$refs.phantom.style.height = height + "px";
+      // this.$refs.phantom.style.height = height + "px";
+      this.contentHieghtS = height;
       // 更新真实偏移量
       this.setStartOffset();
     });
@@ -88,9 +99,23 @@ export default {
       start: 0,
       // 结束索引
       end: 0,
+      contentHieghtS: 0
     };
   },
   methods: {
+    handleScroll() {
+      this.$nextTick(() => {
+        let scrollbarEl = this.$refs.scrollbar.wrap;
+        scrollbarEl.onscroll = () => {
+          console.log("xx");
+          // @scroll="scrollEvent($event)"
+          var st = this.$refs.scrollbar.$refs.wrap.scrollTop;
+          this.scrollEvent(st);
+          // var st = this.$refs.scrollbar.$refs.wrap.scrollTop; // 滚动条距离顶部的距离
+          // this.updateVisibleData(st);
+        };
+      });
+    },
     initPositions() {
       this.positions = this.listData.map((d, index) => ({
         index,
@@ -159,9 +184,9 @@ export default {
       this.$refs.content.style.transform = `translate3d(0,${startOffset}px,0)`;
     },
     // 滚动事件
-    scrollEvent() {
+    scrollEvent(scrollTop) {
       // 当前滚动位置
-      let scrollTop = this.$refs.list.scrollTop;
+      // let scrollTop = this.$refs.list.scrollTop;
       // let startBottom = this.positions[this.start - ]
       // 此时的开始索引
       this.start = this.getStartIndex(scrollTop);
@@ -175,11 +200,23 @@ export default {
 </script>
 
 
-<style scoped>
+<style  lang="scss">
+.z-h-100{
+  height: 100%;
+}
+ .el-scrollbar__wrap{
+    overflow-x: hidden !important;
+  }
+// .virtualList{
+//   .el-scrollbar__wrap{
+//     overflow-x: hidden;
+//   }
+// }
 .infinite-list-container {
-  overflow: auto;
+  overflow: hidden;
   position: relative;
-  -webkit-overflow-scrolling: touch;
+  height: 900px;
+  // -webkit-overflow-scrolling: touch;
 }
 
 .infinite-list-phantom {
