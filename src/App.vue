@@ -10,11 +10,11 @@
 /* eslint-disable space-before-function-paren */
 
 export default {
-  name: 'App',
+  name: "App",
   mounted () {
     // console.log(this.$route);
   }
-}
+};
 </script>
 
 <style>

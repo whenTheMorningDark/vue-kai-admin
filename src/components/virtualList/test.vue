@@ -60,7 +60,6 @@ export default {
   },
   created() {
     this.initPositions();
-    window.vm = this;
   },
   mounted() {
     this.screenHeight = this.$el.clientHeight;
@@ -203,7 +202,12 @@ export default {
   color: #555;
   box-sizing: border-box;
   border-bottom: 1px solid #999;
-  /* height:200px; */
 }
+/* .infinite-list-scrollItem{
+  padding: 5px;
+  color: #555;
+  box-sizing: border-box;
+  border-bottom: 1px solid #999;
+} */
 
 </style>
