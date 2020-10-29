@@ -4,6 +4,7 @@ import {
   mxEvent as MxEvent
   // mxPerimeter
 } from "mxgraph/javascript/mxClient";
+import "./shape";
 // 主要处理键盘触发事件
 export default {
   mounted() {

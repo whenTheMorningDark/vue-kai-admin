@@ -6,12 +6,17 @@
 /* eslint-disable space-before-function-paren */
 
 import {
+  mxGraphModel as MxGraphModel,
   mxGraph as MxGraph,
-  mxCellEditor as MxCellEditor
+  // mxCell as MxCell,
+  // mxGeometry as MxGeometry,
+  // mxEvent as MxEvent,
+  // mxUtils as MxUtils
 } from "mxgraph/javascript/mxClient";
 import methods from "./methods";
 import utils from "./utils";
 import mxEvent from "./mxEvent";
+
 // const rhombus = require('./images/rhombus.gif')
 // const ellipse = require('./images/ellipse.gif')
 // const rounded = require('./images/rounded.gif')
@@ -31,11 +36,10 @@ export default {
   },
   data () {
     return {
-      model: null,
       graph: null,
-      mxgraphData: [],
       historyData: JSON.parse(JSON.stringify(this.graphData)),
-      parent: null
+      parent: null,
+      model: null
     };
   },
   mounted () {
@@ -87,6 +91,7 @@ export default {
     initGraph () {
       this.graph = new MxGraph(this.$refs.container);
       this.parent = this.graph.getDefaultParent();
+      this.model = new MxGraphModel();
       this.$refs.container.style.background = "url(" + require("./images/grid.gif") + ")";
       this.graph.setConnectable(true);
       this.graph.stopEditing(false);
@@ -94,7 +99,7 @@ export default {
       // this.graph.setMultigraph(false);
       this.graph.setAllowLoops(false);
       // console.log(MxCellEditor);
-      MxCellEditor.prototype.blurEnabled = true;
+      // MxCellEditor.prototype.blurEnabled = true;
     },
   }
 };

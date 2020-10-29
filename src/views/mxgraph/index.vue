@@ -27,6 +27,7 @@ import { randomStr } from "@/utils";
 // const ellipse = require("@/assets/images/ellipse.gif");
 // const rounded = require("@/assets/images/rounded.gif");
 // const del = require("@/assets/images/del.png");
+const defaultValue = {strokeColor: "#333", fillColor: "#fff"};
 export default {
   name: "MxgraphContainer",
   provide () {
@@ -40,12 +41,14 @@ export default {
     leftSetting
   },
   // rhombus
+  // "shape=cylinder;strokeWidth=2;fillColor=#ffffff;strokeColor=black;" +
+  //     "gradientColor=#a0a0a0;fontColor=black;fontStyle=1;spacingTop=14;"
   data () {
     return {
       graphData: [
         { id: "5", value: "开始", styleOptions: { shape: "rectangle", strokeColor: "#662B2B", dashed: "0", strokeWidth: 1 }, x: 100, y: 100, width: 100, height: 100, to: [{ id: "7", style: { strokeColor: "red", edgeStyle: "orthogonalEdgeStyle", rounded: 0, orthogonalLoop: 1 }, edgeOptions: { id: "25", value: "8888" } }, { id: "9", edgeOptions: { id: "35", value: "9999" } }], options: { name: "add", type: "start" } },
-        { id: "7", value: "结束1", styleOptions: { shape: "rounded", strokeColor: "#740F9F", dashed: "0", strokeWidth: 2 }, x: 500, y: 400, width: 100, height: 100, to: [], options: { name: "add", type: "rounded" } },
-        { id: "9", value: "结束2", styleOptions: { shape: "ellipse", strokeColor: "#3C00FF", fillColor: "#1EFF00", dashed: "1", strokeWidth: 3 }, x: 600, y: 500, width: 100, height: 100, to: [], options: { name: "add", type: "ellipse" } }
+        { id: "7", value: "结束1", styleOptions: {shape: "cylinder"}, x: 500, y: 400, width: 100, height: 100, to: [], options: { name: "add", type: "rounded" } },
+        { id: "9", value: "结束2", styleOptions: {shape: "cylinder", strokeWidth: 2, fillColor: "#ffffff", strokeColor: "black", backgroundOutline: 1, size: 15, rounded: 1}, x: 600, y: 500, width: 100, height: 100, to: [], options: { name: "add", type: "ellipse" } }
       ],
       styleOptions: {},
       mathKey: 2,
@@ -66,7 +69,8 @@ export default {
       let uid = randomStr(8);
       ev.preventDefault();
       let data = JSON.parse(ev.dataTransfer.getData("data"));
-      let verter = { x: x - elex, y: y - eley, id: uid, value: "矩形", styleOptions: {shape: data.type}, width: 100, height: 100, options: {}, to: [] };
+      let styles = Object.assign(defaultValue, data.styleOptions);
+      let verter = { x: x - elex, y: y - eley, id: uid, value: data.name, styleOptions: styles, width: 100, height: 100, options: {}, to: [] };
       this.$refs.mxGraph.createVerter(verter);
     },
 

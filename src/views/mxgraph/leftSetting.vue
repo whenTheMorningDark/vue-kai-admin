@@ -23,7 +23,16 @@ export default {
   data() {
     return {
       listData: [
-        {name: "基本图形", children: [{name: "矩形", icon: "rectangle", type: "rectangle"}, {name: "圆形", icon: "circle", type: "ellipse"}, {name: "三角形", icon: "triangel", type: "triangel"}, {name: "菱形", icon: "daimond", type: "daimond"}, {name: "五边形", icon: "pentagon", type: "pentagon"}]}
+        {name: "基本图形", children: [
+          {name: "矩形", icon: "rectangle", styleOptions: {shape: "rectangle"}},
+          {name: "圆形", icon: "circle", styleOptions: {shape: "ellipse"}},
+          {name: "三角形", icon: "triangel", styleOptions: {shape: "triangle"}},
+          {name: "菱形", icon: "daimond", styleOptions: {shape: "rhombus"}},
+          {name: "五边形", icon: "pentagon", styleOptions: {shape: "hexagon", perimeter: "hexagonPerimeter2", whiteSpace: "wrap", html: 1, fixedSize: 1, rounded: 1}},
+          {name: "圆柱", icon: "yuanzhu", styleOptions: {shape: "cylinder", whiteSpace: "wrap", html: 1, boundedLbl: 1, backgroundOutline: 1, size: 15, rounded: 1}},
+          {name: "平行四边形", icon: "parallelogram", styleOptions: {shape: "parallelogram", perimeter: "parallelogramPerimeter", whiteSpace: "wrap", html: 1, fixedSize: 1, rounded: 1}},
+          {name: "聚合", icon: "juhe", styleOptions: {shape: "orEllipse"}}
+        ]}
       ]
     };
   },
