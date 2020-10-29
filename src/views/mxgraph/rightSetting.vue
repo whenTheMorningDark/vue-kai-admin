@@ -8,10 +8,10 @@
 </template>
 <script>
 /* eslint-disable space-before-function-paren */
-import Tabs from './tabs'
-import { Arrange, Style, TextStyle } from './components/index'
+import Tabs from "./tabs";
+import { Arrange, Style, TextStyle } from "./components/index";
 export default {
-  name: 'RightSetting',
+  name: "RightSetting",
   components: {
     Tabs,
     Arrange,
@@ -21,20 +21,20 @@ export default {
   props: {
     styleOptions: {
       type: Object,
-      default: () => { }
+      default: () => ({})
     }
   },
   data () {
     return {
-      activeName: 'first',
+      activeName: "first",
       tabsData: [
-        { text: '图形样式', label: 'Style' },
-        { text: '字体样式', label: 'TextStyle' },
-        { text: '额外属性', label: 'Arrange' }
+        { text: "图形样式", label: "Style" },
+        // { text: "字体样式", label: "TextStyle" },
+        // { text: "额外属性", label: "Arrange" }
       ],
-      IscomponentName: 'Style',
-      defaultValue: '图形样式'
-    }
+      IscomponentName: "Style",
+      defaultValue: "图形样式"
+    };
   },
   computed: {
     componentName () {
@@ -42,24 +42,25 @@ export default {
         Arrange,
         Style,
         TextStyle
-      }
-      return map[this.IscomponentName]
+      };
+      return map[this.IscomponentName];
     }
   },
   methods: {
     itemClick (item) {
-      console.log(item)
-      this.IscomponentName = item.label
+      console.log(item);
+      this.IscomponentName = item.label;
     },
     styleChange ({ key, value }) {
-      this.$emit('styleChange', { key, value })
+      this.$emit("styleChange", { key, value });
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .rightSetting {
-  height: calc(100vh - 50px);
+  width: 280px;
+  height: 100%;
   background-color: #304156;
   color: #ffffff;
 }

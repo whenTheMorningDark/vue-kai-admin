@@ -17,10 +17,8 @@
   </div>
 </template>
 <script>
-/* eslint-disable space-before-function-paren */
-
 export default {
-  name: 'Tabs',
+  name: "Tabs",
   props: {
     tabsData: {
       type: Array,
@@ -28,37 +26,37 @@ export default {
     },
     defaultValue: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   data () {
     return {
       currentName: this.defaultValue
-    }
+    };
   },
   watch: {
     defaultValue (nVal, oldVal) {
-      this.updateName(nVal)
+      this.updateName(nVal);
     }
   },
   methods: {
     tabCls (item) {
       return [
-        'tabs-item',
+        "tabs-item",
         {
-          'active': item.text === this.currentName
+          "active": item.text === this.currentName
         }
-      ]
+      ];
     },
     updateName (name) {
-      this.currentName = name
+      this.currentName = name;
     },
     handClickItem (item) {
-      this.updateName(item.text)
-      this.$emit('tab-click', item)
+      this.updateName(item.text);
+      this.$emit("tab-click", item);
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .tabs {

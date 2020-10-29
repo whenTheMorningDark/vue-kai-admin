@@ -6,19 +6,12 @@
 /* eslint-disable space-before-function-paren */
 
 import {
-  mxToolbar as MxToolbar,
-  // mxGraphModel as MxGraphModel,
   mxGraph as MxGraph,
-  mxCell as MxCell,
-  mxGeometry as MxGeometry,
-  mxEvent as MxEvent,
-  mxUtils as MxUtils,
   mxCellEditor as MxCellEditor
 } from "mxgraph/javascript/mxClient";
 import methods from "./methods";
 import utils from "./utils";
 import mxEvent from "./mxEvent";
-import HistoryStack from "./history.js";
 // const rhombus = require('./images/rhombus.gif')
 // const ellipse = require('./images/ellipse.gif')
 // const rounded = require('./images/rounded.gif')
@@ -45,24 +38,18 @@ export default {
       model: null,
       graph: null,
       mxgraphData: [],
-      history: new HistoryStack(20),
       historyData: JSON.parse(JSON.stringify(this.graphData))
     };
   },
   mounted () {
     this.$nextTick(() => {
       this.initGraph();
-      this.initToolbar();
       this.initGraphdata(this.graphData);// 初始化图形
       this.setInitFun();
       this.setKeyHandler();
-      this.record(this.historyData);
     });
   },
   methods: {
-    record (data) {
-      this.history.record(JSON.parse(JSON.stringify(data)));
-    },
     initGraphdata (data) {
       const parent = this.graph.getDefaultParent();
       this.graph.getModel().beginUpdate();
@@ -84,8 +71,6 @@ export default {
           const style = v.height ? v.styleOptions : "";
           const id = v.id || null;
           const verter = this.graph.insertVertex(parent, id, value, x, y, width, height, this.convertStyleToString(style));
-          // console.log(v)
-          // console.log(v.options)
           verter.options = Object.keys(v.options).length > 0 ? v.options : {};
           verter.to = v.to.length > 0 ? v.to : [];
           verter.styleOptions = v.styleOptions || {};
@@ -119,38 +104,6 @@ export default {
         });
       }
     },
-    // this.addToolbarItem(this.graph, toolbar, vertex, icon)
-    addToolbarItem (graph, toolbar, prototype, image, v) {
-      const funct = (graph, evt, cell, x, y) => {
-        const vertex = graph.getModel().cloneCell(prototype);
-        vertex.geometry.x = x;
-        vertex.geometry.y = y;
-        graph.addCell(vertex);
-        // const obj = this.getAddObj(vertex)
-        // this.mxgraphData.push(obj)
-        // console.log(vertex)
-        const obj = this.getAddObj(vertex);
-        console.log(obj);
-        this.graphData.push(obj);
-        this.historyData.push(obj);
-        console.log(this.historyData);
-        this.record(this.historyData);
-        graph.setSelectionCell(vertex);
-      };
-      const img = toolbar.addMode(null, image);
-      img.style.display = "inline-block";
-      img.style.marginRight = "5px";
-      img.width = 16;
-      img.height = 16;
-      MxEvent.addListener(img, "mousedown", (evt) => {
-        if (v.type === "click") {
-          this.$emit("clickToolBar", v);
-        }
-      });
-      if (v.type === "draggble") {
-        MxUtils.makeDraggable(img, graph, funct);
-      }
-    },
     initGraph () {
       this.graph = new MxGraph(this.$refs.container);
       this.$refs.container.style.background = "url(" + require("./images/grid.gif") + ")";
@@ -162,44 +115,6 @@ export default {
       // console.log(MxCellEditor);
       MxCellEditor.prototype.blurEnabled = true;
     },
-    initToolbar () {
-      if (this.toolBarIcon.length === 0) {
-        return;
-      }
-      const tbContainer = document.createElement("div");
-      tbContainer.style.position = "absolute";
-      tbContainer.style.overflow = "hidden";
-      tbContainer.style.padding = "2px";
-      tbContainer.style.left = "0px";
-      tbContainer.style.top = "0px";
-      tbContainer.style.width = 100 + "%";
-      tbContainer.style.height = "24px";
-      tbContainer.style.bottom = "0px";
-      tbContainer.style.background = "#f5f7fa";
-      this.$refs.container.appendChild(tbContainer);
-      // 创建一个mxToolbar
-      const toolbar = new MxToolbar(tbContainer);
-      const addVertex = (icon, value, w, h, style, options, type) => {
-        const vertex = new MxCell(value, new MxGeometry(0, 0, w, h), style);
-        vertex.options = options || {};
-        vertex.to = [];
-        vertex.styleOptions = type.styleOptions || {};
-        vertex.setVertex(true);
-
-        this.addToolbarItem(this.graph, toolbar, vertex, icon, type);
-      };
-      this.toolBarIcon.forEach(v => {
-        const style = v.styleOptions ? this.convertStyleToString(v.styleOptions) : "";
-        // console.log(style)
-        addVertex(v.iconSrc, v.value, v.width, v.height, style, v.options, v);
-        // if (v.type === 'draggble') {
-        //   addVertex(v.iconSrc, v.value, v.width, v.height, style, v.options, v.type)
-        // } else {
-        //   console.log('asd')
-        //   // this.$emit("click")
-        // }
-      });
-    }
   }
 };
 </script>

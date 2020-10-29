@@ -1,9 +1,8 @@
 <template>
   <div class="mxgraph_container">
-    <el-button @click="getData">在控制台看获取的json数据</el-button>
-    <el-scrollbar wrap-class="scrollbar-wrapper" style="height:100%">
-      <el-row>
-        <el-col :span="20">
+    <leftSetting></leftSetting>
+    <div class="mxgraph_mid">
+      <el-scrollbar wrap-class="scrollbar-wrapper" style="height:100%">
           <mxGraphComponent
             v-if="graphData.length > 0"
             ref="mxGraph"
@@ -13,12 +12,9 @@
             @clickToolBar="clickToolBar"
             @click="clickGraphFun"
           />
-        </el-col>
-        <el-col :span="4">
-          <rightSetting :key="currentCell.uuid" @styleChange="styleChange" />
-        </el-col>
-      </el-row>
-    </el-scrollbar>
+      </el-scrollbar>
+    </div>
+    <rightSetting :key="currentCell.uuid" @styleChange="styleChange" />
   </div>
 </template>
 
@@ -27,6 +23,7 @@
 /* eslint-disable object-curly-spacing */
 import mxGraphComponent from "@/components/mxGraph";
 import rightSetting from "./rightSetting";
+import leftSetting from "./leftSetting";
 const rhombus = require("@/assets/images/rhombus.gif");
 const ellipse = require("@/assets/images/ellipse.gif");
 const rounded = require("@/assets/images/rounded.gif");
@@ -40,7 +37,8 @@ export default {
   },
   components: {
     mxGraphComponent,
-    rightSetting
+    rightSetting,
+    leftSetting
   },
   // rhombus
   data () {
@@ -127,10 +125,14 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .mxgraph_container {
   width: 100%;
   height: 100%;
+  display: flex;
+  .mxgraph_mid{
+    height: 100%;
+    width:calc(100% - 280px - 160px)
+  }
 }
 </style>

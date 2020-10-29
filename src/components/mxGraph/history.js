@@ -1,99 +1,88 @@
-
+/* eslint-disable indent */
+import { cloneDeep, isEqual } from "lodash";
+import { Message } from "element-ui";
 class History {
-  constructor(maxSnapshots = 20) {
-    this.maxSnapshots = maxSnapshots;
-    this.snapshots = {};
-    this.cursor = 0;
-  }
+	state = []; // 历史状态
+	index = 0; // 当前状态下标
+	maxState = 20; // 最大保存状态个数 (防止爆栈)
+	setState(state) {
+		debounce(() => {
+			console.log(this.checkRepeat(state));
+			if (this.checkRepeat(state)) {
+				// 判断是否是重复对象进来
+				return;
+			}
 
-  get canUndo () {
-    return this.cursor > 1;
-  }
+			// 限制长度
+			if (this.state.length >= this.maxState) {
+				this.state.shift();
+			}
+			// 如果this.state.length 与this.index不一致说明,当前指针发生了变化,所以将指针后面的都去掉
+			if (this.index < this.state.length - 1) {
+				this.state.splice(this.index + 1, this.state.length - 1);
+			}
+			this.state.push(cloneDeep(state));
+			this.index = this.state.length - 1; // 方便下标的计算 都从0开始计算
+		}, 200);
+	}
 
-  get canClear () {
-    return this.snapshots.length;
-  }
+	getState() {
+		return this.state;
+	}
 
-  get canRedo () {
-    const snapshotKey = Object.keys(this.snapshots);
-    return snapshotKey.length > this.cursor;
-  }
+	replaceState() {
+		// 撤销
+		if (this.index > 0) {
+			this.index--;
+			let state = cloneDeep(this.state[this.index]);
+			return state;
+		} else {
+			// alert("已经无法再进行撤回");
+			Message({
+				message: "无法再撤销操作",
+				type: "warning",
+			});
+		}
+	}
 
-  record (snapshot) {
-    // if (this.checkRepeat(snapshot)) {
-    //   return false
-    // }
-    // while (this.cursor < Object.keys(this.snapshots).length) {
-    //   // this.snapshots.pop();
-    // }
-    let len = Object.keys(this.snapshots).length;
-    if (this.cursor < len) {
-      for (let i = this.cursor; i < len; i++) {
-        delete this.snapshots[i + 1];
-      }
-    }
+	unReplaceState() {
+		if (this.state.length - 1 > this.index) {
+			// 反撤销
+			this.index++;
+			let state = cloneDeep(this.state[this.index]);
+			return state;
+		} else {
+			Message({
+				message: "无法再进行前进操作",
+				type: "warning",
+			});
+		}
+	}
 
-    // 生成唯一的 id，确保在列表渲染时不会重用 DOM
-    // 这样生成的动画更好的表现新旧历史记录的替换
-    // snapshot.uuid = fakeUUID()
-    this.cursor++;
-    console.log(this.cursor);
-    this.snapshots[this.cursor] = snapshot;
-    console.log(this);
-    // 确保历史记录条数限制
-    // if (snapshotKey.length > this.maxSnapshots) {
-    //   const keys = this.snapshotKey.shift()
-    //   delete this.snapshots[keys]
-    // }
-  }
-
-  undo () {
-    if (this.canUndo) {
-      this.cursor -= 1;
-      return this.snapshots[this.cursor];
-    }
-    return null;
-  }
-
-  redo () {
-    if (this.canRedo) {
-      this.cursor += 1;
-      return this.snapshots[this.cursor];
-    }
-    return null;
-  }
-
-  move (cursor) {
-    if (this.snapshots.length > cursor) {
-      this.cursor = cursor;
-      return this.snapshots[this.cursor];
-    }
-  }
-
-  clear () {
-    this.cursor = -1;
-    this.snapshots = [];
-  }
-
-  checkRepeat (snapshot) {
-    const next = snapshot;
-    let prev;
-    if (this.cursor >= 0) {
-      prev = this.snapshots[this.cursor];
-    } else {
-      prev = "";
-    }
-    // 如果更复杂的对象建议使用 deep equal 库
-    if (typeof prev !== "object" || typeof next !== "object") {
-      return false;
-    }
-    let diffFound = false;
-    ["x", "y", "w", "h", "r"].find(k => {
-      diffFound = prev[k] !== next[k];
-      return diffFound;
-    });
-    return !diffFound;
-  }
+	// 检验是否重复元素
+	checkRepeat(snapshot) {
+		const next = snapshot;
+		let prev;
+		if (this.index >= 0) {
+			prev = this.state[this.index];
+		} else {
+			prev = {};
+		}
+		// if(isEqual(next,prev))
+		return isEqual(next, prev);
+	}
 }
-
 export default History;
+let timeout = null;
+/* eslint-disable valid-jsdoc */
+/**
+ * 去抖函数封装体
+ * @param {Fun} fn 执行函数
+ * @param {Number} wait 触发时间
+ */
+export function debounce(fn, wait) {
+	if (timeout !== null) {
+		clearTimeout(timeout);
+	}
+	timeout = setTimeout(fn, wait);
+}
