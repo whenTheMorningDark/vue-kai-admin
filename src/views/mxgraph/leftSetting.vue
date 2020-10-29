@@ -5,7 +5,7 @@
         {{item.name}}
       </div>
       <div class="leftSetting-buttons">
-        <a  v-for="sItem in item.children" :key="sItem.name" :title="sItem.name">
+        <a v-for="sItem in item.children" :key="sItem.name" :title="sItem.name"  @dragstart="drag($event,sItem)" draggable="true">
           <SvgIcon :iconClass="sItem.icon"></SvgIcon>
         </a>
       </div>
@@ -23,9 +23,15 @@ export default {
   data() {
     return {
       listData: [
-        {name: "基本图形", children: [{name: "矩形", icon: "rectangle"}, {name: "圆形", icon: "circle"}, {name: "三角形", icon: "triangel"}, {name: "菱形", icon: "daimond"}, {name: "五边形", icon: "pentagon"}]}
+        {name: "基本图形", children: [{name: "矩形", icon: "rectangle", type: "rectangle"}, {name: "圆形", icon: "circle", type: "ellipse"}, {name: "三角形", icon: "triangel", type: "triangel"}, {name: "菱形", icon: "daimond", type: "daimond"}, {name: "五边形", icon: "pentagon", type: "pentagon"}]}
       ]
     };
+  },
+  methods: {
+    drag (e, element) {
+      console.log(element);
+      e.dataTransfer.setData("data", JSON.stringify(element));
+    }
   }
 };
 </script>

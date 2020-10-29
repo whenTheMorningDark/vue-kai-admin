@@ -20,10 +20,6 @@ export default {
   name: "HelloWorld",
   mixins: [methods, utils, mxEvent],
   props: {
-    toolBarIcon: {
-      type: Array,
-      default: () => []
-    },
     graphData: {
       type: Array,
       default: () => []
@@ -38,7 +34,8 @@ export default {
       model: null,
       graph: null,
       mxgraphData: [],
-      historyData: JSON.parse(JSON.stringify(this.graphData))
+      historyData: JSON.parse(JSON.stringify(this.graphData)),
+      parent: null
     };
   },
   mounted () {
@@ -51,30 +48,13 @@ export default {
   },
   methods: {
     initGraphdata (data) {
-      const parent = this.graph.getDefaultParent();
       this.graph.getModel().beginUpdate();
       if (!data || !(data instanceof Array)) {
         return;
       }
       try {
         data.forEach(v => {
-          // console.log(v)
-          if (!v.to) {
-            v.to = [];
-          }
-          const fakeUUID = () => `${+new Date()}${Math.random()}`;
-          const value = v.value ? v.value : "";
-          const x = v.x ? v.x : 100;
-          const y = v.y ? v.y : 100;
-          const width = v.width ? v.width : 100;
-          const height = v.height ? v.height : 100;
-          const style = v.height ? v.styleOptions : "";
-          const id = v.id || null;
-          const verter = this.graph.insertVertex(parent, id, value, x, y, width, height, this.convertStyleToString(style));
-          verter.options = Object.keys(v.options).length > 0 ? v.options : {};
-          verter.to = v.to.length > 0 ? v.to : [];
-          verter.styleOptions = v.styleOptions || {};
-          verter.uuid = fakeUUID();
+          this.createVerter(v);
         });
         this.initEdgeTo();
       } finally {
@@ -106,6 +86,7 @@ export default {
     },
     initGraph () {
       this.graph = new MxGraph(this.$refs.container);
+      this.parent = this.graph.getDefaultParent();
       this.$refs.container.style.background = "url(" + require("./images/grid.gif") + ")";
       this.graph.setConnectable(true);
       this.graph.stopEditing(false);

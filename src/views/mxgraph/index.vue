@@ -1,20 +1,18 @@
 <template>
   <div class="mxgraph_container">
     <leftSetting></leftSetting>
-    <div class="mxgraph_mid">
+    <div class="mxgraph_mid" @drop="drop" @dragover="allowDrop" ref="addWrapper">
       <el-scrollbar wrap-class="scrollbar-wrapper" style="height:100%">
           <mxGraphComponent
             v-if="graphData.length > 0"
             ref="mxGraph"
-            :tool-bar-icon="toolBarIcon"
             :graph-data="graphData"
             :rules="rules"
-            @clickToolBar="clickToolBar"
             @click="clickGraphFun"
           />
       </el-scrollbar>
     </div>
-    <rightSetting :key="currentCell.uuid" @styleChange="styleChange" />
+    <rightSetting :key="currentCell.id" @styleChange="styleChange" />
   </div>
 </template>
 
@@ -24,10 +22,11 @@
 import mxGraphComponent from "@/components/mxGraph";
 import rightSetting from "./rightSetting";
 import leftSetting from "./leftSetting";
-const rhombus = require("@/assets/images/rhombus.gif");
-const ellipse = require("@/assets/images/ellipse.gif");
-const rounded = require("@/assets/images/rounded.gif");
-const del = require("@/assets/images/del.png");
+import { randomStr } from "@/utils";
+// const rhombus = require("@/assets/images/rhombus.gif");
+// const ellipse = require("@/assets/images/ellipse.gif");
+// const rounded = require("@/assets/images/rounded.gif");
+// const del = require("@/assets/images/del.png");
 export default {
   name: "MxgraphContainer",
   provide () {
@@ -43,14 +42,8 @@ export default {
   // rhombus
   data () {
     return {
-      toolBarIcon: [
-        { styleOptions: { shape: "swimlane" }, width: 100, height: 40, value: "菱形", iconSrc: rhombus, options: { name: "kafei", type: "rhombus" }, type: "draggble" },
-        { styleOptions: { shape: "rounded" }, width: 100, height: 40, value: "矩形", iconSrc: rounded, type: "draggble", options: { name: "kafei", type: "rounded" } },
-        { styleOptions: { shape: "ellipse" }, width: 40, height: 40, value: "圆形", iconSrc: ellipse, type: "draggble", options: { name: "kafei", type: "ellipse" } },
-        { iconSrc: del, type: "click" }
-      ],
       graphData: [
-        { id: "5", value: "开始", styleOptions: { shape: "", strokeColor: "#662B2B", dashed: "0", strokeWidth: 1 }, x: 100, y: 100, width: 100, height: 100, to: [{ id: "7", style: { strokeColor: "red", edgeStyle: "orthogonalEdgeStyle", rounded: 0, orthogonalLoop: 1 }, edgeOptions: { id: "25", value: "8888" } }, { id: "9", edgeOptions: { id: "35", value: "9999" } }], options: { name: "add", type: "start" } },
+        { id: "5", value: "开始", styleOptions: { shape: "rectangle", strokeColor: "#662B2B", dashed: "0", strokeWidth: 1 }, x: 100, y: 100, width: 100, height: 100, to: [{ id: "7", style: { strokeColor: "red", edgeStyle: "orthogonalEdgeStyle", rounded: 0, orthogonalLoop: 1 }, edgeOptions: { id: "25", value: "8888" } }, { id: "9", edgeOptions: { id: "35", value: "9999" } }], options: { name: "add", type: "start" } },
         { id: "7", value: "结束1", styleOptions: { shape: "rounded", strokeColor: "#740F9F", dashed: "0", strokeWidth: 2 }, x: 500, y: 400, width: 100, height: 100, to: [], options: { name: "add", type: "rounded" } },
         { id: "9", value: "结束2", styleOptions: { shape: "ellipse", strokeColor: "#3C00FF", fillColor: "#1EFF00", dashed: "1", strokeWidth: 3 }, x: 600, y: 500, width: 100, height: 100, to: [], options: { name: "add", type: "ellipse" } }
       ],
@@ -60,6 +53,24 @@ export default {
     };
   },
   methods: {
+    allowDrop (ev) {
+      ev.preventDefault();
+    },
+    async drop (ev) {
+      console.log(ev);
+      let ele = this.$refs.addWrapper;
+      let elex = ele.getBoundingClientRect().x;
+      let eley = ele.getBoundingClientRect().y;
+
+      let { x, y } = ev;
+      let uid = randomStr(8);
+      ev.preventDefault();
+      let data = JSON.parse(ev.dataTransfer.getData("data"));
+      let verter = { x: x - elex, y: y - eley, id: uid, value: "矩形", styleOptions: {shape: data.type}, width: 100, height: 100, options: {}, to: [] };
+      this.$refs.mxGraph.createVerter(verter);
+    },
+
+
     styleChange ({ key, value }) {
       const notStyleOptions = ["width", "height"];
       if (notStyleOptions.includes(key)) {

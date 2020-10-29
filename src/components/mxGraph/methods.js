@@ -30,22 +30,23 @@ export default {
       });
     },
     // 生成图形
-    createVerter(baseOptions, options) {
+    createVerter(baseOptions) {
+      console.log(baseOptions);
       const {
         x,
         y,
         width,
         height,
-        style,
-        value
+        styleOptions,
+        value,
+        options,
+        to,
+        id
       } = baseOptions;
-      const verte = this.graph.insertVertex(this.parent, null, value, x, y, width, height, style);
-      const optionsArr = Object.keys(options);
-      if (optionsArr.length > 0) {
-        optionsArr.forEach(v => {
-          verte[v] = options[v];
-        });
-      }
+      const verte = this.graph.insertVertex(this.parent, id || null, value, x, y, width, height, this.convertStyleToString(styleOptions));
+      verte.to = to || [];
+      verte.styleOptions = styleOptions || {};
+      verte.options = options || {};
       return verte;
     },
     // labelchange
