@@ -64,7 +64,6 @@ export default {
       ev.preventDefault();
     },
     async drop (ev) {
-      console.log(ev);
       let ele = this.$refs.addWrapper;
       let elex = ele.getBoundingClientRect().x;
       let eley = ele.getBoundingClientRect().y;
@@ -75,10 +74,8 @@ export default {
       let data = JSON.parse(ev.dataTransfer.getData("data"));
       let styles = Object.assign(defaultValue, data.styleOptions);
       let verter = { x: x - elex, y: y - eley, id: uid, value: data.name, styleOptions: styles, width: 100, height: 100, options: {}, to: [] };
-      this.$refs.mxGraph.createVerter(verter);
+      this.$refs.mxGraph && this.$refs.mxGraph.createVerter(verter);
     },
-
-
     styleChange ({ key, value }) {
       const notStyleOptions = ["width", "height"];
       if (notStyleOptions.includes(key)) {
@@ -102,22 +99,6 @@ export default {
     },
     getData () {
       console.log(this.$refs.mxGraph.getGrapthData());
-    },
-    clickToolBar (v) {
-      console.log(v);
-      // const cell = this.$refs.mxGraph.getSelectionCells()
-      this.$confirm("此操作将永久删除该图形, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
-        this.$refs.mxGraph.removeFun();
-      })["catch"](() => {
-        this.$message({
-          type: "info",
-          message: "已取消删除"
-        });
-      });
     },
     // 自定义是否连线规则
     rules (source, target) {

@@ -74,9 +74,7 @@ export default {
     getGrapthData() {
       const newGraphData = [];
       const currentCell = this.getAllCell();
-      const currentEdge = this.getAllEdge();
-      console.log(currentCell);
-      console.log(currentEdge);
+      // const currentEdge = this.getAllEdge();
       currentCell.forEach(v => {
         const obj = this.getAddObj(v);
         // currentEdge.forEach(s=>{
@@ -85,84 +83,6 @@ export default {
         newGraphData.push(obj);
       });
       return newGraphData;
-    },
-    // 删除图形的方法
-    delAllCell(sourceCell, cell) {
-      sourceCell.forEach(v => {
-        cell.forEach(s => {
-          const index = s.to.findIndex(q => q.id === v.id);
-          if (index >= 0) {
-            s.to.splice(index, 1);
-          }
-        });
-      });
-    },
-    // 删除线条的方法
-    delAllEdge(cell) {
-      cell.forEach(v => {
-        if (v.edge) {
-          const targetId = v.target.id;
-          const source = v.source;
-          const index = source.to.findIndex(s => s.id === targetId);
-          if (index >= 0) {
-            source.to.splice(index, 1);
-          }
-        }
-      });
-    },
-    // 删除后处理图形的to数组
-    removeChange(cell) {
-      const sourceCell = this.getAllCell();
-      const isAllCell = cell.every(v => v.vertex);
-      const isAllEdge = cell.every(v => v.edge);
-      if (sourceCell.length > 0) {
-        if (isAllCell) {
-          // 处理选择到是cell的情况
-          this.delAllCell(cell, sourceCell);
-        } else if (isAllEdge) {
-          // 处理选择到全是edge的情况
-          this.delAllEdge(cell);
-        } else {
-          // 有一些是edge和cell的情况
-          const edgeArr = cell.filter(v => v.edge);
-          const cellArr = cell.filter(v => v.vertex);
-          const sameEdge = edgeArr.filter(v =>
-            cellArr.some(s => s.id === v.target.id)
-          );
-          const relationCell = cellArr.filter(v =>
-            sameEdge.some(s => s.target.id === v.id)
-          );
-          let currenDelCell;
-          if (relationCell.length > 0) {
-            currenDelCell = cellArr.filter(v =>
-              relationCell.some(s => s.id !== v.id)
-            );
-          } else {
-            currenDelCell = cellArr;
-          }
-          this.delAllEdge(edgeArr);
-          this.delAllCell(currenDelCell, sourceCell);
-        }
-      }
-    },
-    // 处理undoRedo
-    handleUndoRedo(event) {
-      // console.log(this.history);
-      // const historyData = this.history[event]();
-      // console.log(historyData);
-      // if (!historyData || !(historyData instanceof Array)) {
-      //   this.$message({
-      //     message: "暂无数据"
-      //   });
-      // } else {
-      //   this.graph.removeCells(
-      //     this.graph.getChildVertices(this.graph.getDefaultParent())
-      //   );
-      //   console.log(this.history);
-      //   console.log(historyData);
-      //   this.historyData = JSON.parse(JSON.stringify(historyData))
-      //   this.initGraphdata(historyData);
-      // }
     },
     // 处理连线向to数据添加数据
     handleConnect(edge, source, target) {
