@@ -48,7 +48,7 @@ export default {
       graphData: [
         { id: "5", value: "开始", styleOptions: { shape: "rectangle", strokeColor: "#662B2B", dashed: "0", strokeWidth: 1 }, x: 100, y: 100, width: 100, height: 100,
           to: [
-            { id: "7", style: { strokeColor: "red", edgeStyle: "orthogonalEdgeStyle", rounded: 0, orthogonalLoop: 1 }, edgeOptions: { id: "25", value: "8888" } },
+            { id: "7", style: { strokeColor: "red", edgeStyle: "orthogonalEdgeStyle", rounded: 0, orthogonalLoop: 1 }, edgeOptions: { id: "25", value: "8888", type: "8888edge" } },
             { id: "9", edgeOptions: { id: "35", value: "9999" } }], options: { name: "add", type: "start" }
         },
         { id: "7", value: "结束1", styleOptions: {shape: "cylinder"}, x: 500, y: 400, width: 100, height: 100, to: [], options: { name: "add", type: "rounded" } },
@@ -83,7 +83,6 @@ export default {
       const notStyleOptions = ["width", "height"];
       if (notStyleOptions.includes(key)) {
         this.currentCell.geometry[key] = value;
-        // this.currentCell[key] = value
       } else {
         this.currentCell.styleOptions[key] = value;
         this.currentCell.style = this.$refs.mxGraph.convertStyleToString(this.currentCell.styleOptions);
@@ -100,7 +99,6 @@ export default {
       } else {
         this.styleOptions = Object.assign(this.styleOptions, cell.styleOptions);
       }
-      console.log(this.styleOptions);
     },
     getData () {
       console.log(this.$refs.mxGraph.getGrapthData());

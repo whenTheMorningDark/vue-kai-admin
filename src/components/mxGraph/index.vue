@@ -82,7 +82,8 @@ export default {
               if (!source || !target) {
                 return;
               }
-              this.graph.insertEdge(this.parent, id, value, source, target, style);
+              let edges = this.graph.insertEdge(this.parent, id, value, source, target, style);
+              edges.edgeOptions = edgeOptions;
             });
           }
         });
