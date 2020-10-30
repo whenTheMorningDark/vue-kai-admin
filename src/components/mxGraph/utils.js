@@ -9,6 +9,42 @@ export default {
     // this.setKeyHandler()
   },
   methods: {
+    // 线条edge变成to数组
+    edgeTo(source) {
+      let edges = source.edges;
+      if (edges && edges.length > 0) {
+        let arr = []
+        edges.forEach(s => {
+          let toOptions = {
+            edgeOptions: { //  当前线条的属性
+              id: s.id, // 当前线条的id
+              value: s.value
+            },
+            id: s.target.id, // 指向target的id
+            style: this.StringToObj(s.style) // 当前线条样式
+          }
+          if (source.id !== s.target.id) {
+            arr.push(toOptions)
+          }
+        })
+        source.to = arr
+      } else if (edges && edges.length === 0) {
+        source.to = []
+      }
+    },
+    StringToObj(str) {
+      let targetObj = {}
+      if (str && str.includes(";") && str.length > 0) {
+        let arr = str.split(";");
+        arr.forEach(v => {
+          let target = v.split("=")
+          if (target[0] && target[0].length > 0 && !targetObj[target[0]]) {
+            targetObj[target[0]] = target[1] || ""
+          }
+        })
+      }
+      return targetObj
+    },
     convertStyleToString(styleDict) {
       // 把对象转成字符{strokeColor:color} => strokeColor=color;
       const style = Object.entries(styleDict)
@@ -111,31 +147,31 @@ export default {
     },
     // 处理undoRedo
     handleUndoRedo(event) {
-      console.log(this.history);
-      const historyData = this.history[event]();
-      console.log(historyData);
-      if (!historyData || !(historyData instanceof Array)) {
-        this.$message({
-          message: "暂无数据"
-        });
-      } else {
-        this.graph.removeCells(
-          this.graph.getChildVertices(this.graph.getDefaultParent())
-        );
-        console.log(this.history);
-        console.log(historyData);
-        this.historyData = JSON.parse(JSON.stringify(historyData))
-        this.initGraphdata(historyData);
-      }
+      // console.log(this.history);
+      // const historyData = this.history[event]();
+      // console.log(historyData);
+      // if (!historyData || !(historyData instanceof Array)) {
+      //   this.$message({
+      //     message: "暂无数据"
+      //   });
+      // } else {
+      //   this.graph.removeCells(
+      //     this.graph.getChildVertices(this.graph.getDefaultParent())
+      //   );
+      //   console.log(this.history);
+      //   console.log(historyData);
+      //   this.historyData = JSON.parse(JSON.stringify(historyData))
+      //   this.initGraphdata(historyData);
+      // }
     },
     // 处理连线向to数据添加数据
     handleConnect(edge, source, target) {
       const tId = target.id;
-      const sourceTo = source.to;
+      const sourceTo = source.to.map(v => v.id);
       if (sourceTo.includes(tId)) {
         return;
       }
-      sourceTo.push({
+      source.to.push({
         id: tId,
         style: edge.style,
         edgeOptions: {
@@ -143,28 +179,13 @@ export default {
           value: edge.value
         }
       });
-      console.log(this.graphData)
-      this.record(JSON.parse(JSON.stringify(this.graphData)));
-      console.log(this.history)
+      console.log(source)
     },
     // 处理value变化的情况
     handleValueChange(cell) {
-      let value = cell.value;
-      let id = cell.id;
+      console.log(cell);
       if (cell.edge) {
-        let sId = cell.source.id;
-        const pCell = this.graphData.find(v => v.id === sId) || {};
-        let to = pCell.to;
-        to.forEach(v => {
-          let edgeOption = v.edgeOptions;
-          if (edgeOption.id === id) {
-            console.log(edgeOption);
-            edgeOption.value = value
-          }
-        })
-      } else {
-        const sCell = this.graphData.find(v => v.id === id) || {};
-        sCell.value = value
+        this.edgeTo(cell.source)
       }
     },
     // 处理undo的json数组

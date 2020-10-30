@@ -4,7 +4,7 @@ import {
   mxEvent as MxEvent,
   mxUndoManager,
   mxKeyHandler,
-  mxClipboard
+  mxClipboard,
   // mxPerimeter
 } from "mxgraph/javascript/mxClient";
 // 主要处理键盘触发事件
@@ -17,9 +17,7 @@ export default {
     setKeyHandler () {
       console.log(this.graph);
       const graph = this.graph;
-      const vm = this;
       const undoManager = new mxUndoManager();
-
       const listener = function (sender, evt) {
         // console.log(undoManager.undoableEditHappened);
         undoManager.undoableEditHappened(evt.getProperty("edit"));
@@ -29,13 +27,21 @@ export default {
       const keyHandler = new mxKeyHandler(graph);
 
       // 绑定删除键
-      keyHandler.bindKey(46, function (evt) {
-        console.log(evt);
+      keyHandler.bindKey(46, (evt) => {
         if (graph.isEnabled()) {
-          vm.$confirm("确定删除吗")
-            .then(res => {
-              graph.removeCells();
-            })["catch"](cancel => console.log(cancel));
+          graph.removeCells();
+          let veterxs = this.getAllCell();
+          veterxs.forEach(v => {
+            this.edgeTo(v);
+          });
+          // this.$confirm("确定删除吗")
+          //   .then(res => {
+          //     graph.removeCells();
+          //     let veterxs = this.getAllCell();
+          //     veterxs.forEach(v => {
+          //       this.edgeTo(v);
+          //     });
+          //   })["catch"](cancel => console.log(cancel));
         }
       });
       // 绑定Ctrl+A全选
@@ -64,23 +70,24 @@ export default {
         }
       });
       // 绑定Ctrl+Z撤销
-      keyHandler.bindControlKey(90, function (evt) {
-        // const parent = vm.graph.getDefaultParent()
+      keyHandler.bindControlKey(90, (evt) => {
         if (graph.isEnabled()) {
-          vm.handleUndoRedo("undo");
-          // vm.graph.removeCells(vm.graph.getChildVertices(vm.graph.getDefaultParent()))
-          // const historyData = vm.history.undo()
-          // vm.initGraphdata(historyData)
+          undoManager.undo();
+          let veterxs = this.getAllCell();
+          // let edges = vm.getAllEdge();
+          veterxs.forEach(v => {
+            this.edgeTo(v);
+          });
         }
       });
       // 绑定Ctrl+Y重做
-      keyHandler.bindControlKey(89, function (evt) {
+      keyHandler.bindControlKey(89, (evt) => {
         if (graph.isEnabled()) {
-          vm.handleUndoRedo("redo");
-          // undoManager.redo()
-          // vm.graph.removeCells(vm.graph.getChildVertices(vm.graph.getDefaultParent()))
-          // const historyData = vm.history.redo()
-          // vm.initGraphdata(historyData)
+          undoManager.redo();
+          let veterxs = this.getAllCell();
+          veterxs.forEach(v => {
+            this.edgeTo(v);
+          });
         }
       });
 

@@ -46,7 +46,11 @@ export default {
   data () {
     return {
       graphData: [
-        { id: "5", value: "开始", styleOptions: { shape: "rectangle", strokeColor: "#662B2B", dashed: "0", strokeWidth: 1 }, x: 100, y: 100, width: 100, height: 100, to: [{ id: "7", style: { strokeColor: "red", edgeStyle: "orthogonalEdgeStyle", rounded: 0, orthogonalLoop: 1 }, edgeOptions: { id: "25", value: "8888" } }, { id: "9", edgeOptions: { id: "35", value: "9999" } }], options: { name: "add", type: "start" } },
+        { id: "5", value: "开始", styleOptions: { shape: "rectangle", strokeColor: "#662B2B", dashed: "0", strokeWidth: 1 }, x: 100, y: 100, width: 100, height: 100,
+          to: [
+            { id: "7", style: { strokeColor: "red", edgeStyle: "orthogonalEdgeStyle", rounded: 0, orthogonalLoop: 1 }, edgeOptions: { id: "25", value: "8888" } },
+            { id: "9", edgeOptions: { id: "35", value: "9999" } }], options: { name: "add", type: "start" }
+        },
         { id: "7", value: "结束1", styleOptions: {shape: "cylinder"}, x: 500, y: 400, width: 100, height: 100, to: [], options: { name: "add", type: "rounded" } },
         { id: "9", value: "结束2", styleOptions: {shape: "cylinder", strokeWidth: 2, fillColor: "#ffffff", strokeColor: "black", backgroundOutline: 1, size: 15, rounded: 1}, x: 600, y: 500, width: 100, height: 100, to: [], options: { name: "add", type: "ellipse" } }
       ],
@@ -119,21 +123,21 @@ export default {
     },
     // 自定义是否连线规则
     rules (source, target) {
-      if (!source.options || !target.options) {
-        return false;
-      }
-      const sType = source.options.type;
-      const tType = target.options.type;
-      const sourceTo = source.to;
-      const tTargetId = target.id;
-      const isHaveTargetId = sourceTo.some(v => v.id === tTargetId);
+      // if (!source.options || !target.options) {
+      //   return false;
+      // }
+      // const sType = source.options.type;
+      // const tType = target.options.type;
+      // const sourceTo = source.to;
+      // const tTargetId = target.id;
+      // const isHaveTargetId = sourceTo.some(v => v.id === tTargetId);
 
-      if (isHaveTargetId) {
-        return false;
-      }
-      if (sType === "start" && tType === "rounded") {
-        return false;
-      }
+      // if (isHaveTargetId) {
+      //   return false;
+      // }
+      // if (sType === "start" && tType === "rounded") {
+      //   return false;
+      // }
       return true;
     }
   }

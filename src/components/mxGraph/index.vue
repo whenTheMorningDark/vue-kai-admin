@@ -6,7 +6,7 @@
 /* eslint-disable space-before-function-paren */
 
 import {
-  mxGraphModel as MxGraphModel,
+  // mxGraphModel as MxGraphModel,
   mxGraph as MxGraph,
   // mxCell as MxCell,
   // mxGeometry as MxGeometry,
@@ -91,7 +91,7 @@ export default {
     initGraph () {
       this.graph = new MxGraph(this.$refs.container);
       this.parent = this.graph.getDefaultParent();
-      this.model = new MxGraphModel();
+      // this.model = new MxGraphModel();
       this.$refs.container.style.background = "url(" + require("./images/grid.gif") + ")";
       this.graph.setConnectable(true);
       this.graph.stopEditing(false);
