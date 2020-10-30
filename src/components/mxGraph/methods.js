@@ -93,7 +93,7 @@ export default {
           const source = this.graph.getModel().getTerminal(edge, true);
           const target = this.graph.getModel().getTerminal(edge, false);
           this.handleConnect(edge, source, target);
-          edge.edgeOptions = {};
+          edge.options = {};
           this.$emit("connect", {
             edge,
             source,

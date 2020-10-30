@@ -83,7 +83,7 @@ export default {
                 return;
               }
               let edges = this.graph.insertEdge(this.parent, id, value, source, target, style);
-              edges.edgeOptions = edgeOptions;
+              edges.options = s.options || {};
             });
           }
         });
