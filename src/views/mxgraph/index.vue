@@ -102,21 +102,6 @@ export default {
     },
     // 自定义是否连线规则
     rules (source, target) {
-      // if (!source.options || !target.options) {
-      //   return false;
-      // }
-      // const sType = source.options.type;
-      // const tType = target.options.type;
-      // const sourceTo = source.to;
-      // const tTargetId = target.id;
-      // const isHaveTargetId = sourceTo.some(v => v.id === tTargetId);
-
-      // if (isHaveTargetId) {
-      //   return false;
-      // }
-      // if (sType === "start" && tType === "rounded") {
-      //   return false;
-      // }
       return true;
     }
   }
