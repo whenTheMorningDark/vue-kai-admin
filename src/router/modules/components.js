@@ -45,6 +45,14 @@ const componentsRouter = {
 				title: "虚拟列表",
 			},
 		},
+		{
+			path: "signCanvas",
+			component: () => import("@/views/SignCanvas/index.vue"),
+			name: "SignCanvas",
+			meta: {
+				title: "签名组件",
+			},
+		},
 	],
 };
 
