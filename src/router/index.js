@@ -64,6 +64,27 @@ export const constantRoutes = [
 		],
 	},
 	{
+		path: "/game",
+		component: Layout,
+		redirect: "/documentation/friutGame",
+		meta: {
+			title: "小游戏合集",
+			icon: "documentation",
+		},
+		children: [
+			{
+				path: "friutGame",
+				component: () => import("@/views/friutGame/index"),
+				name: "friutGame",
+				meta: {
+					title: "水果机",
+					icon: "documentation",
+					affix: false,
+				},
+			},
+		]
+	},
+	{
 		path: "/table",
 		component: Layout,
 		meta: {
