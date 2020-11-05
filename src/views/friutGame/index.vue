@@ -46,40 +46,38 @@ export default {
   methods: {
     // startIndex 起始运动的下表
     // endIndex 截至的运动下标
-    targetMove(startIndex, endIndex, fn) {
-      return () => {
-        let direction = startIndex < endIndex;
-        let currentIndex = direction ? startIndex : endIndex;
-        clearInterval(this.timer);
-        this.timer = setInterval(() => {
-          if (currentIndex >= endIndex) {
-            clearInterval(this.timer);
-            fn && fn();
-          } else {
-            currentIndex = direction ? currentIndex + 1 : currentIndex - 1;
-            // startIndex++;
-            this.friutData.forEach(v => {
-              this.$set(v, "active", false);
-            });
-            this.$set(this.friutData[currentIndex], "active", true);
+    targetMove(startIndex, endIndex, n = 2, last) {
+      let direction = startIndex < endIndex;
+      let currentIndex = direction ? startIndex : endIndex;
+      n--;
+      clearInterval(this.timer);
+      this.timer = setInterval(() => {
+        if (currentIndex >= endIndex) {
+          clearInterval(this.timer);
+          // fn && fn();
+          if (n > 0 && !last) {
+            this.targetMove(-1, this.friutData.length - 1, n, false);
+          } else if (n === 0 && !last) {
+            console.log("last");
+            this.targetMove(-1, 6, 2, true);
           }
-        }, 200);
-      };
-    },
-    time(fn, n, context) {
-      return function() {
-        if (n--) {
-          return fn.apply(context || this, arguments);
+        } else {
+          currentIndex = direction ? currentIndex + 1 : currentIndex - 1;
+          // startIndex++;
+          this.friutData.forEach(v => {
+            this.$set(v, "active", false);
+          });
+          this.$set(this.friutData[currentIndex], "active", true);
         }
-      };
-    }
+      }, 200);
+    },
   },
   mounted () {
     this.friutData = this.itemData.reduce((cur, next) => cur.concat(...next.children), []);
-    // this.time(this.targetMove(-1, this.friutData.length - 1), 2);
-    var myFunction = this.time(this.targetMove(-1, this.friutData.length - 1), 3);
-    myFunction();
-    myFunction();
+    this.targetMove(-1, this.friutData.length - 1, 2);
+    // var myFunction = this.time(this.targetMove(-1, this.friutData.length - 1), 3);
+    // myFunction();
+    // myFunction();
   }
 };
 </script>
