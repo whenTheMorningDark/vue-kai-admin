@@ -46,38 +46,68 @@ export default {
   methods: {
     // startIndex 起始运动的下表
     // endIndex 截至的运动下标
-    targetMove(startIndex, endIndex, n = 2, last, lastNumber = 3) {
-      let direction = startIndex < endIndex;
-      let currentIndex = direction ? startIndex : endIndex;
-      n--;
+    // targetMove(startIndex, endIndex, n = 2, last, lastNumber = 3) {
+    //   let direction = startIndex < endIndex;
+    //   let currentIndex = direction ? startIndex : endIndex;
+    //   n--;
+    //   clearInterval(this.timer);
+    //   this.timer = setInterval(() => {
+    //     if (currentIndex >= endIndex) {
+    //       clearInterval(this.timer);
+    //       // fn && fn();
+    //       if (n > 0 && !last) {
+    //         this.targetMove(-1, this.friutData.length - 1, n, false, lastNumber);
+    //       } else if (n === 0 && !last) {
+    //         console.log("last");
+    //         this.targetMove(-1, lastNumber, 2, true);
+    //       }
+    //     } else {
+    //       currentIndex = direction ? currentIndex + 1 : currentIndex - 1;
+    //       // startIndex++;
+    //       this.friutData.forEach(v => {
+    //         this.$set(v, "active", false);
+    //       });
+    //       this.$set(this.friutData[currentIndex], "active", true);
+    //     }
+    //   }, 200);
+    // },
+    targetMove(startIndex, endIndex, fn) {
       clearInterval(this.timer);
       this.timer = setInterval(() => {
-        if (currentIndex >= endIndex) {
+        startIndex++;
+        if (startIndex >= endIndex) {
           clearInterval(this.timer);
-          // fn && fn();
-          if (n > 0 && !last) {
-            this.targetMove(-1, this.friutData.length - 1, n, false, lastNumber);
-          } else if (n === 0 && !last) {
-            console.log("last");
-            this.targetMove(-1, lastNumber, 2, true);
-          }
-        } else {
-          currentIndex = direction ? currentIndex + 1 : currentIndex - 1;
-          // startIndex++;
-          this.friutData.forEach(v => {
-            this.$set(v, "active", false);
-          });
-          this.$set(this.friutData[currentIndex], "active", true);
+          fn && fn();
         }
+        this.friutData.forEach(v => {
+          this.$set(v, "active", false);
+        });
+        this.$set(this.friutData[startIndex], "active", true);
       }, 200);
     },
+    initMove({startIndex, endIndex, time}) {
+      if (time <= 0) {
+        console.log("结束");
+        this.targetMove(startIndex, 4);
+      } else {
+        time--;
+        this.targetMove(startIndex, endIndex, () => {
+
+          this.initMove({startIndex, endIndex, time});
+        });
+      }
+
+    }
   },
   mounted () {
     this.friutData = this.itemData.reduce((cur, next) => cur.concat(...next.children), []);
-    this.targetMove(-1, this.friutData.length - 1, 2, false, 4);
-    // var myFunction = this.time(this.targetMove(-1, this.friutData.length - 1), 3);
-    // myFunction();
-    // myFunction();
+    let initParams = {
+      startIndex: -1,
+      endIndex: this.friutData.length - 1,
+      time: 2
+    };
+    this.initMove(initParams);
+    // this.targetMove(-1, this.friutData.length - 1);
   }
 };
 </script>
