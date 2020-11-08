@@ -1,8 +1,19 @@
 <template>
   <div class="friutGame z-h-100">
-    <div class="friutGame-wrapper">
-      <div class="friut-list" v-for="item in itemData"  :key="item.direction" :class="['direction'+item.direction]">
-        <friutItem v-for="sitem in item.children" :item="sitem" :key="sitem.name"></friutItem>
+    <div style="overflow:hidden">
+      <div class="friutGame-wrapper">
+        <div class="friut-list" v-for="item in itemData"  :key="item.direction" :class="['direction'+item.direction]">
+          <friutItem v-for="sitem in item.children" :item="sitem" :key="sitem.name"></friutItem>
+        </div>
+      </div>
+      <div class="pay-area">
+        <AreaForm @submit="submitFun" @change="changeFun"/>
+      </div>
+    </div>
+    <div class="calc-area">
+      <div class="calc-area-item" v-for="item in this.friutData" :key="item.name">
+        <p>{{item.name}}</p>
+        <p>{{item.account}}</p>
       </div>
     </div>
   </div>
@@ -10,10 +21,12 @@
 
 <script>
 import friutItem from "./components/friutItem";
+import AreaForm from "./components/areaForm";
 export default {
   name: "friutGame",
   components: {
-    friutItem
+    friutItem,
+    AreaForm
   },
   data() {
     return {
@@ -44,33 +57,7 @@ export default {
     };
   },
   methods: {
-    // startIndex 起始运动的下表
-    // endIndex 截至的运动下标
-    // targetMove(startIndex, endIndex, n = 2, last, lastNumber = 3) {
-    //   let direction = startIndex < endIndex;
-    //   let currentIndex = direction ? startIndex : endIndex;
-    //   n--;
-    //   clearInterval(this.timer);
-    //   this.timer = setInterval(() => {
-    //     if (currentIndex >= endIndex) {
-    //       clearInterval(this.timer);
-    //       // fn && fn();
-    //       if (n > 0 && !last) {
-    //         this.targetMove(-1, this.friutData.length - 1, n, false, lastNumber);
-    //       } else if (n === 0 && !last) {
-    //         console.log("last");
-    //         this.targetMove(-1, lastNumber, 2, true);
-    //       }
-    //     } else {
-    //       currentIndex = direction ? currentIndex + 1 : currentIndex - 1;
-    //       // startIndex++;
-    //       this.friutData.forEach(v => {
-    //         this.$set(v, "active", false);
-    //       });
-    //       this.$set(this.friutData[currentIndex], "active", true);
-    //     }
-    //   }, 200);
-    // },
+    // 运动函数 startIndex 初始位置 endIndex 结束位置 fn回调
     targetMove(startIndex, endIndex, fn) {
       clearInterval(this.timer);
       this.timer = setInterval(() => {
@@ -85,29 +72,50 @@ export default {
         this.$set(this.friutData[startIndex], "active", true);
       }, 200);
     },
-    initMove({startIndex, endIndex, time}) {
+    initMove({startIndex, endIndex, time, targetNumber}) {
       if (time <= 0) {
-        console.log("结束");
-        this.targetMove(startIndex, 4);
+        this.targetMove(startIndex, targetNumber);
       } else {
         time--;
         this.targetMove(startIndex, endIndex, () => {
-
-          this.initMove({startIndex, endIndex, time});
+          this.initMove({startIndex, endIndex, time, targetNumber});
         });
       }
-
+    },
+    getRamdon(max, min) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+    submitFun(form) { // 点击购买
+      console.log(form);
+      // for (let key in form) {
+      //   // this.$set()
+      //   this.friutData.forEach(v => {
+      //     if (key === v.name) {
+      //       this.$set(v, "account", v.rate * form[key]);
+      //     }
+      //   });
+      // }
+      // console.log(this.friutData);
+    },
+    changeFun({key, value}) {
+      let target = this.friutData.find(v => v.name === key) || {};
+      this.$set(target, "account", target.rate * value);
     }
   },
   mounted () {
-    this.friutData = this.itemData.reduce((cur, next) => cur.concat(...next.children), []);
+    this.friutData = this.itemData.reduce((cur, next) => cur.concat(...next.children), []).map(v => {
+      // v.account = 0;
+      this.$set(v, "account", 0);
+      return v;
+    });
     let initParams = {
-      startIndex: -1,
-      endIndex: this.friutData.length - 1,
-      time: 2
+      startIndex: -1, // 初始位置
+      endIndex: this.friutData.length - 1, // 结束位置
+      time: 2, // 运动次数
+      targetNumber: this.getRamdon(0, this.friutData.length) // 运动结束后的下标
     };
-    this.initMove(initParams);
-    // this.targetMove(-1, this.friutData.length - 1);
+    console.log(initParams);
+    // this.initMove(initParams);
   }
 };
 </script>
@@ -117,8 +125,10 @@ export default {
   width: 350px;
   height: 350px;
   position: relative;
-  margin:0 auto;
+  /* margin:0 auto; */
   padding-top: 20px;
+  float: left;
+  margin-right: 100px;
 }
 .directiontop{
   display:flex;
@@ -138,8 +148,6 @@ export default {
   height:87.5px;
   flex-direction: row-reverse;
   right: 87.5px;
-  // flex-direction:column-reverse;
-  // right:87.5px;
 }
 .directionleft{
   display:flex;
@@ -151,9 +159,22 @@ export default {
     width: 87.5px;
     height:87.5px;
     padding:10px;
+}
+.pay-area{
+  width: 400px;
+  float: left;
+}
+.calc-area{
+  display: flex;
+  padding:10px;
+  .calc-area-item {
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
-
-
+}
 .toolbar{
   width: 100%;
   height:40px;
