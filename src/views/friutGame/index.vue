@@ -46,7 +46,7 @@ export default {
   methods: {
     // startIndex 起始运动的下表
     // endIndex 截至的运动下标
-    targetMove(startIndex, endIndex, n = 2, last) {
+    targetMove(startIndex, endIndex, n = 2, last, lastNumber = 3) {
       let direction = startIndex < endIndex;
       let currentIndex = direction ? startIndex : endIndex;
       n--;
@@ -56,10 +56,10 @@ export default {
           clearInterval(this.timer);
           // fn && fn();
           if (n > 0 && !last) {
-            this.targetMove(-1, this.friutData.length - 1, n, false);
+            this.targetMove(-1, this.friutData.length - 1, n, false, lastNumber);
           } else if (n === 0 && !last) {
             console.log("last");
-            this.targetMove(-1, 6, 2, true);
+            this.targetMove(-1, lastNumber, 2, true);
           }
         } else {
           currentIndex = direction ? currentIndex + 1 : currentIndex - 1;
@@ -74,7 +74,7 @@ export default {
   },
   mounted () {
     this.friutData = this.itemData.reduce((cur, next) => cur.concat(...next.children), []);
-    this.targetMove(-1, this.friutData.length - 1, 2);
+    this.targetMove(-1, this.friutData.length - 1, 2, false, 4);
     // var myFunction = this.time(this.targetMove(-1, this.friutData.length - 1), 3);
     // myFunction();
     // myFunction();
