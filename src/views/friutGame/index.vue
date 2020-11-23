@@ -87,6 +87,13 @@ export default {
     },
     submitFun(form) { // 点击购买
       console.log(form);
+      let initParams = {
+        startIndex: -1, // 初始位置
+        endIndex: this.friutData.length - 1, // 结束位置
+        time: 2, // 运动次数
+        targetNumber: this.getRamdon(0, this.friutData.length) // 运动结束后的下标
+      };
+      this.initMove(initParams);
       // for (let key in form) {
       //   // this.$set()
       //   this.friutData.forEach(v => {
@@ -114,8 +121,7 @@ export default {
       time: 2, // 运动次数
       targetNumber: this.getRamdon(0, this.friutData.length) // 运动结束后的下标
     };
-    console.log(initParams);
-    // this.initMove(initParams);
+    this.initMove(initParams);
   }
 };
 </script>

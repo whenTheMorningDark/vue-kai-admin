@@ -26,9 +26,11 @@ module.exports = {
 	 * In most cases please use '/' !!!
 	 * Detail: https://cli.vuejs.org/config/#publicpath
 	 */
-  publicPath: "/",
+  // publicPath: "/",
+  publicPath: "/vue-kafei-admin/",
   outputDir: "dist",
   assetsDir: "static",
+  indexPath: "index.html",
   lintOnSave: false,
   productionSourceMap: false,
   devServer: {
