@@ -71,18 +71,24 @@ export default {
       return edges;
     },
     // 获取grapthData
+    // { id: "5", value: "开始", styleOptions: { shape: "rectangle", strokeColor: "#662B2B", dashed: "0", strokeWidth: 1 }, x: 100, y: 100, width: 100, height: 100,
+    //       to: [
+    //         { id: "7", style: { strokeColor: "red", edgeStyle: "orthogonalEdgeStyle", rounded: 0, orthogonalLoop: 1 }, edgeOptions: { id: "25", value: "8888", type: "8888edge" } },
+    //         { id: "9", edgeOptions: { id: "35", value: "9999" } }], options: { name: "add", type: "start" }
+    //     },
     getGrapthData() {
-      const newGraphData = [];
       const currentCell = this.getAllCell();
+      // console.log(currentCell)
+      return currentCell.map(v => ({...v}))
       // const currentEdge = this.getAllEdge();
-      currentCell.forEach(v => {
-        const obj = this.getAddObj(v);
-        // currentEdge.forEach(s=>{
+      // currentCell.forEach(v => {
+      //   const obj = this.getAddObj(v);
+      //   // currentEdge.forEach(s=>{
 
-        // })
-        newGraphData.push(obj);
-      });
-      return newGraphData;
+      //   // })
+      //   newGraphData.push(obj);
+      // });
+      // return newGraphData;
     },
     // 处理连线向to数据添加数据
     handleConnect(edge, source, target) {

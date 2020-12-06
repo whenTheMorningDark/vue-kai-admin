@@ -73,7 +73,9 @@ export default {
       keyHandler.bindControlKey(90, (evt) => {
         if (graph.isEnabled()) {
           undoManager.undo();
+          // if(this)
           let veterxs = this.getAllCell();
+          console.log(veterxs);
           // let edges = vm.getAllEdge();
           veterxs.forEach(v => {
             this.edgeTo(v);

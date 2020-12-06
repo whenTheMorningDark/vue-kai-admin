@@ -1,4 +1,5 @@
 <template>
+  <!-- 更多的属性设置在https://jgraph.github.io/mxgraph/javascript/examples/grapheditor/www/index.html -->
   <div class="rightSetting">
     <Tabs :tabs-data="tabsData" :default-value="defaultValue" @tab-click="itemClick" />
     <div class="tabCon">
@@ -63,5 +64,8 @@ export default {
   height: 100%;
   background-color: #304156;
   color: #ffffff;
+  .tabCon{
+    padding: 0 10px;
+  }
 }
 </style>

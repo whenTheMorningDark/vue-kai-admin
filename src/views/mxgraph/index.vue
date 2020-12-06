@@ -1,18 +1,21 @@
 <template>
   <div class="mxgraph_container">
-    <leftSetting></leftSetting>
-    <div class="mxgraph_mid" @drop="drop" @dragover="allowDrop" ref="addWrapper">
-      <el-scrollbar wrap-class="scrollbar-wrapper" style="height:100%">
-          <mxGraphComponent
-            v-if="graphData.length > 0"
-            ref="mxGraph"
-            :graph-data="graphData"
-            :rules="rules"
-            @click="clickGraphFun"
-          />
-      </el-scrollbar>
+    <toolbar @save="getData"/>
+    <div class="mxgraph-container-wrapper">
+      <leftSetting></leftSetting>
+        <div class="mxgraph_mid" @drop="drop" @dragover="allowDrop" ref="addWrapper">
+          <el-scrollbar wrap-class="scrollbar-wrapper" style="height:100%">
+              <mxGraphComponent
+                v-if="graphData.length > 0"
+                ref="mxGraph"
+                :graph-data="graphData"
+                :rules="rules"
+                @click="clickGraphFun"
+              />
+          </el-scrollbar>
+        </div>
+        <rightSetting :key="currentCell.id" @styleChange="styleChange" />
     </div>
-    <rightSetting :key="currentCell.id" @styleChange="styleChange" />
   </div>
 </template>
 
@@ -23,6 +26,7 @@ import mxGraphComponent from "@/components/mxGraph";
 import rightSetting from "./rightSetting";
 import leftSetting from "./leftSetting";
 import { randomStr } from "@/utils";
+import toolbar from "./toolbar";
 // const rhombus = require("@/assets/images/rhombus.gif");
 // const ellipse = require("@/assets/images/ellipse.gif");
 // const rounded = require("@/assets/images/rounded.gif");
@@ -38,7 +42,8 @@ export default {
   components: {
     mxGraphComponent,
     rightSetting,
-    leftSetting
+    leftSetting,
+    toolbar
   },
   // rhombus
   // "shape=cylinder;strokeWidth=2;fillColor=#ffffff;strokeColor=black;" +
@@ -112,10 +117,14 @@ export default {
 .mxgraph_container {
   width: 100%;
   height: 100%;
-  display: flex;
   .mxgraph_mid{
     height: 100%;
     width:calc(100% - 280px - 160px)
+  }
+  .mxgraph-container-wrapper{
+  display: flex;
+
+    height: calc(100% - 40px);
   }
 }
 </style>

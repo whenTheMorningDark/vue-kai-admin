@@ -5,7 +5,7 @@ import {
   mxCellRenderer as MxCellRenderer,
   mxEllipse as MxEllipse,
 } from "mxgraph/javascript/mxClient";
-// 自定义的图形
+// 自定义的图形 主要操作复杂的图形和自定义的图形
 function OrEllipseShape() {
   MxEllipse.call(this);
 }
