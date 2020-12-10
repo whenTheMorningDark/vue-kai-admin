@@ -62,6 +62,38 @@ export const constantRoutes = [
 				},
 			},
 		],
+  },
+  {
+		path: "/lodash",
+		component: Layout,
+    redirect: "/loadsh/index",
+    meta: {
+      title: "lodash",
+      icon: "documentation",
+      affix: true,
+    },
+		children: [
+			{
+				path: "index",
+				component: () => import("@/views/loadsh/index"),
+				name: "loadsh",
+				meta: {
+					title: "lodash分析",
+					icon: "documentation",
+					affix: true,
+				},
+      },
+      {
+				path: "array",
+				component: () => import("@/views/loadsh/array/index"),
+				name: "arrayloadsh",
+				meta: {
+					title: "数组方法分析",
+					icon: "documentation",
+					affix: true,
+				},
+			},
+		],
 	},
 	{
 		path: "/game",
