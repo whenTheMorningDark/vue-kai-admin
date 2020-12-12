@@ -28,9 +28,14 @@ export default {
       {id: "1-3", title: "节点1-3", parentId: "1"
       },
       {id: "2-3", title: "节点2-3", parentId: "2"},
-      {title: "节点2-3-1", parentId: "2-3"}
+      {title: "节点2-3-1", parentId: "2-3", id: "2-3-1"}
     ];
-    console.log(new Tree({id: "id", pId: "parentId", children: "children"}).listToTree(list));
+    let treeObj = new Tree({id: "id", pId: "parentId", children: "children"});
+    let treeData = treeObj.listToTree(list);
+    treeObj.removeNode(treeData, "2");
+    console.log(treeData);
+    // console.log(treeObj.treeToList(treeData));
+    // console.log(new Tree({id: "id", pId: "parentId", children: "children"}).listToTree(list));
 
   }
 };
