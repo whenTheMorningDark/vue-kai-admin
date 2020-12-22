@@ -32,11 +32,32 @@ export default {
     ];
     let treeObj = new Tree({id: "id", pId: "parentId", children: "children"});
     let treeData = treeObj.listToTree(list);
-    treeObj.removeNode(treeData, "2");
+    // treeObj.removeNode(treeData, "1-1");
+    // treeObj.removeNode(treeData, "1-3");
+    // treeObj.removeNode(treeData, "2-3");
+    // let node = {
+    //   parentId: "2",
+    //   id: "2-4",
+    //   children: [],
+    //   title: "2-4"
+    // };
+    // let pnode = {
+    //   parentId: "",
+    //   id: "3",
+    //   children: [],
+    //   title: "3"
+    // };
+    let cnode = {
+      parentId: "1",
+      id: "1-4",
+      children: [],
+      title: "1-4"
+    };
+    // treeObj.insertChildrenNode(treeData, "2", node);
+    // treeObj.insertChildrenNode(treeData, "", pnode);
+    // treeObj.insertChildrenNode(treeData, "3", cnode);
+    treeObj.insertAfter(treeData, "1-1", cnode);
     console.log(treeData);
-    // console.log(treeObj.treeToList(treeData));
-    // console.log(new Tree({id: "id", pId: "parentId", children: "children"}).listToTree(list));
-
   }
 };
 </script>

@@ -34,6 +34,16 @@ class Tree {
     return result;
   }
 
+  // 根据id找到parentNode
+  findIdParentNode(tree, id) {
+    let currentNode = this.getData(tree, id);
+    if (Object.keys(currentNode).length > 0) {
+      let parentNode = currentNode[this.config.pId] ? this.getData(tree, currentNode[this.config.pId]) : tree;
+      return parentNode[this.config.children] ? parentNode[this.config.children] : parentNode;
+    }
+    return [];
+  }
+
   // list=>tree 列表转换成为树
   listToTree(list) {
     let info = list.reduce((map, node) => {
@@ -43,7 +53,6 @@ class Tree {
       }
       return map;
     }, {});
-    console.log(info);
     return list.filter(v => {
       if (info[v[this.config.pId]]) {
         info[v[this.config.pId]].children.push(v);
@@ -64,13 +73,37 @@ class Tree {
 
   // 删除某个节点
   removeNode(tree, id) {
-    let currentNode = this.getData(tree, id);
-    if (Object.keys(currentNode).length > 0) {
-      let parentNode = currentNode[this.config.pId] ? this.getData(tree, currentNode[this.config.pId]) : tree;
-      console.log(parentNode);
-      let currentIndex = parentNode[this.config.children] && parentNode[this.config.children].findIndex(v => v[this.config.id] === id);
-      currentIndex > -1 && parentNode.children.splice(currentIndex, 1);
+    let pNode = this.findIdParentNode(tree, id);
+    let currentIndex = pNode.findIndex(v => v[this.config.id] === id);
+    currentIndex > -1 && pNode.splice(currentIndex, 1);
+    // let currentNode = this.getData(tree, id);
+    // if (Object.keys(currentNode).length > 0) {
+    //   let parentNode = currentNode[this.config.pId] ? this.getData(tree, currentNode[this.config.pId]) : tree;
+    //   let parent = parentNode[this.config.children] ? parentNode[this.config.children] : parentNode;
+    //   let currentIndex = parent.findIndex(v => v[this.config.id] === id);
+    //   currentIndex > -1 && parent.splice(currentIndex, 1);
+    // }
+  }
+
+  // 插入某个子节点
+  insertChildrenNode(tree, pId, node) {
+    if (pId) { // 说明的时候某个节点
+      let currentNode = this.getData(tree, pId);
+      if (Object.keys(currentNode).length > 0) {
+        if (!currentNode[[this.config.children]]) {
+          currentNode[this.config.children] = [];
+        }
+        currentNode[this.config.children].push(node);
+      }
+    } else if (pId === "" || pId === 0 || pId === "0") { // 说明操作的根节点
+      tree.push(node);
     }
+  }
+
+  // 插入某个节点之后
+  insertAfter(tree, sourceId, targetNode) {
+    let pNode = this.findIdParentNode(tree, sourceId);
+    console.log(pNode);
   }
 }
 
