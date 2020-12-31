@@ -48,15 +48,19 @@ export default {
     //   title: "3"
     // };
     let cnode = {
-      parentId: "1",
-      id: "1-4",
+      parentId: "",
+      id: "3",
       children: [],
-      title: "1-4"
+      title: "3"
     };
-    // treeObj.insertChildrenNode(treeData, "2", node);
-    // treeObj.insertChildrenNode(treeData, "", pnode);
-    // treeObj.insertChildrenNode(treeData, "3", cnode);
-    treeObj.insertAfter(treeData, "1-1", cnode);
+    let c1node = {
+      parentId: "",
+      id: "4",
+      children: [],
+      title: "34"
+    };
+    treeObj.insertAfter(treeData, "1", cnode);
+    treeObj.insertAfter(treeData, "3", c1node);
     console.log(treeData);
   }
 };

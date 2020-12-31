@@ -10,12 +10,12 @@ class Tree {
   }
 
   // 获取某一项的数据
-  getData(tree, id) {
+  getData (tree, id) {
     let stack = [];
     let result = {};
     if (Array.isArray(tree) && tree.length > 0) {
       // tree.
-      for (let i = 0;i < tree.length;i++) {
+      for (let i = 0; i < tree.length; i++) {
         stack.push(tree[i]);
       }
     } else if (typeof tree === "object") {
@@ -35,7 +35,7 @@ class Tree {
   }
 
   // 根据id找到parentNode
-  findIdParentNode(tree, id) {
+  findIdParentNode (tree, id) {
     let currentNode = this.getData(tree, id);
     if (Object.keys(currentNode).length > 0) {
       let parentNode = currentNode[this.config.pId] ? this.getData(tree, currentNode[this.config.pId]) : tree;
@@ -45,7 +45,7 @@ class Tree {
   }
 
   // list=>tree 列表转换成为树
-  listToTree(list) {
+  listToTree (list) {
     let info = list.reduce((map, node) => {
       if (!map[node[this.config.id]]) {
         map[node[this.config.id]] = node;
@@ -62,17 +62,19 @@ class Tree {
   }
 
   // tree-list 树转变成为列表
-  treeToList(tree) {
+  treeToList (tree) {
     const { children } = this.config; const result = [...tree];
     for (let i = 0; i < result.length; i++) {
-      if (!result[i][children]) {continue;}
+      if (!result[i][children]) {
+        continue;
+      }
       result.splice(i + 1, 0, ...result[i][children]);
     }
     return result;
   }
 
   // 删除某个节点
-  removeNode(tree, id) {
+  removeNode (tree, id) {
     let pNode = this.findIdParentNode(tree, id);
     let currentIndex = pNode.findIndex(v => v[this.config.id] === id);
     currentIndex > -1 && pNode.splice(currentIndex, 1);
@@ -86,7 +88,7 @@ class Tree {
   }
 
   // 插入某个子节点
-  insertChildrenNode(tree, pId, node) {
+  insertChildrenNode (tree, pId, node) {
     if (pId) { // 说明的时候某个节点
       let currentNode = this.getData(tree, pId);
       if (Object.keys(currentNode).length > 0) {
@@ -101,9 +103,13 @@ class Tree {
   }
 
   // 插入某个节点之后
-  insertAfter(tree, sourceId, targetNode) {
-    let pNode = this.findIdParentNode(tree, sourceId);
+  insertAfter (tree, sourceId, targetNode) {
+    let pNode = this.findIdParentNode(tree, sourceId); // 找出它的父节点
+    let sIndex = pNode.findIndex(v => v[this.config.id] === sourceId);
     console.log(pNode);
+    if (sIndex > -1) {
+      pNode.splice(sIndex + 1, 0, targetNode);
+    }
   }
 }
 
