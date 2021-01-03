@@ -1,5 +1,5 @@
 <template>
-  <div class="selectProvinceWrapper">
+  <div class="selectProvinceWrapper" :style="{width:width+'px'}">
     <el-select
       v-model="province"
       :size="size"
@@ -7,6 +7,7 @@
       clearable
       @change="getCities"
       :disabled="provinceDisabled"
+      filterable
     >
       <el-option
         v-for="item in provinceOptions"
@@ -25,7 +26,7 @@
       clearable
       @change="getArea"
       :disabled="cityDisabled"
-
+      filterable
     >
       <el-option
         v-for="item in cityOptions"
@@ -44,6 +45,7 @@
       clearable
       :disabled="areaDisable"
       @change="areaChange"
+      filterable
     >
       <el-option
         v-for="item in areaOptions"
@@ -63,6 +65,10 @@ const DEFAULT_CODE = 100000;
 export default {
   name: "selectProvince",
   props: {
+    width: {
+      type: [String, Number],
+      default: "100%"
+    },
     size: {
       type: String,
       default: "small"

@@ -25,7 +25,8 @@ export default {
         defaultArea: "开平市",
         disableProvinceOptions: ["山东省", "北京市"],
         disableCityOptions: ["广州市", "珠海市"],
-        disableAreaOptions: ["蓬江区"]
+        disableAreaOptions: ["蓬江区"],
+
       }
     };
   },
