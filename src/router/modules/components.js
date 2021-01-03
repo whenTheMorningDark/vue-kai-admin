@@ -52,7 +52,16 @@ const componentsRouter = {
 			meta: {
 				title: "签名组件",
 			},
-		},
+    },
+    {
+			path: "selectProvince",
+			component: () => import("@/views/selectProvince/index.vue"),
+			name: "selectProvince",
+			meta: {
+				title: "省市联动下拉组件",
+			},
+    },
+
 	],
 };
 
