@@ -1,4 +1,5 @@
 **业务背景**
+
 在我业务需求中,需要有个省份区城市联动的组件，并且该组件的开发也是基于 elementUi 原有的效果上面去。在原有的 elementui 库中并没有这样的组件，所以也只能自己手写一个，效果如下：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210104104621735.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L09ubHlfcnVpd2Vu,size_16,color_FFFFFF,t_70)
 **需求分析** 1.需要包含国内的省份，省份下面所对应的城市，城市下方所对应的区，街道不做要求。 2.需要配置每个下拉列表是否可以选择状态，这个是需要更加具体场景进行分析，需要对外提高可控制列表是否可以选择。例如：一层选择了**广东省**后，某些场景**广州市**不能够被选择到。
