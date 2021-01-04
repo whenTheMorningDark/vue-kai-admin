@@ -51,3 +51,8 @@
 [圆形进度条](http://whenthemorningdark.gitee.io/vue-kafei-admin/#/dataView/circle)
 
 </p>
+<p>
+
+[省市区联动](https://github.com/whenTheMorningDark/vue-kai-admin/blob/master/src/components/selectProvince/index.vue)
+
+</p>

@@ -20,12 +20,12 @@ export default {
   data() {
     return {
       defaultValue: {
-        defaultProvince: "广东省",
-        defaultCity: "江门市",
-        defaultArea: "开平市",
-        disableProvinceOptions: ["山东省", "北京市"],
-        disableCityOptions: ["广州市", "珠海市"],
-        disableAreaOptions: ["蓬江区"],
+        defaultProvince: "",
+        defaultCity: "",
+        defaultArea: "",
+        disableProvinceOptions: ["", ""],
+        disableCityOptions: ["", ""],
+        disableAreaOptions: [""],
 
       }
     };

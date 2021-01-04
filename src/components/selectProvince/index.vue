@@ -65,23 +65,23 @@ const DEFAULT_CODE = 100000;
 export default {
   name: "selectProvince",
   props: {
-    width: {
+    width: { // 外围容器的宽度
       type: [String, Number],
       default: "100%"
     },
-    size: {
+    size: { // select的大小
       type: String,
       default: "small"
     },
-    defaultProvince: {
+    defaultProvince: { // 默认的省份
       type: [String, Number],
       default: ""
     },
-    defaultCity: {
+    defaultCity: { // 默认的城市
       type: [String, Number],
       default: ""
     },
-    defaultArea: {
+    defaultArea: { // 默认的地区
       type: [String, Number],
       default: ""
     },
