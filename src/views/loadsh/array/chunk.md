@@ -22,10 +22,16 @@ _.chunk(['a', 'b', 'c', 'd'], 3)
 ```
 
 **源码分析**
-chunk 所依赖的函数分别有 1.[toNumber.js](https://github.com/lodash/lodash/blob/e0029485ab4d97adea0cb34292afb6700309cf16/toNumber.js#L44) 
+chunk 所依赖的函数分别有 
+
+1.[toNumber.js](https://github.com/lodash/lodash/blob/e0029485ab4d97adea0cb34292afb6700309cf16/toNumber.js#L44) 
+
 2.[toFinite](https://github.com/lodash/lodash/blob/e0029485ab4d97adea0cb34292afb6700309cf16/toFinite.js#L28) 
+
 3.[toInteger](https://github.com/lodash/lodash/blob/e0029485ab4d97adea0cb34292afb6700309cf16/toInteger.js#L28) 
+
 4.[slice](https://github.com/lodash/lodash/blob/e0029485ab4d97adea0cb34292afb6700309cf16/slice.js#L21) 
+
 5.[chunk](https://github.com/lodash/lodash/blob/master/chunk.js)
 
 那么我们就逐一来分析每个函数的具体实现过程。
