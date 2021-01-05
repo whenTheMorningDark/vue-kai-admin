@@ -7,7 +7,7 @@
 
 用法：
 
-> \_.chunk(array, [size=1])
+> _.chunk(array, [size=1])
 > array (Array): 需要处理的数组
 > [size=1](number): 每个数组区块的长度
 
@@ -22,7 +22,17 @@ _.chunk(['a', 'b', 'c', 'd'], 3)
 ```
 
 **源码分析**
-chunk 所依赖的函数分别有 1.[toNumber.js](https://github.com/lodash/lodash/blob/e0029485ab4d97adea0cb34292afb6700309cf16/toNumber.js#L44) 2.[toFinite](https://github.com/lodash/lodash/blob/e0029485ab4d97adea0cb34292afb6700309cf16/toFinite.js#L28) 3.[toInteger](https://github.com/lodash/lodash/blob/e0029485ab4d97adea0cb34292afb6700309cf16/toInteger.js#L28) 4.[slice](https://github.com/lodash/lodash/blob/e0029485ab4d97adea0cb34292afb6700309cf16/slice.js#L21) 5.[chunk](https://github.com/lodash/lodash/blob/master/chunk.js)
+chunk 所依赖的函数分别有 
+
+1.[toNumber.js](https://github.com/lodash/lodash/blob/e0029485ab4d97adea0cb34292afb6700309cf16/toNumber.js#L44) 
+
+2.[toFinite](https://github.com/lodash/lodash/blob/e0029485ab4d97adea0cb34292afb6700309cf16/toFinite.js#L28) 
+
+3.[toInteger](https://github.com/lodash/lodash/blob/e0029485ab4d97adea0cb34292afb6700309cf16/toInteger.js#L28) 
+
+4.[slice](https://github.com/lodash/lodash/blob/e0029485ab4d97adea0cb34292afb6700309cf16/slice.js#L21) 
+
+5.[chunk](https://github.com/lodash/lodash/blob/master/chunk.js)
 
 那么我们就逐一来分析每个函数的具体实现过程。
 
@@ -120,6 +130,7 @@ function isSymbol(value){ // 判断是否是symbol类型
 知识点:
 
 1.  valueof--- 除了 null 和 undefine 没有 valueof 方法之外，其它的基本数据类型都有
+
 2.  js 隐式转换
 
 **3.toFinite**
