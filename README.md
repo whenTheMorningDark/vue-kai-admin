@@ -64,5 +64,6 @@
 <p>数组方法分析</p>
 
 [chunk](https://github.com/whenTheMorningDark/vue-kai-admin/blob/master/src/views/loadsh/array/chunk.md)
+[compactAndConct](https://github.com/whenTheMorningDark/vue-kai-admin/blob/master/src/views/loadsh/array/compactAndConct.md)
 
 </p>
