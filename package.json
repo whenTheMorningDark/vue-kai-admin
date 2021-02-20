@@ -43,7 +43,7 @@
     "url": "https://github.com/PanJiaChen/vue-element-admin/issues"
   },
   "dependencies": {
-    "axios": "0.18.1",
+    "axios": "0.21.1",
     "dhtmlx-gantt": "^7.0.3",
     "echarts": "4.2.1",
     "element-ui": "2.13.0",
